@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">FUU</string>
+    <string name="ServURL">https://feri-urnik.si:8080</string>
+</resources>
