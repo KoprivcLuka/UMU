@@ -1,9 +1,14 @@
 package com.fuu.lukak.fuu;
 
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.view.ViewParent;
+import android.widget.Button;
 
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
@@ -19,11 +24,13 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import javax.xml.datatype.Duration;
 
 public class ViewActivity extends AppCompatActivity {
 
+    List<Event> res = new ArrayList<Event>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,7 +39,7 @@ public class ViewActivity extends AppCompatActivity {
         TinyDB tiny = new TinyDB(getApplicationContext());
         String json = tiny.getString("events");
         Gson gson = new Gson();
-        List<Event> res = Arrays.asList(gson.fromJson(json, Event[].class));
+        res = Arrays.asList(gson.fromJson(json, Event[].class));
 
         Calendar now = Calendar.getInstance();
         Calendar begining = Calendar.getInstance();
@@ -41,7 +48,7 @@ public class ViewActivity extends AppCompatActivity {
         begining.set(2018, 9, 1);
         int weeks = Math.round((float) (now.getTimeInMillis() - begining.getTimeInMillis()) / (1000 * 60 * 60 * 24 * 7)) + 1;
 
-        RecyclerView recyclerView = findViewById(R.id.recylcleviewmonth);
+        final RecyclerView recyclerView = findViewById(R.id.recylcleviewmonth);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
 
 
@@ -54,7 +61,7 @@ public class ViewActivity extends AppCompatActivity {
         }
 
         begining.add(Calendar.HOUR, (zadntedn * 168) - 24);
-        ArrayList<Date> dates = new ArrayList<Date>();
+        final ArrayList<Date> dates = new ArrayList<Date>();
 
         while (now.getTimeInMillis() < begining.getTimeInMillis()) {
 
@@ -65,21 +72,34 @@ public class ViewActivity extends AppCompatActivity {
             now.add(Calendar.HOUR, 24);
         }
 
-        recyclerView.setAdapter(new DayListAdapter(dates));
+        final DayListAdapter adpt = new DayListAdapter(dates);
+        adpt.mClickListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //dostuff
+                int position = (int) view.getTag();
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                Calendar cal = Calendar.getInstance();
+                cal.setTimeInMillis(dates.get(position).getTime());
+                fragmentTransaction.replace(R.id.frame_urnikplac, DayFragment.newInstance(cal));
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
+            }
+        };
+
+        recyclerView.setAdapter(adpt);
+
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        Calendar cal = Calendar.getInstance();
+        cal.setTimeInMillis(dates.get(0).getTime());
+        fragmentTransaction.replace(R.id.frame_urnikplac, DayFragment.newInstance(cal));
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
 
         //Teden začne štet z 1 ne 0
 
-        Calendar cal = Calendar.getInstance();
-        //todo to bo slo v drug view
-        ArrayList<Event> today = new ArrayList<>();
-        for(int i = 0; i < res.size(); i++)
-        {
-            Event ev = res.get(i);
-            if(ev.endWeek >= weeks && ev.beginWeek <= weeks && (ev.dayOfWeek+1 == (cal.get(Calendar.DAY_OF_WEEK))-1))
-            {
-             today.add(ev);
-            }
-        }
 
 
     }
