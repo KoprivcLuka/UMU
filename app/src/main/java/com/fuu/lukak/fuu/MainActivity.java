@@ -152,6 +152,7 @@ public class MainActivity extends AppCompatActivity {
                                 List<Event> res =  Arrays.asList(gson.fromJson(json,Event[].class ));*/
                                 TinyDB tiny = new TinyDB(getApplicationContext());
                                 tiny.putString("events",json);
+                                tiny.putString("currpath", AllPaths.getSelectedItem().toString());
 
                                startActivity(new Intent(getApplicationContext(),ViewActivity.class));
                                finish();

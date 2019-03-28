@@ -3,6 +3,7 @@ package com.fuu.lukak.fuu;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -24,6 +25,7 @@ public class DayListAdapter extends RecyclerView.Adapter<DayListAdapter.MyViewHo
     final String[] Dnevi = {"NED", "PON", "TOR", "SRE", "ČET", "PET", "SOB"};
     public View.OnClickListener mClickListener;
     public Calendar date = Calendar.getInstance();
+    public  int LastSelected = -1;
 
     public DayListAdapter(List<Date> list) {
         this.list = list;
@@ -61,6 +63,13 @@ public class DayListAdapter extends RecyclerView.Adapter<DayListAdapter.MyViewHo
         String sklamfi = Dnevi[date.get(Calendar.DAY_OF_WEEK) - 1] + " , " + date.get(Calendar.DAY_OF_MONTH) + "." + (date.get(Calendar.MONTH) + 1);
         myViewHolder.DateText.setText(sklamfi);
         myViewHolder.DateText.setTag(i);
+
+        myViewHolder.DateText.setBackgroundColor(Color.WHITE);
+        if(i != LastSelected)
+        {
+            myViewHolder.DateText.setBackgroundColor(Color.BLUE);
+        }
+      //  myViewHolder.itemView.findViewById(R.id.datetext).performClick();
 
 
     }

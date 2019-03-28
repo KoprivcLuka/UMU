@@ -24,6 +24,9 @@ import java.util.List;
 public class UrnikAdapter extends RecyclerView.Adapter<UrnikAdapter.MyViewHolder> {
     private List<List<Event>> list;
 
+
+    public UrnikAdapter(){}
+
     public UrnikAdapter(List<List<Event>> list) {
         this.list = list;
 
@@ -63,7 +66,7 @@ public class UrnikAdapter extends RecyclerView.Adapter<UrnikAdapter.MyViewHolder
                 e.printStackTrace();
             }
             root.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT));
-            height.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, (list.get(i).get(0).duration*3)));
+            height.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, (list.get(i).get(0).duration*4)));
             Calendar cal = Calendar.getInstance();
             cal.setTimeInMillis(d1.getTime() + (list.get(i).get(0).duration * 60 * 1000));
             if(cal.get(Calendar.MINUTE) == 0)
@@ -74,7 +77,7 @@ public class UrnikAdapter extends RecyclerView.Adapter<UrnikAdapter.MyViewHolder
                 end.setText(cal.get(Calendar.HOUR_OF_DAY) + ":" + cal.get(Calendar.MINUTE));
             }
 
-            course.setText(list.get(i).get(0).course + " " + list.get(i).get(0).type + " " + list.get(i).get(0).group.subGroup);
+            course.setText(list.get(i).get(0).course + "\n" + list.get(i).get(0).type + " " + list.get(i).get(0).group.subGroup);
             prof.setText(list.get(i).get(0).professor);
             loc.setText(list.get(i).get(0).room);
             myViewHolder.ureplac.addView(single);
@@ -113,7 +116,7 @@ public class UrnikAdapter extends RecyclerView.Adapter<UrnikAdapter.MyViewHolder
                     end.setText(cal.get(Calendar.HOUR_OF_DAY) + ":" + cal.get(Calendar.MINUTE));
                 }
 
-                course.setText(list.get(i).get(j).course + " \n " + list.get(i).get(j).type + " " + list.get(i).get(j).group.subGroup);
+                course.setText(list.get(i).get(j).course + "\n" + list.get(i).get(j).type + " " + list.get(i).get(j).group.subGroup);
                 prof.setText(list.get(i).get(j).professor);
                 loc.setText(list.get(i).get(j).room);
                 myViewHolder.ureplac.addView(single);
