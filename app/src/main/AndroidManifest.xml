@@ -19,8 +19,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ViewActivity" android:theme="@style/AppTheme" />
-        <activity android:name=".UrnikAdapter"></activity>
+        <activity
+            android:name=".ViewActivity"
+            android:theme="@style/AppTheme" />
+        <activity android:name=".UrnikAdapter" />
+        <activity android:name=".Settings" android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>

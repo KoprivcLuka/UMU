@@ -69,7 +69,7 @@ public class DayListAdapter extends RecyclerView.Adapter<DayListAdapter.MyViewHo
         {
             myViewHolder.DateText.setBackgroundColor(Color.BLUE);
         }
-      //  myViewHolder.itemView.findViewById(R.id.datetext).performClick();
+
 
 
     }

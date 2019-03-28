@@ -23,6 +23,7 @@ import java.lang.reflect.Array;
 import java.lang.reflect.Type;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
@@ -49,10 +50,21 @@ public class MainActivity extends AppCompatActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_item, new String[]{"1","2","3"});
+        TinyDB tiny = new TinyDB(getApplicationContext());
+
+        List<String> krsmlen =Arrays.asList( new String[]{"1", "2", "3"});
+        int index = krsmlen.indexOf(tiny.getString("letnik"));
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplicationContext(),
+                android.R.layout.simple_spinner_item, krsmlen);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         Year = findViewById(R.id.spinner2);
         Year.setAdapter(adapter);
+
+        if (index != -1) {
+            Year.setSelection(index);
+        } else {
+            Year.setSelection(0);
+        }
 
         Button PathSelected = findViewById(R.id.ButtonSelectPath);
         PathSelected.setOnClickListener(new View.OnClickListener() {
@@ -102,10 +114,18 @@ public class MainActivity extends AppCompatActivity {
                                 Gson gson = new Gson();
                                 List<String> res = Arrays.asList(gson.fromJson(json, String[].class));
                                 java.util.Collections.sort(res);
+                                TinyDB tiny = new TinyDB(getApplicationContext());
+
+                                int index = res.indexOf(tiny.getString("currpath"));
                                 ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_item, res);
                                 adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                                 AllPaths.setAdapter(adapter);
-                                AllPaths.setSelection(0);
+                                if (index != -1) {
+                                    AllPaths.setSelection(index);
+                                } else {
+                                    AllPaths.setSelection(0);
+                                }
+
                                 Button PathSelected = findViewById(R.id.ButtonSelectPath);
                                 PathSelected.setEnabled(true);
 
@@ -151,12 +171,12 @@ public class MainActivity extends AppCompatActivity {
                                 Type type = new TypeToken<List<Event>>() {}.getType();
                                 List<Event> res =  Arrays.asList(gson.fromJson(json,Event[].class ));*/
                                 TinyDB tiny = new TinyDB(getApplicationContext());
-                                tiny.putString("events",json);
+                                tiny.putString("events", json);
                                 tiny.putString("currpath", AllPaths.getSelectedItem().toString());
+                                tiny.putString("letnik", Year.getSelectedItem().toString());
 
-                               startActivity(new Intent(getApplicationContext(),ViewActivity.class));
-                               finish();
-
+                                startActivity(new Intent(getApplicationContext(), ViewActivity.class));
+                                finish();
 
 
                             }

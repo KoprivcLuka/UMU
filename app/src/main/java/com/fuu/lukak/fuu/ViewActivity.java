@@ -4,6 +4,7 @@ import android.app.DatePickerDialog;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentManager;
@@ -49,12 +50,11 @@ public class ViewActivity extends AppCompatActivity {
     RecyclerView recyclerView;
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view);
-
+        //TODO prestavi v on resume kar spada taj, ko bos nekoc dodau settings
 
         TinyDB tiny = new TinyDB(getApplicationContext());
         this.setTitle(tiny.getString("currpath"));
@@ -100,9 +100,14 @@ public class ViewActivity extends AppCompatActivity {
             adpt.mClickListener = new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    //dostuff
-                    adpt.LastSelected = (int)view.getTag();
+                    //TODO ta if stavek... ni ga več v layoutmanagerju  ampak je se vedno nek rendran..
+                    if (recyclerView.getLayoutManager().findViewByPosition(adpt.LastSelected) != null) {
+                        recyclerView.getLayoutManager().findViewByPosition(adpt.LastSelected).findViewById(R.id.datetext).setBackgroundColor(Color.BLUE);
+                    }
+
+                    adpt.LastSelected = (int) view.getTag();
                     int position = (int) view.getTag();
+                    view.setBackgroundColor(Color.WHITE);
                     FragmentManager fragmentManager = getSupportFragmentManager();
                     FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                     Calendar cal = Calendar.getInstance();
@@ -177,8 +182,8 @@ public class ViewActivity extends AppCompatActivity {
                         if (index != -1) {
                             recyclerView.scrollToPosition(index);
                             //TODO problem za jutri, ce dela prenos po referenci smo guči
-                           DayListAdapter adpt = (DayListAdapter)recyclerView.getAdapter();
-                           adpt.LastSelected = index;
+                            DayListAdapter adpt = (DayListAdapter) recyclerView.getAdapter();
+                            adpt.LastSelected = index;
                             FragmentManager fragmentManager = getSupportFragmentManager();
                             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                             Calendar cal = Calendar.getInstance();
@@ -199,7 +204,12 @@ public class ViewActivity extends AppCompatActivity {
                 }
                 datePickerDialog.show();
                 break;
+            case R.id.menu_settings:
 
+                startActivity(new Intent(getApplicationContext(),Settings.class));
+
+
+                break;
             default:
                 return super.onOptionsItemSelected(item);
         }
