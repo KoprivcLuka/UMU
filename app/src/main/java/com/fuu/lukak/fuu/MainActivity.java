@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
     Spinner AllPaths;
     OkHttpClient client = new OkHttpClient();
     Spinner Year;
-
+    //TODO OnFail / Loading....
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -176,7 +176,7 @@ public class MainActivity extends AppCompatActivity {
                                 tiny.putString("letnik", Year.getSelectedItem().toString());
 
                                 startActivity(new Intent(getApplicationContext(), ViewActivity.class));
-                                finish();
+
 
 
                             }

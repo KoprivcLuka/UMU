@@ -11,6 +11,8 @@
         android:id="@+id/recylcleviewmonth"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/colorPrimaryDark"
+        android:elevation="0dp"
         android:orientation="horizontal">
 
     </android.support.v7.widget.RecyclerView>
@@ -18,8 +20,7 @@
     <FrameLayout
         android:id="@+id/frame_urnikplac"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="5dp">
+        android:layout_height="match_parent">
 
     </FrameLayout>
 </LinearLayout>

@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatImageView;
@@ -23,6 +24,7 @@ import android.view.ViewParent;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.LinearLayout;
+import android.widget.PopupMenu;
 
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
@@ -47,6 +49,7 @@ public class ViewActivity extends AppCompatActivity {
 
     List<Event> res = new ArrayList<Event>();
     List<Date> dates = new ArrayList<Date>();
+    List<String> cats = new ArrayList<>();
     RecyclerView recyclerView;
 
 
@@ -54,43 +57,53 @@ public class ViewActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view);
-        //TODO prestavi v on resume kar spada taj, ko bos nekoc dodau settings
 
         TinyDB tiny = new TinyDB(getApplicationContext());
-        this.setTitle(tiny.getString("currpath"));
+        this.setTitle(tiny.getString("currpath") + " - " + tiny.getString("letnik") + ". letnik");
         String json = tiny.getString("events");
         Gson gson = new Gson();
         res = Arrays.asList(gson.fromJson(json, Event[].class));
 
         Calendar now = Calendar.getInstance();
         Calendar begining = Calendar.getInstance();
-        //TODO problem z novim solskim letom
-        //mesece zacne stet z 0..
-        begining.set(2018, 9, 1);
+        if (begining.get(Calendar.MONTH) < 9) {
+            begining.set(begining.get(Calendar.YEAR) - 1, 9, 1);
+        } else {
+            begining.set(begining.get(Calendar.YEAR), 9, 1);
+        }
+
         int weeks = Math.round((float) (now.getTimeInMillis() - begining.getTimeInMillis()) / (1000 * 60 * 60 * 24 * 7)) + 1;
 
         recyclerView = findViewById(R.id.recylcleviewmonth);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
 
-
         int zadntedn = 0;
-//kr streami + android ne radi obviously
+
         for (int i = 0; i < res.size(); i++) {
+
+            if (!cats.contains(res.get(i).group.subGroup)) {
+                if (!res.get(i).group.subGroup.equals("")) {
+
+                    cats.add(res.get(i).group.subGroup);
+                }
+            }
             if (res.get(i).endWeek >= zadntedn) {
                 zadntedn = res.get(i).endWeek;
             }
         }
 
+        java.util.Collections.sort(cats);
         begining.add(Calendar.HOUR, (zadntedn * 168) - 24);
 
 
         while (now.getTimeInMillis() < begining.getTimeInMillis()) {
 
-            if (now.get(Calendar.DAY_OF_WEEK) >= Calendar.MONDAY &&
+         /*   if (now.get(Calendar.DAY_OF_WEEK) >= Calendar.MONDAY &&
                     (now.get(Calendar.DAY_OF_WEEK) <= Calendar.FRIDAY)) {
                 dates.add(new Date(now.getTimeInMillis()));
-            }
+            } */
+            dates.add(new Date(now.getTimeInMillis()));
             now.add(Calendar.HOUR, 24);
         }
         //Če ima urnik dejansko kaj gur
@@ -102,12 +115,17 @@ public class ViewActivity extends AppCompatActivity {
                 public void onClick(View view) {
                     //TODO ta if stavek... ni ga več v layoutmanagerju  ampak je se vedno nek rendran..
                     if (recyclerView.getLayoutManager().findViewByPosition(adpt.LastSelected) != null) {
-                        recyclerView.getLayoutManager().findViewByPosition(adpt.LastSelected).findViewById(R.id.datetext).setBackgroundColor(Color.BLUE);
+                        Button b = (Button) recyclerView.getLayoutManager().findViewByPosition(adpt.LastSelected).findViewById(R.id.datetext);
+                        b.setTextColor(Color.GRAY);
+                        recyclerView.getLayoutManager().findViewByPosition(adpt.LastSelected).findViewById(R.id.podcrta).setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
                     }
 
                     adpt.LastSelected = (int) view.getTag();
                     int position = (int) view.getTag();
-                    view.setBackgroundColor(Color.WHITE);
+                    Button b = (Button) view;
+                    b.setTextColor(Color.WHITE);
+                    LinearLayout parent = (LinearLayout) b.getParent();
+                    parent.findViewById(R.id.podcrta).setBackgroundColor(Color.WHITE);
                     FragmentManager fragmentManager = getSupportFragmentManager();
                     FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                     Calendar cal = Calendar.getInstance();
@@ -129,7 +147,8 @@ public class ViewActivity extends AppCompatActivity {
             fragmentTransaction.commit();
         }
 
-        //Teden začne štet z 1 ne 0
+        ActionBar bar = getSupportActionBar();
+        bar.setDisplayHomeAsUpEnabled(true);
 
 
     }
@@ -141,6 +160,12 @@ public class ViewActivity extends AppCompatActivity {
         inflater.inflate(R.menu.mainmenu, menu);
 
 
+        return true;
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        finish();
         return true;
     }
 
@@ -181,7 +206,6 @@ public class ViewActivity extends AppCompatActivity {
 
                         if (index != -1) {
                             recyclerView.scrollToPosition(index);
-                            //TODO problem za jutri, ce dela prenos po referenci smo guči
                             DayListAdapter adpt = (DayListAdapter) recyclerView.getAdapter();
                             adpt.LastSelected = index;
                             FragmentManager fragmentManager = getSupportFragmentManager();
@@ -198,6 +222,8 @@ public class ViewActivity extends AppCompatActivity {
                     }
                 }, cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH));
                 datePickerDialog.getDatePicker().setMinDate(cal.getTimeInMillis());
+                datePickerDialog.getDatePicker().setFirstDayOfWeek(2);
+
 
                 if (dates.size() != 0) {
                     datePickerDialog.getDatePicker().setMaxDate(dates.get(dates.size() - 1).getTime());
@@ -206,10 +232,73 @@ public class ViewActivity extends AppCompatActivity {
                 break;
             case R.id.menu_settings:
 
-                startActivity(new Intent(getApplicationContext(),Settings.class));
+                final PopupMenu menu = new PopupMenu(this, findViewById(R.id.menu_settings));
+                TinyDB tiny = new TinyDB(getApplicationContext());
+                ArrayList<String> toignore = tiny.getListString(tiny.getString("currpath") + tiny.getString("letnik"));
+                for (String s : cats) { // "limits" its an arraylist
+
+                    if (!toignore.contains(s)) {
+                        menu.getMenu().add(s).setCheckable(true).setChecked(true);
+                    } else {
+                        menu.getMenu().add(s).setCheckable(true).setChecked(false);
+                    }
+
+                }
+                menu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem menuItem) {
+                        menuItem.setChecked(!menuItem.isChecked());
+
+                        menuItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW);
+                        menuItem.setActionView(new View(getApplicationContext()));
+                        menuItem.setOnActionExpandListener(new MenuItem.OnActionExpandListener() {
+                            @Override
+                            public boolean onMenuItemActionExpand(MenuItem item) {
+                                return false;
+                            }
+
+                            @Override
+                            public boolean onMenuItemActionCollapse(MenuItem item) {
+                                return false;
+                            }
+                        });
+                        return false;
+
+                    }
+
+
+                });
+                menu.setOnDismissListener(new PopupMenu.OnDismissListener() {
+                    @Override
+                    public void onDismiss(PopupMenu popupMenu) {
+                        ArrayList<String> ignorecat = new ArrayList<>();
+                        TinyDB tiny = new TinyDB(getApplicationContext());
+                        for (int i = 0; i < cats.size(); i++) {
+                            if (!popupMenu.getMenu().getItem(i).isChecked()) {
+                                ignorecat.add(popupMenu.getMenu().getItem(i).getTitle().toString());
+                            }
+                        }
+
+                        tiny.putListString(tiny.getString("currpath") + tiny.getString("letnik"), ignorecat);
+
+                        DayListAdapter adpt = (DayListAdapter) recyclerView.getAdapter();
+                        FragmentManager fragmentManager = getSupportFragmentManager();
+                        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                        Calendar cal = Calendar.getInstance();
+                        cal.setTimeInMillis(dates.get(adpt.LastSelected).getTime());
+                        fragmentTransaction.replace(R.id.frame_urnikplac, DayFragment.newInstance(cal));
+                        fragmentTransaction.addToBackStack(null);
+                        fragmentTransaction.commit();
+                    }
+                });
+                menu.show();
 
 
                 break;
+
+            case R.id.menu_about:
+
+                startActivity(new Intent(getApplicationContext(), About.class));
             default:
                 return super.onOptionsItemSelected(item);
         }

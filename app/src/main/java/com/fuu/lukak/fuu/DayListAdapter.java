@@ -64,10 +64,12 @@ public class DayListAdapter extends RecyclerView.Adapter<DayListAdapter.MyViewHo
         myViewHolder.DateText.setText(sklamfi);
         myViewHolder.DateText.setTag(i);
 
-        myViewHolder.DateText.setBackgroundColor(Color.WHITE);
+        myViewHolder.DateText.setTextColor(Color.WHITE);
+        myViewHolder.podctra.setBackgroundColor(Color.WHITE);
         if(i != LastSelected)
         {
-            myViewHolder.DateText.setBackgroundColor(Color.BLUE);
+            myViewHolder.podctra.setBackgroundColor(myViewHolder.podctra.getContext().getResources().getColor(R.color.colorPrimaryDark));
+            myViewHolder.DateText.setTextColor(Color.GRAY);
         }
 
 
@@ -82,11 +84,13 @@ public class DayListAdapter extends RecyclerView.Adapter<DayListAdapter.MyViewHo
     public static class MyViewHolder extends RecyclerView.ViewHolder {
         // each data item is just a string in this case
         public Button DateText;
+        View podctra;
         LinearLayout reclayout;
 
 
         public MyViewHolder(View v) {
             super(v);
+            podctra = v.findViewById(R.id.podcrta);
             DateText = v.findViewById(R.id.datetext);
             reclayout = v.findViewById(R.id.recycleviewlayout);
         }

@@ -3,23 +3,30 @@
     android:id="@+id/recycleviewlayout"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    android:background="@color/colorPrimaryDark"
+    android:elevation="0dp"
     android:gravity="center"
     android:orientation="vertical">
 
     <Button
         android:id="@+id/datetext"
+        style="?android:attr/borderlessButtonStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:background="#00000000"
-        android:minWidth="135dp"
+        android:background="@color/colorPrimaryDark"
+        android:elevation="0dp"
+        android:minWidth="180dp"
+        android:shadowRadius="0"
         android:text="Date"
         android:textAlignment="center"
         android:textSize="21sp" />
 
     <View
-        android:layout_width="50dp"
+        android:id="@+id/podcrta"
+        android:layout_width="60dp"
         android:layout_height="2dp"
-        android:background="#ff00ff" />
+        android:layout_marginBottom="2dp"
+        android:layout_marginTop="-5dp"
+        android:background="@android:color/white"
+        android:elevation="0dp" />
 </LinearLayout>

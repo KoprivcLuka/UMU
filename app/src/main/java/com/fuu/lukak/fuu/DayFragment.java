@@ -22,11 +22,9 @@ import java.util.List;
 
 
 public class DayFragment extends android.support.v4.app.Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+
     private static final Calendar Day = Calendar.getInstance();
 
-    // TODO: Rename and change types of parameters
 
     private OnFragmentInteractionListener mListener;
 
@@ -48,12 +46,20 @@ public class DayFragment extends android.support.v4.app.Fragment {
         }
     }
 
+    class SortByDuration implements Comparator<Event> {
+        public int compare(Event a, Event b) {
+
+            if (a.duration < b.duration) return 1;
+            else if (a.duration == b.duration) return 0;
+            else return -1;
+        }
+    }
+
     public DayFragment() {
         // Required empty public constructor
     }
 
 
-    // TODO: Rename and change types and number of parameters
     public static DayFragment newInstance(Calendar Day) {
         DayFragment fragment = new DayFragment();
         Bundle args = new Bundle();
@@ -83,9 +89,12 @@ public class DayFragment extends android.support.v4.app.Fragment {
         ViewActivity main = (ViewActivity) getActivity();
         Calendar now = Calendar.getInstance();
         Calendar begining = Calendar.getInstance();
-        //TODO problem z novim solskim letom
 
-        begining.set(2018, 9, 1);
+        if (begining.get(Calendar.MONTH) < 9) {
+            begining.set(begining.get(Calendar.YEAR) - 1, 9, 1);
+        } else {
+            begining.set(begining.get(Calendar.YEAR), 9, 1);
+        }
         int weeks = Math.round((float) (now.getTimeInMillis() - begining.getTimeInMillis()) / (1000 * 60 * 60 * 24 * 7)) + 1;
         ArrayList<Event> today = new ArrayList<>();
         for (int i = 0; i < main.res.size(); i++) {
@@ -120,12 +129,16 @@ public class DayFragment extends android.support.v4.app.Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity().getApplicationContext()));
         recyclerView.setAdapter(new UrnikAdapter(pouri));
 
+        for (int i = 0; i < pouri.size(); i++)
+        {
+            Collections.sort(pouri.get(i),new SortByDuration());
+        }
+
 
     }
 
 
     public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
 }
