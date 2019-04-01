@@ -2,6 +2,8 @@ package com.fuu.lukak.fuu;
 
 import android.app.DownloadManager;
 import android.content.Intent;
+import android.support.design.widget.TabLayout;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.telecom.Call;
@@ -39,46 +41,17 @@ public class MainActivity extends AppCompatActivity {
     Spinner AllPaths;
     OkHttpClient client = new OkHttpClient();
     Spinner Year;
+
     //TODO OnFail / Loading....
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        AllPaths = findViewById(R.id.spinner);
         try {
             RequestPathsList(getResources().getString(R.string.ServURL) + "/api/v1/urnik/groups");
         } catch (IOException e) {
             e.printStackTrace();
         }
-        TinyDB tiny = new TinyDB(getApplicationContext());
-
-        List<String> krsmlen =Arrays.asList( new String[]{"1", "2", "3"});
-        int index = krsmlen.indexOf(tiny.getString("letnik"));
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplicationContext(),
-                android.R.layout.simple_spinner_item, krsmlen);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        Year = findViewById(R.id.spinner2);
-        Year.setAdapter(adapter);
-
-        if (index != -1) {
-            Year.setSelection(index);
-        } else {
-            Year.setSelection(0);
-        }
-
-        Button PathSelected = findViewById(R.id.ButtonSelectPath);
-        PathSelected.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-//I mean lazji je use stegnt kr niam counterja za letnike.. 30kb razlike...
-                try {
-                    RequestPath(getResources().getString(R.string.ServURL) + "/api/v1/urnik/" + AllPaths.getSelectedItem() + "/" + Year.getSelectedItem());
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-
     }
 
     void RequestPathsList(String url) throws IOException {
@@ -112,72 +85,39 @@ public class MainActivity extends AppCompatActivity {
                                 // For the example, you can show an error dialog or a toast
                                 // on the main UI thread
                                 Gson gson = new Gson();
-                                List<String> res = Arrays.asList(gson.fromJson(json, String[].class));
+                                ArrayList<String> res = new ArrayList<>(Arrays.asList(gson.fromJson(json, String[].class)));
                                 java.util.Collections.sort(res);
                                 TinyDB tiny = new TinyDB(getApplicationContext());
+                                tiny.putListString("allpaths", res);
 
-                                int index = res.indexOf(tiny.getString("currpath"));
-                                ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_item, res);
-                                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                                AllPaths.setAdapter(adapter);
-                                if (index != -1) {
-                                    AllPaths.setSelection(index);
-                                } else {
-                                    AllPaths.setSelection(0);
-                                }
+                                TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
+                                tabLayout.addTab(tabLayout.newTab().setText("Po programu"));
+                                tabLayout.addTab(tabLayout.newTab().setText("Po profesorju"));
+                                tabLayout.addTab(tabLayout.newTab().setText("Po predmetu"));
 
-                                Button PathSelected = findViewById(R.id.ButtonSelectPath);
-                                PathSelected.setEnabled(true);
+                                tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
-                            }
-                        });
+                                final ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
+                                final PagerAdapter adapter2 = new PagerAdapter
+                                        (getSupportFragmentManager(), tabLayout.getTabCount());
+                                viewPager.setAdapter(adapter2);
+                                viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+                                tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+                                    @Override
+                                    public void onTabSelected(TabLayout.Tab tab) {
+                                        viewPager.setCurrentItem(tab.getPosition());
+                                    }
 
+                                    @Override
+                                    public void onTabUnselected(TabLayout.Tab tab) {
 
-                    }
-                });
-    }
+                                    }
 
-    void RequestPath(String url) throws IOException {
-        Request request = new Request.Builder()
-                .url(url)
-                .build();
+                                    @Override
+                                    public void onTabReselected(TabLayout.Tab tab) {
 
-        client.newCall(request)
-                .enqueue(new Callback() {
-                    @Override
-                    public void onFailure(final okhttp3.Call call, IOException e) {
-                        // Error
-
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                // For the example, you can show an error dialog or a toast
-                                // on the main UI thread
-
-                            }
-                        });
-                    }
-
-                    @Override
-                    public void onResponse(okhttp3.Call call, final okhttp3.Response response) throws IOException {
-
-                        final String json = response.body().string();
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                // For the example, you can show an error dialog or a toast
-                                // on the main UI thread
-                             /*   Gson gson = new Gson();
-                                Type type = new TypeToken<List<Event>>() {}.getType();
-                                List<Event> res =  Arrays.asList(gson.fromJson(json,Event[].class ));*/
-                                TinyDB tiny = new TinyDB(getApplicationContext());
-                                tiny.putString("events", json);
-                                tiny.putString("currpath", AllPaths.getSelectedItem().toString());
-                                tiny.putString("letnik", Year.getSelectedItem().toString());
-
-                                startActivity(new Intent(getApplicationContext(), ViewActivity.class));
-
-
+                                    }
+                                });
 
                             }
                         });
@@ -186,4 +126,6 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
     }
+
+
 }

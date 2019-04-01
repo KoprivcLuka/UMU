@@ -19,10 +19,12 @@ import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewParent;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 
@@ -50,6 +52,7 @@ public class ViewActivity extends AppCompatActivity {
     List<Event> res = new ArrayList<Event>();
     List<Date> dates = new ArrayList<Date>();
     List<String> cats = new ArrayList<>();
+    ArrayList<String> types = new ArrayList<>();
     RecyclerView recyclerView;
 
 
@@ -88,11 +91,20 @@ public class ViewActivity extends AppCompatActivity {
                     cats.add(res.get(i).group.subGroup);
                 }
             }
+
+            if (!types.contains(res.get(i).type)) {
+                if (!res.get(i).type.equals("")) {
+
+                    types.add(res.get(i).type);
+                }
+            }
             if (res.get(i).endWeek >= zadntedn) {
                 zadntedn = res.get(i).endWeek;
             }
         }
 
+        Collections.sort(types);
+        tiny.putListString(tiny.getString("currpath") + tiny.getString("letnik") + "types", types);
         java.util.Collections.sort(cats);
         begining.add(Calendar.HOUR, (zadntedn * 168) - 24);
 
@@ -147,8 +159,11 @@ public class ViewActivity extends AppCompatActivity {
             fragmentTransaction.commit();
         }
 
+
         ActionBar bar = getSupportActionBar();
         bar.setDisplayHomeAsUpEnabled(true);
+
+        FrameLayout fame = findViewById(R.id.frame_urnikplac);
 
 
     }

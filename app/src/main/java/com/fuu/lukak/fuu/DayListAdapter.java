@@ -16,6 +16,7 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -25,7 +26,7 @@ public class DayListAdapter extends RecyclerView.Adapter<DayListAdapter.MyViewHo
     final String[] Dnevi = {"NED", "PON", "TOR", "SRE", "ČET", "PET", "SOB"};
     public View.OnClickListener mClickListener;
     public Calendar date = Calendar.getInstance();
-    public  int LastSelected = -1;
+    public int LastSelected = -1;
 
     public DayListAdapter(List<Date> list) {
         this.list = list;
@@ -43,6 +44,7 @@ public class DayListAdapter extends RecyclerView.Adapter<DayListAdapter.MyViewHo
     @NonNull
     @Override
     public DayListAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+
 
         View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.recycle_view_month, viewGroup, false);
         MyViewHolder holder = new MyViewHolder(v);
@@ -66,11 +68,11 @@ public class DayListAdapter extends RecyclerView.Adapter<DayListAdapter.MyViewHo
 
         myViewHolder.DateText.setTextColor(Color.WHITE);
         myViewHolder.podctra.setBackgroundColor(Color.WHITE);
-        if(i != LastSelected)
-        {
+        if (i != LastSelected) {
             myViewHolder.podctra.setBackgroundColor(myViewHolder.podctra.getContext().getResources().getColor(R.color.colorPrimaryDark));
             myViewHolder.DateText.setTextColor(Color.GRAY);
         }
+
 
 
 
