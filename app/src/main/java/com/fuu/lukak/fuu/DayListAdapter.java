@@ -70,7 +70,7 @@ public class DayListAdapter extends RecyclerView.Adapter<DayListAdapter.MyViewHo
         myViewHolder.podctra.setBackgroundColor(Color.WHITE);
         if (i != LastSelected) {
             myViewHolder.podctra.setBackgroundColor(myViewHolder.podctra.getContext().getResources().getColor(R.color.colorPrimaryDark));
-            myViewHolder.DateText.setTextColor(Color.GRAY);
+            myViewHolder.DateText.setTextColor(Color.LTGRAY);
         }
 
 

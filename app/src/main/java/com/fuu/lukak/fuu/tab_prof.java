@@ -46,22 +46,27 @@ public class tab_prof extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        final TinyDB tiny = new TinyDB(view.getContext());
-        int index22 = profs.indexOf(tiny.getString("prof"));
+        final TinyDB tiny = new TinyDB(view.getContext().getApplicationContext());
+        String odmakni = tiny.getString("prof");
+
+        /*tiny.putString("events", json);
+        startActivity(new Intent(getContext(), ViewActivity.class)); */
+
         spins = view.findViewById(R.id.spinner4);
         selectprof = view.findViewById(R.id.ButtonSelectProf);
         selectprof.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                final TinyDB tiny = new TinyDB(view.getContext());
+                final TinyDB tiny = new TinyDB(view.getContext().getApplicationContext());
                 tiny.putString("prof", spins.getSelectedItem().toString());
+                try {
+                    RequestProfsEvents(getResources().getString(R.string.ServURL) + "/api/v1/urnik/professor/" + spins.getSelectedItem().toString());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         });
-        if (index22 != -1) {
-            spins.setSelection(index22);
-        } else {
-            spins.setSelection(0);
-        }
+
     }
 
     void RequestProfs(String url) throws IOException {
@@ -104,8 +109,58 @@ public class tab_prof extends Fragment {
 
                                 selectprof.setEnabled(true);
                                 spins.setAdapter(adapter2);
-                                spins.setSelection(0);
+                                TinyDB tiny = new TinyDB(getContext().getApplicationContext());
+                                int index22 = profs.indexOf(tiny.getString("prof"));
+                                if (index22 != -1) {
+                                    spins.setSelection(index22);
+                                } else {
+                                    spins.setSelection(0);
+                                }
 
+
+
+                            }
+                        });
+
+
+                    }
+                });
+    }
+
+    void RequestProfsEvents(String url) throws IOException {
+        Request request = new Request.Builder()
+                .url(url)
+                .build();
+
+        client.newCall(request)
+                .enqueue(new Callback() {
+                    @Override
+                    public void onFailure(final okhttp3.Call call, IOException e) {
+                        // Error
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                // For the example, you can show an error dialog or a toast
+                                // on the main UI thread
+
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onResponse(okhttp3.Call call, final okhttp3.Response response) throws IOException {
+
+                        final String json = response.body().string();
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                // For the example, you can show an error dialog or a toast
+                                // on the main UI thread
+                                TinyDB tiny = new TinyDB(getContext());
+                                tiny.putString("events", json);
+                                tiny.putString("currpath", spins.getSelectedItem().toString());
+                                tiny.putString("letnik", "");
+                                startActivity(new Intent(getContext(), ViewActivity.class));
 
                             }
                         });

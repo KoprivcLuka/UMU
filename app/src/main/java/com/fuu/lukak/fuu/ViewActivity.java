@@ -54,6 +54,7 @@ public class ViewActivity extends AppCompatActivity {
     List<String> cats = new ArrayList<>();
     ArrayList<String> types = new ArrayList<>();
     RecyclerView recyclerView;
+    FrameLayout frame;
 
 
     @Override
@@ -61,8 +62,17 @@ public class ViewActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view);
 
+        frame = findViewById(R.id.frame_urnikplac);
         TinyDB tiny = new TinyDB(getApplicationContext());
-        this.setTitle(tiny.getString("currpath") + " - " + tiny.getString("letnik") + ". letnik");
+        if(!tiny.getString("letnik").equals(""))
+        {
+            this.setTitle(tiny.getString("currpath") + " - " + tiny.getString("letnik") + ". letnik");
+        }
+        else
+        {
+            this.setTitle(tiny.getString("currpath"));
+        }
+
         String json = tiny.getString("events");
         Gson gson = new Gson();
         res = Arrays.asList(gson.fromJson(json, Event[].class));
@@ -128,7 +138,7 @@ public class ViewActivity extends AppCompatActivity {
                     //TODO ta if stavek... ni ga več v layoutmanagerju  ampak je se vedno nek rendran..
                     if (recyclerView.getLayoutManager().findViewByPosition(adpt.LastSelected) != null) {
                         Button b = (Button) recyclerView.getLayoutManager().findViewByPosition(adpt.LastSelected).findViewById(R.id.datetext);
-                        b.setTextColor(Color.GRAY);
+                        b.setTextColor(Color.LTGRAY);
                         recyclerView.getLayoutManager().findViewByPosition(adpt.LastSelected).findViewById(R.id.podcrta).setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
                     }
 
@@ -145,6 +155,7 @@ public class ViewActivity extends AppCompatActivity {
                     fragmentTransaction.replace(R.id.frame_urnikplac, DayFragment.newInstance(cal));
                     fragmentTransaction.addToBackStack(null);
                     fragmentTransaction.commit();
+
                 }
             };
 
@@ -220,7 +231,8 @@ public class ViewActivity extends AppCompatActivity {
                         }
 
                         if (index != -1) {
-                            recyclerView.scrollToPosition(index);
+                            recyclerView.smoothScrollToPosition(index);
+
                             DayListAdapter adpt = (DayListAdapter) recyclerView.getAdapter();
                             adpt.LastSelected = index;
                             FragmentManager fragmentManager = getSupportFragmentManager();
@@ -250,7 +262,7 @@ public class ViewActivity extends AppCompatActivity {
                 final PopupMenu menu = new PopupMenu(this, findViewById(R.id.menu_settings));
                 TinyDB tiny = new TinyDB(getApplicationContext());
                 ArrayList<String> toignore = tiny.getListString(tiny.getString("currpath") + tiny.getString("letnik"));
-                for (String s : cats) { // "limits" its an arraylist
+                for (String s : cats) {
 
                     if (!toignore.contains(s)) {
                         menu.getMenu().add(s).setCheckable(true).setChecked(true);
@@ -304,6 +316,8 @@ public class ViewActivity extends AppCompatActivity {
                         fragmentTransaction.replace(R.id.frame_urnikplac, DayFragment.newInstance(cal));
                         fragmentTransaction.addToBackStack(null);
                         fragmentTransaction.commit();
+
+
                     }
                 });
                 menu.show();

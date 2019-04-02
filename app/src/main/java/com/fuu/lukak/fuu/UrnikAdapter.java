@@ -2,6 +2,7 @@ package com.fuu.lukak.fuu;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.AuthenticationRequiredException;
 import android.content.Context;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
@@ -15,6 +16,7 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.text.ParseException;
@@ -60,10 +62,10 @@ public class UrnikAdapter extends RecyclerView.Adapter<UrnikAdapter.MyViewHolder
         TinyDB tiny = new TinyDB(con);
         ArrayList<String> toignore = tiny.getListString(tiny.getString("currpath") + tiny.getString("letnik"));
 
+        ArrayList<Event> unignored = DobiFiltirane(list.get(i));
 
-
-        //TODO pohandli prazn dan
-        if (list.get(i).size() == 1) {
+        //TODO UNIFY TA GAMAD KOLEGA
+        if (unignored.size()== 1) {
             if (!toignore.contains(list.get(i).get(0).group.subGroup)) {
                 View single = inflater.inflate(R.layout.singlepredmet, null);
                 TextView start = single.findViewById(R.id.Start);
@@ -71,9 +73,10 @@ public class UrnikAdapter extends RecyclerView.Adapter<UrnikAdapter.MyViewHolder
                 TextView course = single.findViewById(R.id.Course);
                 TextView prof = single.findViewById(R.id.Prof);
                 TextView loc = single.findViewById(R.id.Location);
-                LinearLayout height = single.findViewById(R.id.heigtsetter);
+                RelativeLayout height = single.findViewById(R.id.heigtsetter);
                 LinearLayout root = single.findViewById(R.id.root);
                 LinearLayout typecolor = single.findViewById(R.id.colortype);
+                TextView grp = single.findViewById(R.id.Grp);
 
                 start.setText(list.get(i).get(0).startTime);
                 SimpleDateFormat parser = new SimpleDateFormat("HH:mm");
@@ -219,7 +222,8 @@ public class UrnikAdapter extends RecyclerView.Adapter<UrnikAdapter.MyViewHolder
 
                 }
 
-                course.setText(list.get(i).get(0).course + "\n" + list.get(i).get(0).type + " " + list.get(i).get(0).group.subGroup);
+                course.setText(list.get(i).get(0).course);
+                grp.setText(list.get(i).get(0).type + " " + list.get(i).get(0).group.field + list.get(i).get(0).group.year + " " + list.get(i).get(0).group.subGroup);
                 prof.setText(list.get(i).get(0).professor);
                 loc.setText(list.get(i).get(0).room);
 
@@ -227,7 +231,7 @@ public class UrnikAdapter extends RecyclerView.Adapter<UrnikAdapter.MyViewHolder
                 myViewHolder.ureplac.addView(single);
             }
 
-        } else {
+        } else { //TODO čekn kere dejansko ne ignoram
             for (int j = 0; j < list.get(i).size(); j++) {
                 if (!toignore.contains(list.get(i).get(j).group.subGroup)) {
                     View single = inflater.inflate(R.layout.singlepredmet, null);
@@ -236,9 +240,10 @@ public class UrnikAdapter extends RecyclerView.Adapter<UrnikAdapter.MyViewHolder
                     TextView course = single.findViewById(R.id.Course);
                     TextView prof = single.findViewById(R.id.Prof);
                     TextView loc = single.findViewById(R.id.Location);
-                    LinearLayout height = single.findViewById(R.id.heigtsetter);
+                    RelativeLayout height = single.findViewById(R.id.heigtsetter);
                     LinearLayout root = single.findViewById(R.id.root);
                     LinearLayout typecolor = single.findViewById(R.id.colortype);
+                    TextView grp = single.findViewById(R.id.Grp);
 
                     start.setText(list.get(i).get(j).startTime);
                     SimpleDateFormat parser = new SimpleDateFormat("HH:mm");
@@ -339,48 +344,57 @@ public class UrnikAdapter extends RecyclerView.Adapter<UrnikAdapter.MyViewHolder
                         }
                     }
 
+
                     switch (types.indexOf(list.get(i).get(j).type)) {
                         case 0:
                             typecolor.setBackgroundColor(Color.parseColor("#5DBEE8"));
                             height.setBackgroundColor(Color.parseColor("#C7E8F7"));
+
                             break;
 
                         case 1:
                             typecolor.setBackgroundColor(Color.parseColor("#58CF60"));
                             height.setBackgroundColor(Color.parseColor("#D0F2D2"));
+
                             break;
 
                         case 2:
                             typecolor.setBackgroundColor(Color.parseColor("#E17756"));
                             height.setBackgroundColor(Color.parseColor("#F7DDD4"));
+
                             break;
 
                         case 3:
                             typecolor.setBackgroundColor(Color.parseColor("#DA7CD9"));
                             height.setBackgroundColor(Color.parseColor("#EEC4EE"));
+
                             break;
 
 
                         case 4:
                             typecolor.setBackgroundColor(Color.parseColor("#F1CE47"));
                             height.setBackgroundColor(Color.parseColor("#FFFFB6"));
+
+
                             break;
 
 
                         case 5:
                             typecolor.setBackgroundColor(Color.parseColor("#7D8FF7"));
                             height.setBackgroundColor(Color.parseColor("#C9D1FC"));
+
                             break;
 
                         default:
                             typecolor.setBackgroundColor(Color.parseColor("#45E49E"));
-                            height.setBackgroundColor(Color.parseColor("#B8FBDB"));
+
                             break;
 
 
                     }
 
-                    course.setText(list.get(i).get(j).course + "\n" + list.get(i).get(j).type + " " + list.get(i).get(j).group.subGroup);
+                    course.setText(list.get(i).get(j).course);
+                    grp.setText(list.get(i).get(j).type + " " + list.get(i).get(j).group.field + list.get(i).get(j).group.year + " " + list.get(i).get(j).group.subGroup);
                     prof.setText(list.get(i).get(j).professor);
                     loc.setText(list.get(i).get(j).room);
                     myViewHolder.ureplac.addView(single);
@@ -389,6 +403,20 @@ public class UrnikAdapter extends RecyclerView.Adapter<UrnikAdapter.MyViewHolder
         }
 
 
+    }
+
+    public ArrayList<Event> DobiFiltirane(List<Event> evs) {
+        TinyDB tiny = new TinyDB(con.getApplicationContext());
+        ArrayList<Event> toreturn = new ArrayList<>();
+        //kategorije se ne osvezujejo
+        ArrayList<String> toignore = tiny.getListString(tiny.getString("currpath") + tiny.getString("letnik"));
+        for (Event ev : evs) {
+            if (!toignore.contains(ev.group.subGroup)) {
+               toreturn.add(ev);
+            }
+        }
+
+        return toreturn;
     }
 
     @Override
@@ -406,6 +434,7 @@ public class UrnikAdapter extends RecyclerView.Adapter<UrnikAdapter.MyViewHolder
             super(v);
             ureplac = v.findViewById(R.id.UrePlac);
             scroller = v.findViewById(R.id.scroller);
+
         }
     }
 

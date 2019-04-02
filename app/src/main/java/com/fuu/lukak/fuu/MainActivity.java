@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.telecom.Call;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
@@ -38,7 +39,7 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 public class MainActivity extends AppCompatActivity {
-    Spinner AllPaths;
+    Spinner AllFacs;
     OkHttpClient client = new OkHttpClient();
     Spinner Year;
 
@@ -47,11 +48,28 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        AllFacs = findViewById(R.id.spinner3);
         try {
-            RequestPathsList(getResources().getString(R.string.ServURL) + "/api/v1/urnik/groups");
+            RequestFaculties(getResources().getString(R.string.ServURL) + "/api/v1/urnik/faculties");
         } catch (IOException e) {
             e.printStackTrace();
         }
+        AllFacs.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                try {
+                    RequestPathsList(getResources().getString(R.string.ServURL) + "/api/v1/urnik/groups");
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
     }
 
     void RequestPathsList(String url) throws IOException {
@@ -91,6 +109,7 @@ public class MainActivity extends AppCompatActivity {
                                 tiny.putListString("allpaths", res);
 
                                 TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
+                                tabLayout.removeAllTabs();
                                 tabLayout.addTab(tabLayout.newTab().setText("Po programu"));
                                 tabLayout.addTab(tabLayout.newTab().setText("Po profesorju"));
                                 tabLayout.addTab(tabLayout.newTab().setText("Po predmetu"));
@@ -127,5 +146,57 @@ public class MainActivity extends AppCompatActivity {
                 });
     }
 
+    void RequestFaculties(String url) throws IOException {
+        Request request = new Request.Builder()
+                .url(url)
+                .build();
 
+        client.newCall(request)
+                .enqueue(new Callback() {
+                    @Override
+                    public void onFailure(final okhttp3.Call call, IOException e) {
+                        // Error
+
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                // For the example, you can show an error dialog or a toast
+                                // on the main UI thread
+
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onResponse(okhttp3.Call call, final okhttp3.Response response) throws IOException {
+
+                        final String json = response.body().string();
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                // For the example, you can show an error dialog or a toast
+                                // on the main UI thread
+                                Gson gson = new Gson();
+                                ArrayList<Faculty> res = new ArrayList<>(Arrays.asList(gson.fromJson(json, Faculty[].class)));
+                                List<String> zadapter = new ArrayList<>();
+                                for(Faculty f : res)
+                                {
+                                    zadapter.add(f.LongName);
+                                }
+                                ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(getApplicationContext(),
+                                        android.R.layout.simple_spinner_item, zadapter);
+
+                                adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                                AllFacs.setAdapter(adapter2);
+                                AllFacs.setSelection(0);
+
+
+
+                            }
+                        });
+
+
+                    }
+                });
+    }
 }

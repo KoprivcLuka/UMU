@@ -15,7 +15,7 @@
         android:layout_height="wrap_content"
         android:background="@color/colorPrimaryDark"
         android:elevation="0dp"
-        android:minWidth="170dp"
+        android:minWidth="150dp"
         android:shadowRadius="0"
         android:text="Date"
         android:textAlignment="center"

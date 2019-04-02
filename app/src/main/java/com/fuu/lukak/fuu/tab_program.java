@@ -12,6 +12,8 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 
+import com.google.gson.Gson;
+
 import java.io.IOException;
 import java.time.Year;
 import java.util.ArrayList;
@@ -112,9 +114,8 @@ public class tab_program extends Fragment {
                             public void run() {
                                 // For the example, you can show an error dialog or a toast
                                 // on the main UI thread
-                             /*   Gson gson = new Gson();
-                                Type type = new TypeToken<List<Event>>() {}.getType();
-                                List<Event> res =  Arrays.asList(gson.fromJson(json,Event[].class ));*/
+                               /* Gson gson = new Gson();
+                                List<Event> res = Arrays.asList(gson.fromJson(json, Event[].class)); */
                                 TinyDB tiny = new TinyDB(getContext());
                                 tiny.putString("events", json);
                                 tiny.putString("currpath", AllPaths.getSelectedItem().toString());

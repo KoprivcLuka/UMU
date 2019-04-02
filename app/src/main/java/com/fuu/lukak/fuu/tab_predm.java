@@ -1,5 +1,6 @@
 package com.fuu.lukak.fuu;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -42,6 +43,7 @@ public class tab_predm extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
     }
 
     void RequestPreds(String url) throws IOException {
@@ -83,8 +85,30 @@ public class tab_predm extends Fragment {
                                 spins = getView().findViewById(R.id.spinner5);
                                 selectpred = getView().findViewById(R.id.ButtonSelectPred);
                                 selectpred.setEnabled(true);
+
+                                selectpred.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        try {
+                                            final TinyDB tiny = new TinyDB(view.getContext().getApplicationContext());
+                                            tiny.putString("predm", spins.getSelectedItem().toString());
+                                            RequestPredEv(getResources().getString(R.string.ServURL) + "/api/v1/urnik/course/" + spins.getSelectedItem().toString());
+                                        } catch (IOException e) {
+                                            e.printStackTrace();
+                                        }
+                                    }
+                                });
+
                                 spins.setAdapter(adapter2);
-                                spins.setSelection(0);
+                                TinyDB tiny = new TinyDB(getContext().getApplicationContext());
+                                int index22 = predmeti.indexOf(tiny.getString("predm"));
+                                if (index22 != -1) {
+                                    spins.setSelection(index22);
+                                } else {
+                                    spins.setSelection(0);
+                                }
+
+
 
 
                             }
@@ -94,4 +118,51 @@ public class tab_predm extends Fragment {
                     }
                 });
     }
+
+    void RequestPredEv(String url) throws IOException {
+        Request request = new Request.Builder()
+                .url(url)
+                .build();
+
+        client.newCall(request)
+                .enqueue(new Callback() {
+                    @Override
+                    public void onFailure(final okhttp3.Call call, IOException e) {
+                        // Error
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                // For the example, you can show an error dialog or a toast
+                                // on the main UI thread
+
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onResponse(okhttp3.Call call, final okhttp3.Response response) throws IOException {
+
+                        final String json = response.body().string();
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                // For the example, you can show an error dialog or a toast
+                                // on the main UI thread
+                                TinyDB tiny = new TinyDB(getContext());
+                                tiny.putString("events", json);
+                                tiny.putString("currpath", spins.getSelectedItem().toString());
+                                tiny.putString("letnik", "");
+                                startActivity(new Intent(getContext(), ViewActivity.class));
+
+
+
+
+                            }
+                        });
+
+
+                    }
+                });
+    }
+
 }
