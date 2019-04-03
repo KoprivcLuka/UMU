@@ -23,7 +23,7 @@
                                 <PersistentState>
                                   <option name="values">
                                     <map>
-                                      <entry key="url" value="jar:file:/C:/Program%20Files/Android/Android%20Studio1/plugins/android/lib/android.jar!/images/material_design_icons/social/ic_group_black_24dp.xml" />
+                                      <entry key="url" value="jar:file:/C:/Program%20Files/Android/Android%20Studio1/plugins/android/lib/android.jar!/images/material_design_icons/content/ic_clear_black_24dp.xml" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -34,7 +34,7 @@
                         <option name="values">
                           <map>
                             <entry key="color" value="737373" />
-                            <entry key="outputName" value="ic_group_gray" />
+                            <entry key="outputName" value="ic_clear_gray" />
                             <entry key="sourceFile" value="C:\Users\lukak" />
                           </map>
                         </option>

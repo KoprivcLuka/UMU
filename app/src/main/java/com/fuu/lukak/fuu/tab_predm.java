@@ -105,7 +105,7 @@ public class tab_predm extends Fragment {
                                 if (index22 != -1) {
                                     spins.setSelection(index22);
                                 } else {
-                                    spins.setSelection(0);
+                                        spins.setSelection(0);
                                 }
 
 

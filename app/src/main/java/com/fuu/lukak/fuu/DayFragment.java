@@ -133,45 +133,7 @@ public class DayFragment extends android.support.v4.app.Fragment {
         RecyclerView recyclerView = view.findViewById(R.id.urnikrecycler);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity().getApplicationContext()));
         recyclerView.setAdapter(new UrnikAdapter(pouri));
-       /* List<Event> last = pouri.get(pouri.size() - 1);
-        TinyDB tiny = new TinyDB(getContext().getApplicationContext());
-        ArrayList<String> types = tiny.getListString(tiny.getString("currpath") + tiny.getString("letnik") + "types");
 
-
-        switch (types.indexOf(last.get(last.size() - 1).type)) {
-            case 0:
-                recyclerView.setBackgroundColor(Color.parseColor("#C7E8F7"));
-                break;
-
-            case 1:
-                recyclerView.setBackgroundColor(Color.parseColor("#D0F2D2"));
-                break;
-
-            case 2:
-                recyclerView.setBackgroundColor(Color.parseColor("#F7DDD4"));
-                break;
-
-            case 3:
-                recyclerView.setBackgroundColor(Color.parseColor("#EEC4EE"));
-                break;
-
-
-            case 4:
-                recyclerView.setBackgroundColor(Color.parseColor("#FFFFB6"));
-                break;
-
-
-            case 5:
-                recyclerView.setBackgroundColor(Color.parseColor("#C9D1FC"));
-                break;
-
-            default:
-                recyclerView.setBackgroundColor(Color.parseColor("#B8FBDB"));
-                break;
-
-
-        }
-*/
 
 
 

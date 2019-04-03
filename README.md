@@ -8,6 +8,8 @@ Featursi za dodat:
 - Onfling za navigacijo med dnevi
 - Gumb za switch orientacije -> landscape bo tedenski 
 - Refactori celo kodo kr to kar si napisu je za prvi letnik RIT
+- V praznih dnevih pusti motivacijsko sporočilo E.g. odličen dan za pivo
+- Lokalizacija
 
 
 Accesibility:
