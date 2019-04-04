@@ -16,6 +16,7 @@ import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -196,6 +197,11 @@ public class ViewActivity extends AppCompatActivity {
     }
 
     @Override
+    public void onBackPressed() {
+       finish();
+    }
+
+    @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         return super.onPrepareOptionsMenu(menu);
     }
@@ -205,6 +211,11 @@ public class ViewActivity extends AppCompatActivity {
         // Handle item selection
         switch (item.getItemId()) {
 
+            case  R.id.menu_rotate:
+
+                startActivity(new Intent(getApplicationContext(),weekView.class));
+                finish();
+                break;
 
             case R.id.menu_calendar:
                 final Calendar cal = Calendar.getInstance();
