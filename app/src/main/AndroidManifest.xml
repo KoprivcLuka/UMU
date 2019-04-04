@@ -23,7 +23,10 @@
             android:name=".ViewActivity"
             android:theme="@style/AppTheme" />
         <activity android:name=".UrnikAdapter" />
-        <activity android:name=".About" android:theme="@style/AppTheme"></activity>
+        <activity
+            android:name=".About"
+            android:theme="@style/AppTheme" />
+        <activity android:name=".weekView"  android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>

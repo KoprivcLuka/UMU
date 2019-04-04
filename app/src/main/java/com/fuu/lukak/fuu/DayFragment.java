@@ -107,8 +107,8 @@ public class DayFragment extends android.support.v4.app.Fragment {
 
         //SAMO DA RADIII PUBECIII
         Collections.sort(today, new SortByHour());
-        List<List<Event>> pouri = new ArrayList<>();
-        List<Event> enaura = new ArrayList<>();
+        ArrayList<ArrayList<Event>> pouri = new ArrayList<>();
+        ArrayList<Event> enaura = new ArrayList<>();
 
         for (int i = 0; i < today.size(); i++) {
             if (i == 0) {

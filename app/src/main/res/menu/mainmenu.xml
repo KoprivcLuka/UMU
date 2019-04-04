@@ -3,6 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
+        android:id="@+id/menu_rotate"
+        app:showAsAction="always"
+        android:icon="@drawable/ic_view_week_white"
+        android:title="Rotate" />
+
+    <item
         android:id="@+id/menu_calendar"
         app:showAsAction="always"
         android:icon="@drawable/ic_date_range_white"
@@ -11,7 +17,7 @@
     <item
         android:icon="@drawable/ic_settings_white"
         android:id="@+id/menu_settings"
-        app:showAsAction="ifRoom"
+        app:showAsAction="always"
         android:title="Nastavitve" />
 
     <item

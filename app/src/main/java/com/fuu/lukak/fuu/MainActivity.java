@@ -42,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
     Spinner AllFacs;
     OkHttpClient client = new OkHttpClient();
     Spinner Year;
+    ArrayList<Faculty> res;
 
     //TODO OnFail / Loading....
     @Override
@@ -49,15 +50,26 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         AllFacs = findViewById(R.id.spinner3);
+
         try {
-            RequestFaculties(getResources().getString(R.string.ServURL) + "/api/v1/urnik/faculties");
+            RequestFaculties(getResources().getString(R.string.ServURL) + "/api/v2/urnik/faculties");
         } catch (IOException e) {
             e.printStackTrace();
         }
         AllFacs.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                TinyDB tiny = new TinyDB(getApplicationContext());
+                tiny.putString("faks", AllFacs.getSelectedItem().toString());
+           /*     try {
+                    RequestPathsList(getResources().getString(R.string.ServURL) + "/api/v2/urnik/" + res.get(AllFacs.getSelectedItemPosition()).ShortName + "/groups");
+                } catch (IOException e) {
+                    e.printStackTrace();
+
+            }*/
+
                 try {
+                    //TODO fpali ko bo delu api
                     RequestPathsList(getResources().getString(R.string.ServURL) + "/api/v1/urnik/groups");
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -177,19 +189,23 @@ public class MainActivity extends AppCompatActivity {
                                 // For the example, you can show an error dialog or a toast
                                 // on the main UI thread
                                 Gson gson = new Gson();
-                                ArrayList<Faculty> res = new ArrayList<>(Arrays.asList(gson.fromJson(json, Faculty[].class)));
-                                List<String> zadapter = new ArrayList<>();
-                                for(Faculty f : res)
-                                {
+                                res = new ArrayList<>(Arrays.asList(gson.fromJson(json, Faculty[].class)));
+                                TinyDB tiny = new TinyDB(getApplicationContext());
+                                ArrayList<String> zadapter = new ArrayList<>();
+                                for (Faculty f : res) {
                                     zadapter.add(f.LongName);
                                 }
                                 ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(getApplicationContext(),
                                         android.R.layout.simple_spinner_item, zadapter);
 
                                 adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                                int index22 = zadapter.indexOf(tiny.getString("faks"));
                                 AllFacs.setAdapter(adapter2);
-                                AllFacs.setSelection(0);
-
+                                if (index22 != -1) {
+                                    AllFacs.setSelection(index22);
+                                } else {
+                                    AllFacs.setSelection(0);
+                                }
 
 
                             }
