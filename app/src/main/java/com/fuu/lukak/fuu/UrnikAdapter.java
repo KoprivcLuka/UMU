@@ -289,7 +289,7 @@ public class UrnikAdapter extends RecyclerView.Adapter<UrnikAdapter.MyViewHolder
         public MyViewHolder(View v) {
             super(v);
             ureplac = v.findViewById(R.id.UrePlac);
-            scroller = v.findViewById(R.id.scroller);
+//            scroller = v.findViewById(R.id.scroller);
 
         }
     }

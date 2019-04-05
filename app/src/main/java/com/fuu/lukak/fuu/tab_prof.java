@@ -35,7 +35,8 @@ public class tab_prof extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         try {
-            RequestProfs(getResources().getString(R.string.ServURL) + "/api/v1/urnik/professors");
+            final TinyDB tiny = new TinyDB(getContext().getApplicationContext());
+            RequestProfs(getResources().getString(R.string.ServURL) + "/api/v2/urnik/" + tiny.getString("faksshort") + "/professors");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -60,7 +61,7 @@ public class tab_prof extends Fragment {
                 final TinyDB tiny = new TinyDB(view.getContext().getApplicationContext());
                 tiny.putString("prof", spins.getSelectedItem().toString());
                 try {
-                    RequestProfsEvents(getResources().getString(R.string.ServURL) + "/api/v1/urnik/professor/" + spins.getSelectedItem().toString());
+                    RequestProfsEvents(getResources().getString(R.string.ServURL) + "/api/v2/urnik/" + tiny.getString("faksshort") + "/professor/" + spins.getSelectedItem().toString());
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -118,7 +119,6 @@ public class tab_prof extends Fragment {
                                 }
 
 
-
                             }
                         });
 
@@ -160,7 +160,7 @@ public class tab_prof extends Fragment {
                                 tiny.putString("events", json);
                                 tiny.putString("currpath", spins.getSelectedItem().toString());
                                 tiny.putString("letnik", "");
-                                startActivity(new Intent(getContext(), ViewActivity.class));
+                                startActivity(new Intent(getContext(), weekView.class));
 
                             }
                         });

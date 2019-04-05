@@ -49,7 +49,7 @@ import java.util.Map;
 import javax.xml.datatype.Duration;
 
 public class ViewActivity extends AppCompatActivity {
-
+//LEGACY
     List<Event> res = new ArrayList<Event>();
     List<Date> dates = new ArrayList<Date>();
     List<String> cats = new ArrayList<>();
@@ -211,11 +211,7 @@ public class ViewActivity extends AppCompatActivity {
         // Handle item selection
         switch (item.getItemId()) {
 
-            case  R.id.menu_rotate:
 
-                startActivity(new Intent(getApplicationContext(),weekView.class));
-                finish();
-                break;
 
             case R.id.menu_calendar:
                 final Calendar cal = Calendar.getInstance();

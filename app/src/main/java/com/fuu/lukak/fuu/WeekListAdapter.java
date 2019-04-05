@@ -54,12 +54,7 @@ public class WeekListAdapter extends RecyclerView.Adapter<WeekListAdapter.MyView
         View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.recyclerview_week, viewGroup, false);
         MyViewHolder holder = new MyViewHolder(v);
 
-        holder.DateText.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mClickListener.onClick(view);
-            }
-        });
+
 
         return holder;
     }

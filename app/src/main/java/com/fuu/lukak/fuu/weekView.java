@@ -10,7 +10,9 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.LinearSnapHelper;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SnapHelper;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -36,6 +38,7 @@ public class weekView extends AppCompatActivity {
     List<Event> res = new ArrayList<Event>();
     List<Date> dates = new ArrayList<Date>();
     ArrayList<Date> validdates = new ArrayList<>();
+    ArrayList<String> types = new ArrayList<>();
     RecyclerView rec;
 
     @Override
@@ -65,7 +68,17 @@ public class weekView extends AppCompatActivity {
             if (res.get(i).endWeek >= zadntedn) {
                 zadntedn = res.get(i).endWeek;
             }
+
+            if (!types.contains(res.get(i).type)) {
+                if (!res.get(i).type.equals("")) {
+
+                    types.add(res.get(i).type);
+                }
+            }
         }
+
+        Collections.sort(types);
+        tiny.putListString(tiny.getString("currpath") + tiny.getString("letnik") + "types", types);
 
         Calendar now = Calendar.getInstance();
         Calendar begining = Calendar.getInstance();
@@ -111,7 +124,10 @@ public class weekView extends AppCompatActivity {
 
         RecyclerView recyclerView = findViewById(R.id.recvieweek);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+        SnapHelper helper = new LinearSnapHelper();
+
         recyclerView.setAdapter(new WeekListAdapter(everything, validdates));
+        helper.attachToRecyclerView(recyclerView);
     }
 
 
@@ -139,7 +155,7 @@ public class weekView extends AppCompatActivity {
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-        menu.findItem(R.id.menu_rotate).setIcon(R.drawable.ic_view_day_white);
+
         return super.onPrepareOptionsMenu(menu);
 
     }
@@ -148,12 +164,6 @@ public class weekView extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle item selection
         switch (item.getItemId()) {
-
-            case R.id.menu_rotate:
-
-                startActivity(new Intent(getApplicationContext(), ViewActivity.class));
-                finish();
-                break;
 
             case R.id.menu_calendar:
                 final Calendar cal = Calendar.getInstance();
@@ -188,18 +198,14 @@ public class weekView extends AppCompatActivity {
                             int nearest = -1;
                             for (int j = 0; j < validdates.size(); j++) {
 
-                                if (cal2.getTimeInMillis() - validdates.get(j).getTime()< 0)
-                                {
-                                   nearest = j;
+                                if (cal2.getTimeInMillis() - validdates.get(j).getTime() < 0) {
+                                    nearest = j;
                                     break;
                                 }
                             }
-                            if(nearest == -1)
-                            {
-                                rec.smoothScrollToPosition(validdates.size()-1);
-                            }
-                            else
-                            {
+                            if (nearest == -1) {
+                                rec.smoothScrollToPosition(validdates.size() - 1);
+                            } else {
                                 rec.smoothScrollToPosition(nearest);
                             }
 

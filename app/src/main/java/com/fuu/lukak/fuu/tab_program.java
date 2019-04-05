@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
@@ -18,6 +19,8 @@ import java.io.IOException;
 import java.time.Year;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import okhttp3.Callback;
@@ -39,13 +42,56 @@ public class tab_program extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
 
-        TinyDB tiny = new TinyDB(view.getContext());
-        ArrayList<String> res = tiny.getListString("allpaths");
+        final TinyDB tiny = new TinyDB(view.getContext());
+        ArrayList<String> res = new ArrayList<>();
         int index = res.indexOf(tiny.getString("currpath"));
+        Gson gson = new Gson();
+        final List<GroupWYears> groupWYears =Arrays.asList(gson.fromJson(tiny.getString("groupswyears"), GroupWYears[].class));
+        ArrayList<String> leta = new ArrayList<>();
+
+        Collections.sort(groupWYears,new SortByName());
+        for (GroupWYears e : groupWYears)
+        {
+            res.add(e.Name);
+
+
+        }
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(view.getContext(), android.R.layout.simple_spinner_item, res);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         AllPaths = view.findViewById(R.id.spinner);
+        Year = view.findViewById(R.id.spinner2);
         AllPaths.setAdapter(adapter);
+
+        AllPaths.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+
+                List<String> krsmlen = new ArrayList<>();
+                //REEEE Ni sortiran
+                for(int s : groupWYears.get(i).Years)
+                {
+                    krsmlen.add(s+"");
+                }
+                Collections.sort(krsmlen);
+                int index22 = krsmlen.indexOf(tiny.getString("letnik"));
+                ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(getContext(),
+                        android.R.layout.simple_spinner_item, krsmlen);
+                adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+                Year.setAdapter(adapter2);
+
+                if (index22 != -1) {
+                    Year.setSelection(index22);
+                } else {
+                    Year.setSelection(0);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
 
         if (index != -1) {
             AllPaths.setSelection(index);
@@ -56,26 +102,14 @@ public class tab_program extends Fragment {
         Button PathSelected = view.findViewById(R.id.ButtonSelectPath);
         PathSelected.setEnabled(true);
 
-        List<String> krsmlen = Arrays.asList(new String[]{"1", "2", "3"});
-        int index22 = krsmlen.indexOf(tiny.getString("letnik"));
-        ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(getContext(),
-                android.R.layout.simple_spinner_item, krsmlen);
-        adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        Year = view.findViewById(R.id.spinner2);
-        Year.setAdapter(adapter2);
 
-        if (index22 != -1) {
-            Year.setSelection(index22);
-        } else {
-            Year.setSelection(0);
-        }
 
         PathSelected.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 //I mean lazji je use stegnt kr niam counterja za letnike.. 30kb razlike...
                 try {
-                    RequestPath(getResources().getString(R.string.ServURL) + "/api/v1/urnik/" + AllPaths.getSelectedItem() + "/" + Year.getSelectedItem());
+                    RequestPath(getResources().getString(R.string.ServURL) + "/api/v2/urnik/" + tiny.getString("faksshort") + "/" + AllPaths.getSelectedItem() + "/" + Year.getSelectedItem());
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -121,7 +155,7 @@ public class tab_program extends Fragment {
                                 tiny.putString("currpath", AllPaths.getSelectedItem().toString());
                                 tiny.putString("letnik", Year.getSelectedItem().toString());
 
-                                startActivity(new Intent(getContext(), ViewActivity.class));
+                                startActivity(new Intent(getContext(), weekView.class));
 
 
                             }
@@ -130,5 +164,12 @@ public class tab_program extends Fragment {
 
                     }
                 });
+    }
+
+    class SortByName implements Comparator<GroupWYears> {
+        public int compare(GroupWYears a, GroupWYears b) {
+
+            return a.Name.compareTo(b.Name);
+        }
     }
 }

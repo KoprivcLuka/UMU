@@ -30,10 +30,12 @@ public class tab_predm extends Fragment {
     OkHttpClient client = new OkHttpClient();
     Spinner spins;
     Button selectpred;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         try {
-            RequestPreds(getResources().getString(R.string.ServURL) + "/api/v1/urnik/courses");
+            TinyDB tiny = new TinyDB(getContext());
+            RequestPreds(getResources().getString(R.string.ServURL) + "/api/v2/urnik/" + tiny.getString("faksshort") + "/courses");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -80,7 +82,7 @@ public class tab_predm extends Fragment {
                                 Collections.sort(predmeti);
                                 ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(getContext(),
                                         android.R.layout.simple_spinner_item, predmeti);
-
+                                final TinyDB tiny = new TinyDB(getContext().getApplicationContext());
                                 adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                                 spins = getView().findViewById(R.id.spinner5);
                                 selectpred = getView().findViewById(R.id.ButtonSelectPred);
@@ -90,9 +92,9 @@ public class tab_predm extends Fragment {
                                     @Override
                                     public void onClick(View view) {
                                         try {
-                                            final TinyDB tiny = new TinyDB(view.getContext().getApplicationContext());
+
                                             tiny.putString("predm", spins.getSelectedItem().toString());
-                                            RequestPredEv(getResources().getString(R.string.ServURL) + "/api/v1/urnik/course/" + spins.getSelectedItem().toString());
+                                            RequestPredEv(getResources().getString(R.string.ServURL) + "/api/v2/urnik/" + tiny.getString("faksshort") + "/course/" + spins.getSelectedItem().toString());
                                         } catch (IOException e) {
                                             e.printStackTrace();
                                         }
@@ -100,15 +102,12 @@ public class tab_predm extends Fragment {
                                 });
 
                                 spins.setAdapter(adapter2);
-                                TinyDB tiny = new TinyDB(getContext().getApplicationContext());
                                 int index22 = predmeti.indexOf(tiny.getString("predm"));
                                 if (index22 != -1) {
                                     spins.setSelection(index22);
                                 } else {
-                                        spins.setSelection(0);
+                                    spins.setSelection(0);
                                 }
-
-
 
 
                             }
@@ -152,9 +151,7 @@ public class tab_predm extends Fragment {
                                 tiny.putString("events", json);
                                 tiny.putString("currpath", spins.getSelectedItem().toString());
                                 tiny.putString("letnik", "");
-                                startActivity(new Intent(getContext(), ViewActivity.class));
-
-
+                                startActivity(new Intent(getContext(), weekView.class));
 
 
                             }

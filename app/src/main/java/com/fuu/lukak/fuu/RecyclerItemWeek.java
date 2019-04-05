@@ -18,6 +18,7 @@ import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.Scroller;
 import android.widget.TextView;
 
 import java.text.ParseException;
@@ -71,7 +72,6 @@ public class RecyclerItemWeek extends RecyclerView.Adapter<RecyclerItemWeek.MyVi
         TinyDB tiny = new TinyDB(con);
         toignore = tiny.getListString(tiny.getString("currpath") + tiny.getString("letnik"));
         //i = index dneva
-
 
         ArrayList<Event> unignored = DobiFiltirane(list.get(i));
         if (list.get(i).size() != 0) {
@@ -267,6 +267,7 @@ public class RecyclerItemWeek extends RecyclerView.Adapter<RecyclerItemWeek.MyVi
 
             sporocilo.setText(sporocilca.get(cifr % sporocilca.size()));
             myViewHolder.ureplac.addView(motivacija);
+
         }
 
     }
@@ -296,7 +297,7 @@ public class RecyclerItemWeek extends RecyclerView.Adapter<RecyclerItemWeek.MyVi
         public MyViewHolder(View v) {
             super(v);
             ureplac = v.findViewById(R.id.UrePlac);
-            scroller = v.findViewById(R.id.scroller);
+
 
         }
     }

@@ -29,6 +29,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
@@ -61,19 +62,14 @@ public class MainActivity extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 TinyDB tiny = new TinyDB(getApplicationContext());
                 tiny.putString("faks", AllFacs.getSelectedItem().toString());
-           /*     try {
-                    RequestPathsList(getResources().getString(R.string.ServURL) + "/api/v2/urnik/" + res.get(AllFacs.getSelectedItemPosition()).ShortName + "/groups");
-                } catch (IOException e) {
-                    e.printStackTrace();
-
-            }*/
-
+                tiny.putString("faksshort", res.get(AllFacs.getSelectedItemPosition()).ShortName);
                 try {
-                    //TODO fpali ko bo delu api
-                    RequestPathsList(getResources().getString(R.string.ServURL) + "/api/v1/urnik/groups");
+                    RequestPathsList(getResources().getString(R.string.ServURL) + "/api/v2/urnik/" + res.get(AllFacs.getSelectedItemPosition()).ShortName + "/groups/years");
                 } catch (IOException e) {
                     e.printStackTrace();
+
                 }
+
             }
 
             @Override
@@ -112,14 +108,20 @@ public class MainActivity extends AppCompatActivity {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
+                                //TODO prestavi v tab_predm
                                 // For the example, you can show an error dialog or a toast
                                 // on the main UI thread
                                 Gson gson = new Gson();
-                                ArrayList<String> res = new ArrayList<>(Arrays.asList(gson.fromJson(json, String[].class)));
-                                java.util.Collections.sort(res);
+                                ArrayList<GroupWYears> res = new ArrayList<>(Arrays.asList(gson.fromJson(json, GroupWYears[].class)));
+                                java.util.Collections.sort(res, new SortByName());
                                 TinyDB tiny = new TinyDB(getApplicationContext());
-                                tiny.putListString("allpaths", res);
+                                tiny.putString("groupswyears",json);
+                                ArrayList<String> allpaths = new ArrayList<>();
+                                for (GroupWYears s : res) {
+                                    allpaths.add(s.Name);
+                                }
 
+                                tiny.putListString("allpaths", allpaths);
                                 TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
                                 tabLayout.removeAllTabs();
                                 tabLayout.addTab(tabLayout.newTab().setText("Po programu"));
@@ -214,5 +216,12 @@ public class MainActivity extends AppCompatActivity {
 
                     }
                 });
+    }
+
+    class SortByName implements Comparator<GroupWYears> {
+        public int compare(GroupWYears a, GroupWYears b) {
+
+            return a.Name.compareTo(b.Name);
+        }
     }
 }

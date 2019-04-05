@@ -41,7 +41,7 @@
 
     <RelativeLayout
         android:id="@+id/heigtsetter"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:background="#ffffff"
@@ -159,13 +159,6 @@
             </LinearLayout>
         </LinearLayout>
 
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_alignParentBottom="true"
-            android:background="@android:color/darker_gray"
-            android:elevation="3dp" />
 
     </RelativeLayout>
 
