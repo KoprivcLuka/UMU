@@ -48,7 +48,6 @@ public class RecyclerItemWeek extends RecyclerView.Adapter<RecyclerItemWeek.MyVi
         this.list = list;
 
 
-
     }
 
     @NonNull
@@ -88,8 +87,16 @@ public class RecyclerItemWeek extends RecyclerView.Adapter<RecyclerItemWeek.MyVi
                 LinearLayout typecolor = single.findViewById(R.id.colortype);
                 TextView grp = single.findViewById(R.id.Grp);
 
-                start.setText(unignored.get(j).startTime);
+                String zacetek = unignored.get(j).startTime.split(":")[0];
+                if (zacetek.length() == 1) {
+                    start.setText("0" + unignored.get(j).startTime);
+                } else {
+                    start.setText(unignored.get(j).startTime);
+                }
+
+
                 SimpleDateFormat parser = new SimpleDateFormat("HH:mm");
+
                 Date d1 = new Date();
 
                 try {
@@ -140,13 +147,15 @@ public class RecyclerItemWeek extends RecyclerView.Adapter<RecyclerItemWeek.MyVi
                                 if (!(cal.getTimeInMillis() == d2.getTime())) {
                                     int ura = cal.get(Calendar.HOUR_OF_DAY);
                                     String uraout = "";
+
+
                                     if (ura < 10) {
                                         uraout = "0" + ura;
                                     } else {
                                         uraout = ura + "";
                                     }
-                                    if (cal.get(Calendar.MINUTE) == 0) {
-                                        end.setText(uraout + ":00");
+                                    if (cal.get(Calendar.MINUTE) < 10) {
+                                        end.setText(uraout + ":0" + cal.get(Calendar.MINUTE));
                                     } else {
                                         end.setText(uraout + ":" + cal.get(Calendar.MINUTE));
                                     }
@@ -163,13 +172,14 @@ public class RecyclerItemWeek extends RecyclerView.Adapter<RecyclerItemWeek.MyVi
                         if (h == list.size() - 1) {
                             int ura = cal.get(Calendar.HOUR_OF_DAY);
                             String uraout = "";
+
                             if (ura < 10) {
                                 uraout = "0" + ura;
                             } else {
                                 uraout = ura + "";
                             }
-                            if (cal.get(Calendar.MINUTE) == 0) {
-                                end.setText(uraout + ":00");
+                            if (cal.get(Calendar.MINUTE) < 10) {
+                                end.setText(uraout + ":0" + cal.get(Calendar.MINUTE));
                             } else {
                                 end.setText(uraout + ":" + cal.get(Calendar.MINUTE));
                             }
@@ -181,14 +191,15 @@ public class RecyclerItemWeek extends RecyclerView.Adapter<RecyclerItemWeek.MyVi
                 else {
                     int ura = cal.get(Calendar.HOUR_OF_DAY);
                     String uraout = "";
+
+
                     if (ura < 10) {
                         uraout = "0" + ura;
                     } else {
                         uraout = ura + "";
                     }
-
-                    if (cal.get(Calendar.MINUTE) == 0) {
-                        end.setText(uraout + ":00");
+                    if (cal.get(Calendar.MINUTE) < 10) {
+                        end.setText(uraout + ":0" + cal.get(Calendar.MINUTE));
                     } else {
                         end.setText(uraout + ":" + cal.get(Calendar.MINUTE));
                     }

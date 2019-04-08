@@ -34,12 +34,7 @@ public class tab_prof extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        try {
-            final TinyDB tiny = new TinyDB(getContext().getApplicationContext());
-            RequestProfs(getResources().getString(R.string.ServURL) + "/api/v2/urnik/" + tiny.getString("faksshort") + "/professors");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+
 
         return inflater.inflate(R.layout.fragment_tab_prof, container, false);
     }
@@ -48,6 +43,12 @@ public class tab_prof extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         final TinyDB tiny = new TinyDB(view.getContext().getApplicationContext());
+        try {
+
+            RequestProfs(getResources().getString(R.string.ServURL) + "/api/v2/urnik/" + tiny.getString("faksshort") + "/professors");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         String odmakni = tiny.getString("prof");
 
         /*tiny.putString("events", json);

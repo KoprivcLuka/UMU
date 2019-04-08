@@ -1,8 +1,10 @@
 package com.fuu.lukak.fuu;
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPropertyAnimatorCompat;
@@ -38,6 +40,7 @@ public class weekView extends AppCompatActivity {
     List<Event> res = new ArrayList<Event>();
     List<Date> dates = new ArrayList<Date>();
     ArrayList<Date> validdates = new ArrayList<>();
+    List<String> cats = new ArrayList<>();
     ArrayList<String> types = new ArrayList<>();
     RecyclerView rec;
 
@@ -65,6 +68,7 @@ public class weekView extends AppCompatActivity {
         int zadntedn = 0;
         for (int i = 0; i < res.size(); i++) {
 
+            res.get(i).startTime = res.get(i).startTime.replace('.', ':');
             if (res.get(i).endWeek >= zadntedn) {
                 zadntedn = res.get(i).endWeek;
             }
@@ -75,9 +79,18 @@ public class weekView extends AppCompatActivity {
                     types.add(res.get(i).type);
                 }
             }
+
+            if (!cats.contains(res.get(i).group.subGroup)) {
+                if (!res.get(i).group.subGroup.equals("")) {
+
+                    cats.add(res.get(i).group.subGroup);
+                }
+            }
+
         }
 
         Collections.sort(types);
+        java.util.Collections.sort(cats);
         tiny.putListString(tiny.getString("currpath") + tiny.getString("letnik") + "types", types);
 
         Calendar now = Calendar.getInstance();
@@ -122,12 +135,20 @@ public class weekView extends AppCompatActivity {
 
         //Evo maš evente ki majo dneve, g g
 
-        RecyclerView recyclerView = findViewById(R.id.recvieweek);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-        SnapHelper helper = new LinearSnapHelper();
+        rec = findViewById(R.id.recvieweek);
+        int orientation = getResources().getConfiguration().orientation;
+        if (orientation == Configuration.ORIENTATION_PORTRAIT) {
+            rec.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        } else {
+            rec.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+          /*  SnapHelper helper = new LinearSnapHelper();
+            helper.attachToRecyclerView(recyclerView); */
 
-        recyclerView.setAdapter(new WeekListAdapter(everything, validdates));
-        helper.attachToRecyclerView(recyclerView);
+        }
+
+
+        rec.setAdapter(new WeekListAdapter(everything, validdates));
+
     }
 
 
@@ -190,7 +211,7 @@ public class weekView extends AppCompatActivity {
                         }
 
                         if (index != -1) {
-                            //todo scroll to closest
+
                             rec.smoothScrollToPosition(index);
 
 
@@ -225,7 +246,7 @@ public class weekView extends AppCompatActivity {
 
                 break;
             case R.id.menu_settings:
-  /*
+
                 final PopupMenu menu = new PopupMenu(this, findViewById(R.id.menu_settings));
                 TinyDB tiny = new TinyDB(getApplicationContext());
                 ArrayList<String> toignore = tiny.getListString(tiny.getString("currpath") + tiny.getString("letnik"));
@@ -265,7 +286,7 @@ public class weekView extends AppCompatActivity {
                 menu.setOnDismissListener(new PopupMenu.OnDismissListener() {
                     @Override
                     public void onDismiss(PopupMenu popupMenu) {
-                    ArrayList<String> ignorecat = new ArrayList<>();
+                        ArrayList<String> ignorecat = new ArrayList<>();
                         TinyDB tiny = new TinyDB(getApplicationContext());
                         for (int i = 0; i < cats.size(); i++) {
                             if (!popupMenu.getMenu().getItem(i).isChecked()) {
@@ -274,21 +295,13 @@ public class weekView extends AppCompatActivity {
                         }
 
                         tiny.putListString(tiny.getString("currpath") + tiny.getString("letnik"), ignorecat);
-
-                        DayListAdapter adpt = (DayListAdapter) recyclerView.getAdapter();
-                        FragmentManager fragmentManager = getSupportFragmentManager();
-                        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                        Calendar cal = Calendar.getInstance();
-                        cal.setTimeInMillis(dates.get(adpt.LastSelected).getTime());
-                        fragmentTransaction.replace(R.id.frame_urnikplac, DayFragment.newInstance(cal));
-                        fragmentTransaction.addToBackStack(null);
-                        fragmentTransaction.commit();
+                        rec.getAdapter().notifyDataSetChanged();
 
 
                     }
                 });
                 menu.show();
-*/
+
 
                 break;
 
