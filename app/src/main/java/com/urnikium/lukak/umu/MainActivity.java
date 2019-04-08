@@ -1,4 +1,4 @@
-package com.fuu.lukak.fuu;
+package com.urnikium.lukak.umu;
 
 import android.app.DownloadManager;
 import android.content.Intent;
@@ -14,6 +14,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 
+import com.crashlytics.android.Crashlytics;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.reflect.TypeToken;
@@ -51,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         AllFacs = findViewById(R.id.spinner3);
+
 
         try {
             RequestFaculties(getResources().getString(R.string.ServURL) + "/api/v2/urnik/faculties");
@@ -109,8 +111,6 @@ public class MainActivity extends AppCompatActivity {
                             @Override
                             public void run() {
                                 //TODO prestavi v tab_predm
-                                // For the example, you can show an error dialog or a toast
-                                // on the main UI thread
                                 Gson gson = new Gson();
                                 ArrayList<GroupWYears> res = new ArrayList<>(Arrays.asList(gson.fromJson(json, GroupWYears[].class)));
                                 java.util.Collections.sort(res, new SortByName());
@@ -192,6 +192,7 @@ public class MainActivity extends AppCompatActivity {
                                 // on the main UI thread
                                 Gson gson = new Gson();
                                 res = new ArrayList<>(Arrays.asList(gson.fromJson(json, Faculty[].class)));
+                                java.util.Collections.sort(res, new SortByNameFac());
                                 TinyDB tiny = new TinyDB(getApplicationContext());
                                 ArrayList<String> zadapter = new ArrayList<>();
                                 for (Faculty f : res) {
@@ -222,6 +223,13 @@ public class MainActivity extends AppCompatActivity {
         public int compare(GroupWYears a, GroupWYears b) {
 
             return a.Name.compareTo(b.Name);
+        }
+    }
+
+    class SortByNameFac implements Comparator<Faculty> {
+        public int compare(Faculty a, Faculty b) {
+
+            return a.LongName.compareTo(b.LongName);
         }
     }
 }

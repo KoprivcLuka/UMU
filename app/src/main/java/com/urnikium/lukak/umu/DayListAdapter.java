@@ -1,4 +1,4 @@
-package com.fuu.lukak.fuu;
+package com.urnikium.lukak.umu;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;

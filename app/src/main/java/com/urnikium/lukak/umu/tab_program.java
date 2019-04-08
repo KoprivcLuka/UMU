@@ -1,4 +1,4 @@
-package com.fuu.lukak.fuu;
+package com.urnikium.lukak.umu;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -46,15 +46,11 @@ public class tab_program extends Fragment {
         ArrayList<String> res = new ArrayList<>();
         int index = res.indexOf(tiny.getString("currpath"));
         Gson gson = new Gson();
-        final List<GroupWYears> groupWYears =Arrays.asList(gson.fromJson(tiny.getString("groupswyears"), GroupWYears[].class));
+        final List<GroupWYears> groupWYears = Arrays.asList(gson.fromJson(tiny.getString("groupswyears"), GroupWYears[].class));
         ArrayList<String> leta = new ArrayList<>();
-
-        Collections.sort(groupWYears,new SortByName());
-        for (GroupWYears e : groupWYears)
-        {
+        Collections.sort(groupWYears, new SortByName());
+        for (GroupWYears e : groupWYears) {
             res.add(e.Name);
-
-
         }
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(view.getContext(), android.R.layout.simple_spinner_item, res);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -68,23 +64,17 @@ public class tab_program extends Fragment {
 
                 List<String> krsmlen = new ArrayList<>();
                 //REEEE Ni sortiran
-                for(int s : groupWYears.get(i).Years)
-                {
-                    krsmlen.add(s+"");
+                for (int s : groupWYears.get(i).Years) {
+                    krsmlen.add(s + "");
                 }
                 Collections.sort(krsmlen);
-                int index22 = krsmlen.indexOf(tiny.getString("letnik"));
                 ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(getContext(),
                         android.R.layout.simple_spinner_item, krsmlen);
                 adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
                 Year.setAdapter(adapter2);
+                Year.setSelection(0);
 
-                if (index22 != -1) {
-                    Year.setSelection(index22);
-                } else {
-                    Year.setSelection(0);
-                }
             }
 
             @Override
@@ -101,7 +91,6 @@ public class tab_program extends Fragment {
 
         Button PathSelected = view.findViewById(R.id.ButtonSelectPath);
         PathSelected.setEnabled(true);
-
 
 
         PathSelected.setOnClickListener(new View.OnClickListener() {

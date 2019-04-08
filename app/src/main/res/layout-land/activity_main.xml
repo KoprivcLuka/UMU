@@ -18,7 +18,7 @@
         android:id="@+id/imageView"
         android:layout_width="match_parent"
         android:layout_height="200dp"
-        android:src="@drawable/eskpertnilogo" />
+        android:src="@drawable/eskpertnilogobeta" />
 
     <TextView
         android:id="@+id/textView"

@@ -1,0 +1,35 @@
+{
+  "project_info": {
+    "project_number": "364640044946",
+    "firebase_url": "https://urniki-um.firebaseio.com",
+    "project_id": "urniki-um",
+    "storage_bucket": "urniki-um.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:364640044946:android:39c9ad5d3aad3139",
+        "android_client_info": {
+          "package_name": "com.urnikium.lukak.umu"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDIVQggYoBGy7YqQ9bRCPiZiE5vDBV6Lig"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "364640044946-6tf8ll8iqbqult6km58oug78np4ie8u7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

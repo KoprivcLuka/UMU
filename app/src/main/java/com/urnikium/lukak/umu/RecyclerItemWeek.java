@@ -1,4 +1,4 @@
-package com.fuu.lukak.fuu;
+package com.urnikium.lukak.umu;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -18,35 +18,41 @@ import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.Scroller;
 import android.widget.TextView;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Random;
 
-public class UrnikAdapter extends RecyclerView.Adapter<UrnikAdapter.MyViewHolder> {
+public class RecyclerItemWeek extends RecyclerView.Adapter<RecyclerItemWeek.MyViewHolder> {
+    //Tu so arraylist dogodki k bojo unga dneva
     private ArrayList<ArrayList<Event>> list;
+
     List<String> types = new ArrayList<>();
     ArrayList<String> toignore = new ArrayList<>();
 
     Context con;
 
-    public UrnikAdapter() {
+    public RecyclerItemWeek() {
     }
 
-    public UrnikAdapter(ArrayList<ArrayList<Event>> list) {
+    public RecyclerItemWeek(ArrayList<ArrayList<Event>> list) {
         this.list = list;
+
 
     }
 
     @NonNull
     @Override
-    public UrnikAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+    public RecyclerItemWeek.MyViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
 
         TinyDB tiny = new TinyDB(viewGroup.getContext());
         types = tiny.getListString(tiny.getString("currpath") + tiny.getString("letnik") + "types");
@@ -60,10 +66,11 @@ public class UrnikAdapter extends RecyclerView.Adapter<UrnikAdapter.MyViewHolder
 
 
     @Override
-    public void onBindViewHolder(@NonNull final UrnikAdapter.MyViewHolder myViewHolder, int i) {
+    public void onBindViewHolder(@NonNull final RecyclerItemWeek.MyViewHolder myViewHolder, int i) {
         LayoutInflater inflater = (LayoutInflater) myViewHolder.ureplac.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         TinyDB tiny = new TinyDB(con);
         toignore = tiny.getListString(tiny.getString("currpath") + tiny.getString("letnik"));
+        //i = index dneva
 
         ArrayList<Event> unignored = DobiFiltirane(list.get(i));
         if (list.get(i).size() != 0) {
@@ -80,8 +87,16 @@ public class UrnikAdapter extends RecyclerView.Adapter<UrnikAdapter.MyViewHolder
                 LinearLayout typecolor = single.findViewById(R.id.colortype);
                 TextView grp = single.findViewById(R.id.Grp);
 
-                start.setText(unignored.get(j).startTime);
+                String zacetek = unignored.get(j).startTime.split(":")[0];
+                if (zacetek.length() == 1) {
+                    start.setText("0" + unignored.get(j).startTime);
+                } else {
+                    start.setText(unignored.get(j).startTime);
+                }
+
+
                 SimpleDateFormat parser = new SimpleDateFormat("HH:mm");
+
                 Date d1 = new Date();
 
                 try {
@@ -132,13 +147,15 @@ public class UrnikAdapter extends RecyclerView.Adapter<UrnikAdapter.MyViewHolder
                                 if (!(cal.getTimeInMillis() == d2.getTime())) {
                                     int ura = cal.get(Calendar.HOUR_OF_DAY);
                                     String uraout = "";
+
+
                                     if (ura < 10) {
                                         uraout = "0" + ura;
                                     } else {
                                         uraout = ura + "";
                                     }
-                                    if (cal.get(Calendar.MINUTE) == 0) {
-                                        end.setText(uraout + ":00");
+                                    if (cal.get(Calendar.MINUTE) < 10) {
+                                        end.setText(uraout + ":0" + cal.get(Calendar.MINUTE));
                                     } else {
                                         end.setText(uraout + ":" + cal.get(Calendar.MINUTE));
                                     }
@@ -155,13 +172,14 @@ public class UrnikAdapter extends RecyclerView.Adapter<UrnikAdapter.MyViewHolder
                         if (h == list.size() - 1) {
                             int ura = cal.get(Calendar.HOUR_OF_DAY);
                             String uraout = "";
+
                             if (ura < 10) {
                                 uraout = "0" + ura;
                             } else {
                                 uraout = ura + "";
                             }
-                            if (cal.get(Calendar.MINUTE) == 0) {
-                                end.setText(uraout + ":00");
+                            if (cal.get(Calendar.MINUTE) < 10) {
+                                end.setText(uraout + ":0" + cal.get(Calendar.MINUTE));
                             } else {
                                 end.setText(uraout + ":" + cal.get(Calendar.MINUTE));
                             }
@@ -173,14 +191,15 @@ public class UrnikAdapter extends RecyclerView.Adapter<UrnikAdapter.MyViewHolder
                 else {
                     int ura = cal.get(Calendar.HOUR_OF_DAY);
                     String uraout = "";
+
+
                     if (ura < 10) {
                         uraout = "0" + ura;
                     } else {
                         uraout = ura + "";
                     }
-
-                    if (cal.get(Calendar.MINUTE) == 0) {
-                        end.setText(uraout + ":00");
+                    if (cal.get(Calendar.MINUTE) < 10) {
+                        end.setText(uraout + ":0" + cal.get(Calendar.MINUTE));
                     } else {
                         end.setText(uraout + ":" + cal.get(Calendar.MINUTE));
                     }
@@ -243,10 +262,9 @@ public class UrnikAdapter extends RecyclerView.Adapter<UrnikAdapter.MyViewHolder
                 myViewHolder.ureplac.addView(single);
 
             }
-        }
 
-      else
-        {
+
+        } else {
             View motivacija = inflater.inflate(R.layout.motivacijskosporocilo, null);
             TextView sporocilo = motivacija.findViewById(R.id.textView4);
             ImageView slikca = motivacija.findViewById(R.id.imageView2);
@@ -258,8 +276,9 @@ public class UrnikAdapter extends RecyclerView.Adapter<UrnikAdapter.MyViewHolder
             Random rand = new Random();
             int cifr = rand.nextInt(sporocilca.size());
 
-            sporocilo.setText(sporocilca.get(cifr%sporocilca.size()));
+            sporocilo.setText(sporocilca.get(cifr % sporocilca.size()));
             myViewHolder.ureplac.addView(motivacija);
+
         }
 
     }
@@ -289,8 +308,17 @@ public class UrnikAdapter extends RecyclerView.Adapter<UrnikAdapter.MyViewHolder
         public MyViewHolder(View v) {
             super(v);
             ureplac = v.findViewById(R.id.UrePlac);
-//            scroller = v.findViewById(R.id.scroller);
 
+
+        }
+    }
+
+    class SortByDuration implements Comparator<Event> {
+        public int compare(Event a, Event b) {
+
+            if (a.duration < b.duration) return 1;
+            else if (a.duration == b.duration) return 0;
+            else return -1;
         }
     }
 
