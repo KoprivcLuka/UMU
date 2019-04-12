@@ -15,6 +15,8 @@ public class Event {
     @SerializedName("StartTime")
     public String startTime;
 
+    public String endTime;
+
     @SerializedName("Duration")
     public int duration;
 

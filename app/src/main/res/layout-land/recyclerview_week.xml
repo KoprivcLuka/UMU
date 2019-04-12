@@ -31,12 +31,9 @@
                 android:id="@+id/textView5"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_alignParentTop="true"
-                android:layout_centerHorizontal="true"
                 android:background="@color/colorPrimaryDark"
                 android:foregroundGravity="center_vertical"
                 android:paddingStart="26sp"
-                android:text="Day"
                 android:textAlignment="center"
                 android:textColor="#ffffff"
                 android:textSize="21sp" />

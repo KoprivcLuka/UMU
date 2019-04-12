@@ -63,8 +63,6 @@
                 android:id="@+id/Course"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentTop="true"
                 android:layout_gravity="center_vertical|end"
                 android:maxWidth="300dp"
                 android:text="PredmetPaTip"
@@ -73,11 +71,8 @@
                 android:textSize="16sp" />
 
             <LinearLayout
-                android:id="@+id/linearLayout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/Course"
-                android:layout_centerHorizontal="true"
                 android:gravity="start">
 
                 <ImageView
@@ -99,11 +94,8 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/linearLayout2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/linearLayout"
-                android:layout_centerHorizontal="true"
                 android:gravity="start"
                 app:layout_constraintStart_toStartOf="@+id/Course"
                 app:layout_constraintTop_toTopOf="@+id/Course">
@@ -117,7 +109,7 @@
 
                 <TextView
                     android:id="@+id/Prof"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical|end"
                     android:layout_marginEnd="5dp"
@@ -129,11 +121,8 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/linearLayout3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/linearLayout2"
-                android:layout_centerHorizontal="true"
                 android:gravity="start"
                 app:layout_constraintStart_toStartOf="@+id/Course"
                 app:layout_constraintTop_toTopOf="@+id/Course">
@@ -147,7 +136,7 @@
 
                 <TextView
                     android:id="@+id/Location"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical|end"
                     android:layout_marginEnd="5dp"

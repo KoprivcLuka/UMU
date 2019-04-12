@@ -196,7 +196,6 @@ public class TinyDB {
      * Get int value from SharedPreferences at 'key'. If key not found, return 'defaultValue'
      *
      * @param key          SharedPreferences key
-     * @param defaultValue int value returned if key was not found
      * @return int value at 'key' or 'defaultValue' if key not found
      */
     public int getInt(String key) {
@@ -211,8 +210,8 @@ public class TinyDB {
      */
     public ArrayList<Integer> getListInt(String key) {
         String[] myList = TextUtils.split(preferences.getString(key, ""), "‚‗‚");
-        ArrayList<String> arrayToList = new ArrayList<String>(Arrays.asList(myList));
-        ArrayList<Integer> newList = new ArrayList<Integer>();
+        ArrayList<String> arrayToList = new ArrayList<>(Arrays.asList(myList));
+        ArrayList<Integer> newList = new ArrayList<>();
 
         for (String item : arrayToList)
             newList.add(Integer.parseInt(item));
@@ -235,7 +234,6 @@ public class TinyDB {
      * Get float value from SharedPreferences at 'key'. If key not found, return 'defaultValue'
      *
      * @param key          SharedPreferences key
-     * @param defaultValue float value returned if key was not found
      * @return float value at 'key' or 'defaultValue' if key not found
      */
     public float getFloat(String key) {
@@ -268,8 +266,8 @@ public class TinyDB {
      */
     public ArrayList<Double> getListDouble(String key) {
         String[] myList = TextUtils.split(preferences.getString(key, ""), "‚‗‚");
-        ArrayList<String> arrayToList = new ArrayList<String>(Arrays.asList(myList));
-        ArrayList<Double> newList = new ArrayList<Double>();
+        ArrayList<String> arrayToList = new ArrayList<>(Arrays.asList(myList));
+        ArrayList<Double> newList = new ArrayList<>();
 
         for (String item : arrayToList)
             newList.add(Double.parseDouble(item));
@@ -285,8 +283,8 @@ public class TinyDB {
      */
     public ArrayList<Long> getListLong(String key) {
         String[] myList = TextUtils.split(preferences.getString(key, ""), "‚‗‚");
-        ArrayList<String> arrayToList = new ArrayList<String>(Arrays.asList(myList));
-        ArrayList<Long> newList = new ArrayList<Long>();
+        ArrayList<String> arrayToList = new ArrayList<>(Arrays.asList(myList));
+        ArrayList<Long> newList = new ArrayList<>();
 
         for (String item : arrayToList)
             newList.add(Long.parseLong(item));
@@ -311,14 +309,13 @@ public class TinyDB {
      * @return ArrayList of String
      */
     public ArrayList<String> getListString(String key) {
-        return new ArrayList<String>(Arrays.asList(TextUtils.split(preferences.getString(key, ""), "‚‗‚")));
+        return new ArrayList<>(Arrays.asList(TextUtils.split(preferences.getString(key, ""), "‚‗‚")));
     }
 
     /**
      * Get boolean value from SharedPreferences at 'key'. If key not found, return 'defaultValue'
      *
      * @param key          SharedPreferences key
-     * @param defaultValue boolean value returned if key was not found
      * @return boolean value at 'key' or 'defaultValue' if key not found
      */
     public boolean getBoolean(String key) {
@@ -333,7 +330,7 @@ public class TinyDB {
      */
     public ArrayList<Boolean> getListBoolean(String key) {
         ArrayList<String> myList = getListString(key);
-        ArrayList<Boolean> newList = new ArrayList<Boolean>();
+        ArrayList<Boolean> newList = new ArrayList<>();
 
         for (String item : myList) {
             if (item.equals("true")) {
@@ -496,7 +493,7 @@ public class TinyDB {
      */
     public void putListBoolean(String key, ArrayList<Boolean> boolList) {
         checkForNullKey(key);
-        ArrayList<String> newList = new ArrayList<String>();
+        ArrayList<String> newList = new ArrayList<>();
 
         for (Boolean item : boolList) {
             if (item) {
@@ -614,7 +611,6 @@ public class TinyDB {
     /**
      * null keys would corrupt the shared pref file and make them unreadable this is a preventive measure
      *
-     * @param the pref key
      */
     public void checkForNullKey(String key) {
         if (key == null) {
@@ -625,7 +621,6 @@ public class TinyDB {
     /**
      * null keys would corrupt the shared pref file and make them unreadable this is a preventive measure
      *
-     * @param the pref key
      */
     public void checkForNullValue(String value) {
         if (value == null) {

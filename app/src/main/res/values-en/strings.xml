@@ -1,0 +1,44 @@
+<resources>
+    <string name="app_name">UMU</string>
+    <string name="ServURL">https://feri-urnik.si:8080</string>
+
+    <string name="ContactMail">urnik.um@gmail.com</string>
+    <string name="AboutProject"> UMU je samostojni projekt, ki ponuja rešitev fleksibilnega prikaza urnikov celotne Univerze v Mariboru. Če se želite pridružiti k razvijanju projekta ali pa prijaviti napako ter podati svoje mnenje smo dosegljivi na naslednjem naslovu:</string>
+    <string name="PrivacyPolicy">PRIVACY POLICY</string>
+    <string name="Authors">Authors: \nDomen Jesenovec \nLuka Koprivc</string>
+
+    <string name="ChooseFaculty">Choose faculty</string>
+    <string name="ChooseClass">Choose course</string>
+    <string name="ChooseProfessor">Choose professor</string>
+    <string name="ChooseProgramme">Choose programme</string>
+    <string name="ChooseYear">Choose year</string>
+    <string name="ChooseDate">Choose date</string>
+    <string name="Settings">Settings</string>
+    <string name="About">About</string>
+    <string name="Next">Next</string>
+
+    <string name="Handler">Speaker</string>
+    <string name="Professor">Professor</string>
+    <string name="Type">Type</string>
+    <string name="Programme">Programme</string>
+    <string name="Group">Group</string>
+    <string name="Location">Location</string>
+    <string name="StartTime">Starts at</string>
+    <string name="EndTime">Ends at</string>
+
+    <string name="ByProgramme">By programme</string>
+    <string name="ByProfessor">By professor</string>
+    <string name="ByCourse">By course</string>
+
+    <string-array name="Days">
+        <item>SUN</item>
+        <item>MON</item>
+        <item>TUE</item>
+        <item>WED</item>
+        <item>THU</item>
+        <item>FRI</item>
+        <item>SAT</item>
+    </string-array>
+
+
+</resources>

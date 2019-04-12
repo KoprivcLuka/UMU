@@ -3,28 +3,27 @@ package com.urnikium.lukak.umu.Adapters;
 import android.content.Context;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.HorizontalScrollView;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.urnikium.lukak.umu.Classes.Event;
 import com.urnikium.lukak.umu.Classes.TinyDB;
-import com.urnikium.lukak.umu.R;
+import com.urnikium.lukak.umu.*;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
-import java.util.Random;
+
 
 public class RecyclerItemWeek extends RecyclerView.Adapter<RecyclerItemWeek.MyViewHolder> {
     //Tu so arraylist dogodki k bojo unga dneva
@@ -60,11 +59,11 @@ public class RecyclerItemWeek extends RecyclerView.Adapter<RecyclerItemWeek.MyVi
                 tiny.getString("letnik"));
         //i = index dneva
 
-        ArrayList<Event> unignored = DobiFiltirane(TodaysEvents.get(i));
+        final ArrayList<Event> unignored = DobiFiltirane(TodaysEvents.get(i));
 
         for (int j = 0; j < unignored.size(); j++) {
 
-            View EventBox = inflater.inflate(R.layout.singlepredmet, null);
+            final View EventBox = inflater.inflate(R.layout.singlepredmet, null);
             TextView StartText = EventBox.findViewById(R.id.Start);
             TextView EndText = EventBox.findViewById(R.id.End);
             TextView CourseText = EventBox.findViewById(R.id.Course);
@@ -74,6 +73,7 @@ public class RecyclerItemWeek extends RecyclerView.Adapter<RecyclerItemWeek.MyVi
             LinearLayout root = EventBox.findViewById(R.id.root);
             LinearLayout EventTypeColor = EventBox.findViewById(R.id.colortype);
             TextView GroupText = EventBox.findViewById(R.id.Grp);
+            EventBox.setTag(unignored.get(j));
 
             String StartTime = unignored.get(j).startTime.split(":")[0];
             if (StartTime.length() == 1) {
@@ -131,19 +131,7 @@ public class RecyclerItemWeek extends RecyclerView.Adapter<RecyclerItemWeek.MyVi
                             //D2 = next startTime, Cal = EndTime
                             //Če ima naslednik isti začetni čas kot prejšni končni čas
                             if (!(cal.getTimeInMillis() == d2.getTime())) {
-                                int ura = cal.get(Calendar.HOUR_OF_DAY);
-                                String HourOutput = "";
-
-                                if (ura < 10) {
-                                    HourOutput = "0" + ura;
-                                } else {
-                                    HourOutput = ura + "";
-                                }
-                                if (cal.get(Calendar.MINUTE) < 10) {
-                                    EndText.setText(HourOutput + ":0" + cal.get(Calendar.MINUTE));
-                                } else {
-                                    EndText.setText(HourOutput + ":" + cal.get(Calendar.MINUTE));
-                                }
+                                EndText.setText(unignored.get(j).endTime);
                             }
                             //V kateremkoli primeru smo našli naslednika - konec
                             found = true;
@@ -155,39 +143,15 @@ public class RecyclerItemWeek extends RecyclerView.Adapter<RecyclerItemWeek.MyVi
                         break;
                     }
                     if (h == TodaysEvents.size() - 1) {
-                        int ura = cal.get(Calendar.HOUR_OF_DAY);
-                        String HoutOutput = "";
 
-                        if (ura < 10) {
-                            HoutOutput = "0" + ura;
-                        } else {
-                            HoutOutput = ura + "";
-                        }
-                        if (cal.get(Calendar.MINUTE) < 10) {
-                            EndText.setText(HoutOutput + ":0" + cal.get(Calendar.MINUTE));
-                        } else {
-                            EndText.setText(HoutOutput + ":" + cal.get(Calendar.MINUTE));
-                        }
+                        EndText.setText(unignored.get(j).endTime);
+
                     }
                 }
-
             }
             //Ni naslednjega elementa, torej smo na zadnji uri
             else {
-                int ura = cal.get(Calendar.HOUR_OF_DAY);
-                String HourOutput = "";
-
-
-                if (ura < 10) {
-                    HourOutput = "0" + ura;
-                } else {
-                    HourOutput = ura + "";
-                }
-                if (cal.get(Calendar.MINUTE) < 10) {
-                    EndText.setText(HourOutput + ":0" + cal.get(Calendar.MINUTE));
-                } else {
-                    EndText.setText(HourOutput + ":" + cal.get(Calendar.MINUTE));
-                }
+                EndText.setText(unignored.get(j).endTime);
             }
 
             int EventType = EventTypes.indexOf(unignored.get(j).type) % 5;
@@ -235,6 +199,39 @@ public class RecyclerItemWeek extends RecyclerView.Adapter<RecyclerItemWeek.MyVi
                     unignored.get(j).group.year + " " + unignored.get(j).group.subGroup);
             ProfText.setText(unignored.get(j).professor);
             LocationText.setText(unignored.get(j).room);
+
+            EventBox.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
+                    LayoutInflater inflater = (LayoutInflater) view.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                    assert inflater != null;
+                    View v = inflater.inflate(R.layout.event_popup, null);
+                    Event saved = (Event) view.getTag();
+
+                    TextView naziv = v.findViewById(R.id.textView);
+                    TextView tip = v.findViewById(R.id.textView4);
+                    TextView Program = v.findViewById(R.id.textView6);
+                    TextView Skupina = v.findViewById(R.id.textView7);
+                    TextView Profesor = v.findViewById(R.id.textView9);
+                    TextView Location = v.findViewById(R.id.textView10);
+                    TextView Start = v.findViewById(R.id.textView11);
+                    TextView End = v.findViewById(R.id.textView12);
+
+                    naziv.setText(saved.course);
+                    tip.append(": " + saved.type);
+                    Program.append(": " + saved.group.field);
+                    Skupina.append(": " + saved.group.subGroup);
+                    Profesor.append(": " + saved.professor);
+                    Location.append(": " + saved.room);
+                    Start.append(": " + saved.startTime);
+                    End.append(": " + saved.endTime);
+
+
+                    builder.setView(v);
+                    builder.show();
+                }
+            });
             myViewHolder.ureplac.addView(EventBox);
 
         }
@@ -269,4 +266,11 @@ public class RecyclerItemWeek extends RecyclerView.Adapter<RecyclerItemWeek.MyVi
         }
     }
 
+
+
+
 }
+
+
+
+

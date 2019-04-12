@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:orientation="vertical"
@@ -8,10 +7,9 @@
     tools:context=".Views.About">
 
     <TextView
-        android:id="@+id/textView6"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="UMU je samostojni projekt, ki ponuja rešitev fleksibilnega prikaza urnikov celotne Univerze v Mariboru. Če se želite pridružiti k razvijanju projekta ali pa prijaviti napako ter podati svoje mnenje smo dosegljivi na naslednjem naslovu:"
+        android:text="@string/AboutProject"
         android:textColor="#000000" />
 
     <Button
@@ -20,14 +18,13 @@
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
         android:background="@color/colorPrimaryDark"
-        android:text="urnik.um@gmail.com"
+        android:text="@string/ContactMail"
         android:textColor="#ffffff" />
 
     <TextView
-        android:id="@+id/textView7"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Avtorja: \nDomen Jesenovec \nLuka Koprivc"
+        android:text="@string/Authors"
         android:textColor="#000000" />
 
     <TextView
@@ -35,7 +32,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
-        android:text="POLITIKA ZASEBNOSTI"
+        android:text="@string/PrivacyPolicy"
         android:textAlignment="center"
         android:textSize="14sp" />
 </LinearLayout>

@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.urnikium.lukak.umu.Classes.Event;
 import com.urnikium.lukak.umu.R;
 
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -20,8 +21,7 @@ import java.util.Date;
 public class WeekListAdapter extends RecyclerView.Adapter<WeekListAdapter.MyViewHolder> {
     private ArrayList<ArrayList<Event>> list;
     private ArrayList<Date> dates;
-    final private String[] Dnevi = {"NED", "PON", "TOR", "SRE", "ČET", "PET", "SOB"};
-    public Calendar date = Calendar.getInstance();
+    private String[] Dnevi;
 
     public WeekListAdapter(ArrayList<ArrayList<Event>> list, ArrayList<Date> dates) {
         this.list = list;
@@ -33,7 +33,7 @@ public class WeekListAdapter extends RecyclerView.Adapter<WeekListAdapter.MyView
     @Override
     public WeekListAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.recyclerview_week, viewGroup, false);
-
+        Dnevi = viewGroup.getContext().getResources().getStringArray(R.array.Days);
         return new MyViewHolder(v);
     }
 

@@ -14,8 +14,8 @@ import com.google.gson.Gson;
 import com.urnikium.lukak.umu.Classes.Faculty;
 import com.urnikium.lukak.umu.Classes.GroupWYears;
 import com.urnikium.lukak.umu.Adapters.PagerAdapter;
-import com.urnikium.lukak.umu.R;
 import com.urnikium.lukak.umu.Classes.TinyDB;
+import com.urnikium.lukak.umu.R;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -32,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
     Spinner AllFaculties;
     OkHttpClient client = new OkHttpClient();
     ArrayList<Faculty> res;
+    TinyDB tiny;
 
     //TODO OnFail / Loading....
     @Override
@@ -39,24 +40,15 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         AllFaculties = findViewById(R.id.spinner3);
+        tiny = new TinyDB(this);
 
-        try {
-            RequestFaculties(getResources().getString(R.string.ServURL) + "/api/v2/urnik/faculties");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        RequestFaculties(getResources().getString(R.string.ServURL) + "/api/v2/urnik/faculties");
         AllFaculties.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                TinyDB tiny = new TinyDB(getApplicationContext());
                 tiny.putString("faks", AllFaculties.getSelectedItem().toString());
                 tiny.putString("faksshort", res.get(AllFaculties.getSelectedItemPosition()).ShortName);
-                try {
-                    RequestPathsList(getResources().getString(R.string.ServURL) + "/api/v2/urnik/" + res.get(AllFaculties.getSelectedItemPosition()).ShortName + "/groups/years");
-                } catch (IOException e) {
-                    e.printStackTrace();
-
-                }
+                RequestPathsList(getResources().getString(R.string.ServURL) + "/api/v2/urnik/" + res.get(AllFaculties.getSelectedItemPosition()).ShortName + "/groups/years");
 
             }
 
@@ -68,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    void RequestPathsList(String url) throws IOException {
+    void RequestPathsList(String url) {
         Request request = new Request.Builder()
                 .url(url)
                 .build();
@@ -97,7 +89,6 @@ public class MainActivity extends AppCompatActivity {
                                 Gson gson = new Gson();
                                 ArrayList<GroupWYears> res = new ArrayList<>(Arrays.asList(gson.fromJson(json, GroupWYears[].class)));
                                 java.util.Collections.sort(res, new SortByName());
-                                TinyDB tiny = new TinyDB(getApplicationContext());
                                 tiny.putString("groupswyears", json);
                                 ArrayList<String> allpaths = new ArrayList<>();
                                 for (GroupWYears s : res) {
@@ -105,11 +96,11 @@ public class MainActivity extends AppCompatActivity {
                                 }
 
                                 tiny.putListString("allpaths", allpaths);
-                                TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
+                                TabLayout tabLayout = findViewById(R.id.tab_layout);
                                 tabLayout.removeAllTabs();
-                                tabLayout.addTab(tabLayout.newTab().setText("Po programu"));
-                                tabLayout.addTab(tabLayout.newTab().setText("Po profesorju"));
-                                tabLayout.addTab(tabLayout.newTab().setText("Po predmetu"));
+                                tabLayout.addTab(tabLayout.newTab().setText(R.string.ByProgramme));
+                                tabLayout.addTab(tabLayout.newTab().setText(R.string.ByProfessor));
+                                tabLayout.addTab(tabLayout.newTab().setText(R.string.ByCourse));
 
                                 tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
@@ -143,7 +134,7 @@ public class MainActivity extends AppCompatActivity {
                 });
     }
 
-    void RequestFaculties(String url) throws IOException {
+    void RequestFaculties(String url) {
         Request request = new Request.Builder()
                 .url(url)
                 .build();
@@ -176,12 +167,11 @@ public class MainActivity extends AppCompatActivity {
                                 Gson gson = new Gson();
                                 res = new ArrayList<>(Arrays.asList(gson.fromJson(json, Faculty[].class)));
                                 java.util.Collections.sort(res, new SortByNameFac());
-                                TinyDB tiny = new TinyDB(getApplicationContext());
                                 ArrayList<String> zadapter = new ArrayList<>();
                                 for (Faculty f : res) {
                                     zadapter.add(f.LongName);
                                 }
-                                ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(getApplicationContext(),
+                                ArrayAdapter<String> adapter2 = new ArrayAdapter<>(getApplicationContext(),
                                         android.R.layout.simple_spinner_item, zadapter);
 
                                 adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);

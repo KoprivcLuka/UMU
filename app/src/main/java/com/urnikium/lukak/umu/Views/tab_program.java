@@ -17,7 +17,7 @@ import com.google.gson.Gson;
 import com.urnikium.lukak.umu.Classes.GroupWYears;
 import com.urnikium.lukak.umu.Classes.TinyDB;
 import com.urnikium.lukak.umu.R;
-import com.urnikium.lukak.umu.Views.weekView;
+
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -47,15 +47,15 @@ public class tab_program extends Fragment {
 
         final TinyDB tiny = new TinyDB(view.getContext());
         ArrayList<String> res = new ArrayList<>();
-        int index = res.indexOf(tiny.getString("currpath"));
+
         Gson gson = new Gson();
         final List<GroupWYears> groupWYears = Arrays.asList(gson.fromJson(tiny.getString("groupswyears"), GroupWYears[].class));
-        ArrayList<String> leta = new ArrayList<>();
         Collections.sort(groupWYears, new SortByName());
         for (GroupWYears e : groupWYears) {
             res.add(e.Name);
         }
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(view.getContext(), android.R.layout.simple_spinner_item, res);
+        int index = res.indexOf(tiny.getString("currpath"));
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(view.getContext(), android.R.layout.simple_spinner_item, res);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         AllPaths = view.findViewById(R.id.spinner);
         Year = view.findViewById(R.id.spinner2);
@@ -71,7 +71,7 @@ public class tab_program extends Fragment {
                     krsmlen.add(s + "");
                 }
                 Collections.sort(krsmlen);
-                ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(getContext(),
+                ArrayAdapter<String> adapter2 = new ArrayAdapter<>(getContext(),
                         android.R.layout.simple_spinner_item, krsmlen);
                 adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
@@ -100,18 +100,14 @@ public class tab_program extends Fragment {
             @Override
             public void onClick(View view) {
 //I mean lazji je use stegnt kr niam counterja za letnike.. 30kb razlike...
-                try {
-                    RequestPath(getResources().getString(R.string.ServURL) + "/api/v2/urnik/" + tiny.getString("faksshort") + "/" + AllPaths.getSelectedItem() + "/" + Year.getSelectedItem());
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                RequestPath(getResources().getString(R.string.ServURL) + "/api/v2/urnik/" + tiny.getString("faksshort") + "/" + AllPaths.getSelectedItem() + "/" + Year.getSelectedItem());
             }
         });
 
 
     }
 
-    void RequestPath(String url) throws IOException {
+    void RequestPath(String url) {
         Request request = new Request.Builder()
                 .url(url)
                 .build();
@@ -135,6 +131,7 @@ public class tab_program extends Fragment {
                     public void onResponse(okhttp3.Call call, final okhttp3.Response response) throws IOException {
 
                         final String json = response.body().string();
+                        if(getActivity() == null){return;}
                         getActivity().runOnUiThread(new Runnable() {
                             @Override
                             public void run() {

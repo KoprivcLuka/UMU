@@ -7,18 +7,18 @@
         android:id="@+id/menu_calendar"
         app:showAsAction="always"
         android:icon="@drawable/ic_date_range_white"
-        android:title="Izberi datum" />
+        android:title="@string/ChooseDate" />
 
     <item
         android:icon="@drawable/ic_settings_white"
         android:id="@+id/menu_settings"
         app:showAsAction="always"
-        android:title="Nastavitve" />
+        android:title="@string/Settings" />
 
     <item
         android:id="@+id/menu_about"
         app:showAsAction="ifRoom"
         android:icon="@drawable/ic_info_outline_white"
-        android:title="About" />
+        android:title="@string/About" />
 
 </menu>

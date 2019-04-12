@@ -18,9 +18,9 @@ import android.widget.PopupMenu;
 
 import com.google.gson.Gson;
 import com.urnikium.lukak.umu.Classes.Event;
-import com.urnikium.lukak.umu.R;
 import com.urnikium.lukak.umu.Classes.TinyDB;
 import com.urnikium.lukak.umu.Adapters.WeekListAdapter;
+import com.urnikium.lukak.umu.R;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -35,8 +35,8 @@ import java.util.List;
 
 public class weekView extends AppCompatActivity {
 
-    List<Event> res = new ArrayList<Event>();
-    List<Date> dates = new ArrayList<Date>();
+    List<Event> res = new ArrayList<>();
+    List<Date> dates = new ArrayList<>();
     ArrayList<Date> validdates = new ArrayList<>();
     List<String> cats = new ArrayList<>();
     ArrayList<String> types = new ArrayList<>();
@@ -48,7 +48,6 @@ public class weekView extends AppCompatActivity {
         setContentView(R.layout.activity_week_view);
         ActionBar bar = getSupportActionBar();
         bar.setDisplayHomeAsUpEnabled(true);
-        Calendar Day = Calendar.getInstance();
         rec = findViewById(R.id.recvieweek);
 
 
@@ -84,6 +83,8 @@ public class weekView extends AppCompatActivity {
                     cats.add(res.get(i).group.subGroup);
                 }
             }
+
+            PreracunajEndTime(res.get(i));
 
         }
 
@@ -152,11 +153,8 @@ public class weekView extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(final Menu menu) {
-        final Context con = this;
         MenuInflater inflater = getMenuInflater();
-
         inflater.inflate(R.menu.mainmenu, menu);
-
 
         return true;
     }
@@ -329,6 +327,37 @@ public class weekView extends AppCompatActivity {
             else if (d1.getTime() == d1.getTime()) return 0;
             else return 1;
         }
+    }
+
+    public void PreracunajEndTime(Event ev) {
+        SimpleDateFormat parser = new SimpleDateFormat("HH:mm");
+        Date d1 = new Date();
+        try {
+            d1 = parser.parse(ev.startTime);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        Calendar cal = Calendar.getInstance();
+        long NewTime = d1.getTime() + (long) (ev.duration * 60 * 1000);
+        cal.setTimeInMillis(NewTime);
+        int ura = cal.get(Calendar.HOUR_OF_DAY);
+
+        String HourOutput = "";
+
+
+        if (ura < 10) {
+            HourOutput = "0" + ura;
+        } else {
+            HourOutput = ura + "";
+        }
+        if (cal.get(Calendar.MINUTE) < 10) {
+            ev.endTime = HourOutput + ":0" + cal.get(Calendar.MINUTE);
+        } else {
+            ev.endTime = HourOutput + ":" + cal.get(Calendar.MINUTE);
+        }
+
+
     }
 }
 

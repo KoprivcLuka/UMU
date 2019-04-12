@@ -15,7 +15,7 @@ import android.widget.Spinner;
 import com.google.gson.Gson;
 import com.urnikium.lukak.umu.Classes.TinyDB;
 import com.urnikium.lukak.umu.R;
-import com.urnikium.lukak.umu.Views.weekView;
+
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -36,24 +36,19 @@ public class tab_predm extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
         return inflater.inflate(R.layout.fragment_tab_predm, container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 
-        try {
-            TinyDB tiny = new TinyDB(getContext());
-            RequestPreds(getResources().getString(R.string.ServURL) + "/api/v2/urnik/" + tiny.getString("faksshort") + "/courses");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        TinyDB tiny = new TinyDB(getContext());
+        RequestPreds(getResources().getString(R.string.ServURL) + "/api/v2/urnik/" + tiny.getString("faksshort") + "/courses");
         super.onViewCreated(view, savedInstanceState);
 
     }
 
-    void RequestPreds(String url) throws IOException {
+    void RequestPreds(String url) {
         Request request = new Request.Builder()
                 .url(url)
                 .build();
@@ -77,6 +72,9 @@ public class tab_predm extends Fragment {
                     public void onResponse(okhttp3.Call call, final okhttp3.Response response) throws IOException {
 
                         final String json = response.body().string();
+                        if (getActivity() == null) {
+                            return;
+                        }
                         getActivity().runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
@@ -85,7 +83,7 @@ public class tab_predm extends Fragment {
                                 Gson gson = new Gson();
                                 predmeti = Arrays.asList(gson.fromJson(json, String[].class));
                                 Collections.sort(predmeti);
-                                ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(getView().getContext(),
+                                ArrayAdapter<String> adapter2 = new ArrayAdapter<>(getView().getContext(),
                                         android.R.layout.simple_spinner_item, predmeti);
                                 final TinyDB tiny = new TinyDB(getView().getContext());
                                 adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -96,13 +94,9 @@ public class tab_predm extends Fragment {
                                 selectpred.setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View view) {
-                                        try {
 
-                                            tiny.putString("predm", spins.getSelectedItem().toString());
-                                            RequestPredEv(getResources().getString(R.string.ServURL) + "/api/v2/urnik/" + tiny.getString("faksshort") + "/course/" + spins.getSelectedItem().toString());
-                                        } catch (IOException e) {
-                                            e.printStackTrace();
-                                        }
+                                        tiny.putString("predm", spins.getSelectedItem().toString());
+                                        RequestPredEv(getResources().getString(R.string.ServURL) + "/api/v2/urnik/" + tiny.getString("faksshort") + "/course/" + spins.getSelectedItem().toString());
                                     }
                                 });
 
@@ -123,7 +117,7 @@ public class tab_predm extends Fragment {
                 });
     }
 
-    void RequestPredEv(String url) throws IOException {
+    void RequestPredEv(String url) {
         Request request = new Request.Builder()
                 .url(url)
                 .build();

@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.urnikium.lukak.umu.R;
 
+
 public class About extends AppCompatActivity {
 
     @Override
@@ -29,7 +30,7 @@ public class About extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(Intent.ACTION_SEND);
                 intent.setType("text/html");
-                intent.putExtra(Intent.EXTRA_EMAIL, "urnik.um@gmail.com" );
+                intent.putExtra(Intent.EXTRA_EMAIL, R.string.ContactMail );
 
                 startActivity(intent);
             }
