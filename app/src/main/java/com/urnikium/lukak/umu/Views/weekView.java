@@ -15,6 +15,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.PopupMenu;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.urnikium.lukak.umu.Classes.Event;
@@ -22,6 +23,7 @@ import com.urnikium.lukak.umu.Classes.TinyDB;
 import com.urnikium.lukak.umu.Adapters.WeekListAdapter;
 import com.urnikium.lukak.umu.R;
 
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -32,6 +34,10 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
+
+import okhttp3.Callback;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
 
 public class weekView extends AppCompatActivity {
 
@@ -52,15 +58,34 @@ public class weekView extends AppCompatActivity {
 
 
         TinyDB tiny = new TinyDB(getApplicationContext());
+        if (tiny.getString("lastq").equals("")) {
+            startActivity(new Intent(this, MainActivity.class));
+            finish();
+            return;
+        } else {
+            RequestPath(getResources().getString(R.string.ServURL) + tiny.getString("lastq"));
+        }
+        Refresh();
+
+    }
+
+
+    public void Refresh() {
+        res = new ArrayList<>();
+        dates = new ArrayList<>();
+        validdates = new ArrayList<>();
+        cats = new ArrayList<>();
+        types = new ArrayList<>();
+        TinyDB tiny = new TinyDB(this);
+        String json = tiny.getString("events");
+        Gson gson = new Gson();
+        if (json.equals("")) return;
+        res = Arrays.asList(gson.fromJson(json, Event[].class));
         if (!tiny.getString("letnik").equals("")) {
             this.setTitle(tiny.getString("currpath") + " - " + tiny.getString("letnik") + ". letnik");
         } else {
             this.setTitle(tiny.getString("currpath"));
         }
-
-        String json = tiny.getString("events");
-        Gson gson = new Gson();
-        res = Arrays.asList(gson.fromJson(json, Event[].class));
 
         int zadntedn = 0;
         for (int i = 0; i < res.size(); i++) {
@@ -147,9 +172,7 @@ public class weekView extends AppCompatActivity {
 
 
         rec.setAdapter(new WeekListAdapter(everything, validdates));
-
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(final Menu menu) {
@@ -161,6 +184,7 @@ public class weekView extends AppCompatActivity {
 
     @Override
     public boolean onSupportNavigateUp() {
+        startActivity(new Intent(this, MainActivity.class));
         finish();
         return true;
     }
@@ -358,6 +382,46 @@ public class weekView extends AppCompatActivity {
         }
 
 
+    }
+
+    void RequestPath(String url) {
+        Request request = new Request.Builder()
+                .url(url)
+                .build();
+
+        OkHttpClient client = new OkHttpClient();
+        client.newCall(request)
+                .enqueue(new Callback() {
+                    @Override
+                    public void onFailure(final okhttp3.Call call, IOException e) {
+                        // Error
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast toast = Toast.makeText(getApplicationContext(), "Napaka pri osveževanju, preverite povezavo", Toast.LENGTH_LONG);
+                                toast.show();
+
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onResponse(okhttp3.Call call, final okhttp3.Response response) throws IOException {
+
+                        final String json = response.body().string();
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                TinyDB tiny = new TinyDB(getApplicationContext());
+                                tiny.putString("events", json);
+                                Refresh();
+
+                            }
+                        });
+
+
+                    }
+                });
     }
 }
 

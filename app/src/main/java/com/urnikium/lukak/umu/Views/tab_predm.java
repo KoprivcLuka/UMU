@@ -96,7 +96,11 @@ public class tab_predm extends Fragment {
                                     public void onClick(View view) {
 
                                         tiny.putString("predm", spins.getSelectedItem().toString());
-                                        RequestPredEv(getResources().getString(R.string.ServURL) + "/api/v2/urnik/" + tiny.getString("faksshort") + "/course/" + spins.getSelectedItem().toString());
+                                        tiny.putString("lastq", "/api/v2/urnik/" + tiny.getString("faksshort") + "/course/" + spins.getSelectedItem().toString());
+                                        tiny.putString("currpath", spins.getSelectedItem().toString());
+                                        tiny.putString("letnik", "");
+                                        startActivity(new Intent(getView().getContext(), weekView.class));
+
                                     }
                                 });
 
@@ -117,48 +121,5 @@ public class tab_predm extends Fragment {
                 });
     }
 
-    void RequestPredEv(String url) {
-        Request request = new Request.Builder()
-                .url(url)
-                .build();
-
-        client.newCall(request)
-                .enqueue(new Callback() {
-                    @Override
-                    public void onFailure(final okhttp3.Call call, IOException e) {
-                        // Error
-                        getActivity().runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                // For the example, you can show an error dialog or a toast
-                                // on the main UI thread
-
-                            }
-                        });
-                    }
-
-                    @Override
-                    public void onResponse(okhttp3.Call call, final okhttp3.Response response) throws IOException {
-
-                        final String json = response.body().string();
-                        getActivity().runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                // For the example, you can show an error dialog or a toast
-                                // on the main UI thread
-                                TinyDB tiny = new TinyDB(getView().getContext());
-                                tiny.putString("events", json);
-                                tiny.putString("currpath", spins.getSelectedItem().toString());
-                                tiny.putString("letnik", "");
-                                startActivity(new Intent(getView().getContext(), weekView.class));
-
-
-                            }
-                        });
-
-
-                    }
-                });
-    }
 
 }

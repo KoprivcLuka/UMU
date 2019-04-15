@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.urnikium.lukak.umu.Classes.Faculty;
@@ -85,7 +86,7 @@ public class MainActivity extends AppCompatActivity {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                //TODO prestavi v tab_predm
+
                                 Gson gson = new Gson();
                                 ArrayList<GroupWYears> res = new ArrayList<>(Arrays.asList(gson.fromJson(json, GroupWYears[].class)));
                                 java.util.Collections.sort(res, new SortByName());
@@ -148,9 +149,8 @@ public class MainActivity extends AppCompatActivity {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                // For the example, you can show an error dialog or a toast
-                                // on the main UI thread
-
+                                Toast toast = Toast.makeText(getApplicationContext(), "Napaka pri osveževanju, preverite povezavo", Toast.LENGTH_LONG);
+                                toast.show();
                             }
                         });
                     }
@@ -205,4 +205,6 @@ public class MainActivity extends AppCompatActivity {
             return a.LongName.compareTo(b.LongName);
         }
     }
+
+
 }

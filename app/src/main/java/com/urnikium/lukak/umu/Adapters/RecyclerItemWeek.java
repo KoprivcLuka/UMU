@@ -45,8 +45,7 @@ public class RecyclerItemWeek extends RecyclerView.Adapter<RecyclerItemWeek.MyVi
                 tiny.getString("letnik") + "types");
         View v = LayoutInflater.from(viewGroup.getContext())
                 .inflate(R.layout.urnikadapter, viewGroup, false);
-        MyViewHolder holder = new MyViewHolder(v);
-        return holder;
+        return new MyViewHolder(v);
     }
 
 
@@ -265,8 +264,6 @@ public class RecyclerItemWeek extends RecyclerView.Adapter<RecyclerItemWeek.MyVi
 
         }
     }
-
-
 
 
 }

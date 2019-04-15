@@ -99,61 +99,19 @@ public class tab_program extends Fragment {
         PathSelected.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//I mean lazji je use stegnt kr niam counterja za letnike.. 30kb razlike...
-                RequestPath(getResources().getString(R.string.ServURL) + "/api/v2/urnik/" + tiny.getString("faksshort") + "/" + AllPaths.getSelectedItem() + "/" + Year.getSelectedItem());
+
+                TinyDB tiny = new TinyDB(getView().getContext());
+                tiny.putString("lastq","/api/v2/urnik/" + tiny.getString("faksshort") + "/" + AllPaths.getSelectedItem() + "/" + Year.getSelectedItem());
+                tiny.putString("currpath", AllPaths.getSelectedItem().toString());
+                tiny.putString("letnik", Year.getSelectedItem().toString());
+                startActivity(new Intent(getView().getContext(), weekView.class));
             }
         });
 
 
     }
 
-    void RequestPath(String url) {
-        Request request = new Request.Builder()
-                .url(url)
-                .build();
 
-        client.newCall(request)
-                .enqueue(new Callback() {
-                    @Override
-                    public void onFailure(final okhttp3.Call call, IOException e) {
-                        // Error
-                        getActivity().runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                // For the example, you can show an error dialog or a toast
-                                // on the main UI thread
-
-                            }
-                        });
-                    }
-
-                    @Override
-                    public void onResponse(okhttp3.Call call, final okhttp3.Response response) throws IOException {
-
-                        final String json = response.body().string();
-                        if(getActivity() == null){return;}
-                        getActivity().runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                // For the example, you can show an error dialog or a toast
-                                // on the main UI thread
-                               /* Gson gson = new Gson();
-                                List<Event> res = Arrays.asList(gson.fromJson(json, Event[].class)); */
-                                TinyDB tiny = new TinyDB(getView().getContext());
-                                tiny.putString("events", json);
-                                tiny.putString("currpath", AllPaths.getSelectedItem().toString());
-                                tiny.putString("letnik", Year.getSelectedItem().toString());
-
-                                startActivity(new Intent(getView().getContext(), weekView.class));
-
-
-                            }
-                        });
-
-
-                    }
-                });
-    }
 
     class SortByName implements Comparator<GroupWYears> {
         public int compare(GroupWYears a, GroupWYears b) {

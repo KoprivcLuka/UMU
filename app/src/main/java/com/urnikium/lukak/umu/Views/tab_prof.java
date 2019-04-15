@@ -54,7 +54,11 @@ public class tab_prof extends Fragment {
             public void onClick(View view) {
                 final TinyDB tiny = new TinyDB(getView().getContext());
                 tiny.putString("prof", spins.getSelectedItem().toString());
-                RequestProfsEvents(getResources().getString(R.string.ServURL) + "/api/v2/urnik/" + tiny.getString("faksshort") + "/professor/" + spins.getSelectedItem().toString());
+                tiny.putString("lastq", "/api/v2/urnik/" + tiny.getString("faksshort") + "/professor/" + spins.getSelectedItem().toString());
+                tiny.putString("currpath", spins.getSelectedItem().toString());
+                tiny.putString("letnik", "");
+                startActivity(new Intent(getContext(), weekView.class));
+
             }
         });
 
@@ -84,7 +88,9 @@ public class tab_prof extends Fragment {
                     public void onResponse(okhttp3.Call call, final okhttp3.Response response) throws IOException {
 
                         final String json = response.body().string();
-                        if(getActivity() == null){return;}
+                        if (getActivity() == null) {
+                            return;
+                        }
                         getActivity().runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
@@ -118,46 +124,4 @@ public class tab_prof extends Fragment {
                 });
     }
 
-    void RequestProfsEvents(String url) {
-        Request request = new Request.Builder()
-                .url(url)
-                .build();
-
-        client.newCall(request)
-                .enqueue(new Callback() {
-                    @Override
-                    public void onFailure(final okhttp3.Call call, IOException e) {
-                        // Error
-                        getActivity().runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                // For the example, you can show an error dialog or a toast
-                                // on the main UI thread
-
-                            }
-                        });
-                    }
-
-                    @Override
-                    public void onResponse(okhttp3.Call call, final okhttp3.Response response) throws IOException {
-
-                        final String json = response.body().string();
-                        getActivity().runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                // For the example, you can show an error dialog or a toast
-                                // on the main UI thread
-                                TinyDB tiny = new TinyDB(getContext());
-                                tiny.putString("events", json);
-                                tiny.putString("currpath", spins.getSelectedItem().toString());
-                                tiny.putString("letnik", "");
-                                startActivity(new Intent(getContext(), weekView.class));
-
-                            }
-                        });
-
-
-                    }
-                });
-    }
 }
