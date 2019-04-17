@@ -86,6 +86,7 @@ public class weekView extends AppCompatActivity {
         validdates = new ArrayList<>();
         cats = new ArrayList<>();
         types = new ArrayList<>();
+        predms = new ArrayList<>();
         TinyDB tiny = new TinyDB(this);
         IgnoredGroups = tiny.getListString(tiny.getString("currpath") +
                 tiny.getString("letnik"));
