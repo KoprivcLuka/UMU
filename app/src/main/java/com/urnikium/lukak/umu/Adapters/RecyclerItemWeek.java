@@ -58,7 +58,7 @@ public class RecyclerItemWeek extends RecyclerView.Adapter<RecyclerItemWeek.MyVi
                 tiny.getString("letnik"));
         //i = index dneva
 
-        final ArrayList<Event> unignored = DobiFiltirane(TodaysEvents.get(i));
+        final ArrayList<Event> unignored = TodaysEvents.get(i);
 
         for (int j = 0; j < unignored.size(); j++) {
 

@@ -149,7 +149,7 @@ public class MainActivity extends AppCompatActivity {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                Toast toast = Toast.makeText(getApplicationContext(), "Napaka pri osveževanju, preverite povezavo", Toast.LENGTH_LONG);
+                                Toast toast = Toast.makeText(getApplicationContext(), R.string.ErrorLoad, Toast.LENGTH_LONG);
                                 toast.show();
                             }
                         });
@@ -195,14 +195,14 @@ public class MainActivity extends AppCompatActivity {
     class SortByName implements Comparator<GroupWYears> {
         public int compare(GroupWYears a, GroupWYears b) {
 
-            return a.Name.compareTo(b.Name);
+            return a.Name.toLowerCase().compareTo(b.Name.toLowerCase());
         }
     }
 
     class SortByNameFac implements Comparator<Faculty> {
         public int compare(Faculty a, Faculty b) {
 
-            return a.LongName.compareTo(b.LongName);
+            return a.LongName.toLowerCase().compareTo(b.LongName.toLowerCase());
         }
     }
 

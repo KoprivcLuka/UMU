@@ -2,9 +2,11 @@ package com.urnikium.lukak.umu.Views;
 
 import android.app.DatePickerDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -18,6 +20,7 @@ import android.widget.PopupMenu;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonParseException;
 import com.urnikium.lukak.umu.Classes.Event;
 import com.urnikium.lukak.umu.Classes.TinyDB;
 import com.urnikium.lukak.umu.Adapters.WeekListAdapter;
@@ -34,6 +37,7 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.Locale;
 
 import okhttp3.Callback;
 import okhttp3.OkHttpClient;
@@ -45,7 +49,10 @@ public class weekView extends AppCompatActivity {
     List<Date> dates = new ArrayList<>();
     ArrayList<Date> validdates = new ArrayList<>();
     List<String> cats = new ArrayList<>();
+    ArrayList<String> predms = new ArrayList<>();
     ArrayList<String> types = new ArrayList<>();
+    ArrayList<String> IgnoredGroups = new ArrayList<>();
+    ArrayList<String> IgnoredCourses = new ArrayList<>();
     RecyclerView rec;
 
     @Override
@@ -55,9 +62,12 @@ public class weekView extends AppCompatActivity {
         ActionBar bar = getSupportActionBar();
         bar.setDisplayHomeAsUpEnabled(true);
         rec = findViewById(R.id.recvieweek);
-
-
         TinyDB tiny = new TinyDB(getApplicationContext());
+
+
+
+
+
         if (tiny.getString("lastq").equals("")) {
             startActivity(new Intent(this, MainActivity.class));
             finish();
@@ -77,10 +87,25 @@ public class weekView extends AppCompatActivity {
         cats = new ArrayList<>();
         types = new ArrayList<>();
         TinyDB tiny = new TinyDB(this);
+        IgnoredGroups = tiny.getListString(tiny.getString("currpath") +
+                tiny.getString("letnik"));
+        IgnoredCourses = tiny.getListString(tiny.getString("currpath") + tiny.getString("letnik") + "predmsIgnore");
         String json = tiny.getString("events");
         Gson gson = new Gson();
+        Locale locale = new Locale(tiny.getString("lang"));
+        Locale.setDefault(locale);
+        Configuration config = new Configuration();
+        config.locale = locale;
+        getBaseContext().getResources().updateConfiguration(config,
+                getBaseContext().getResources().getDisplayMetrics());
         if (json.equals("")) return;
-        res = Arrays.asList(gson.fromJson(json, Event[].class));
+        try {
+            res = Arrays.asList(gson.fromJson(json, Event[].class));
+        } catch (JsonParseException e) {
+            startActivity(new Intent(this, MainActivity.class));
+            finish();
+            return;
+        }
         if (!tiny.getString("letnik").equals("")) {
             this.setTitle(tiny.getString("currpath") + " - " + tiny.getString("letnik") + ". letnik");
         } else {
@@ -102,6 +127,13 @@ public class weekView extends AppCompatActivity {
                 }
             }
 
+            if (!predms.contains(res.get(i).course)) {
+                if (!res.get(i).course.equals("")) {
+
+                    predms.add(res.get(i).course);
+                }
+            }
+
             if (!cats.contains(res.get(i).group.subGroup)) {
                 if (!res.get(i).group.subGroup.equals("")) {
 
@@ -114,8 +146,11 @@ public class weekView extends AppCompatActivity {
         }
 
         Collections.sort(types);
-        java.util.Collections.sort(cats);
+        Collections.sort(cats);
+        Collections.sort(predms);
+
         tiny.putListString(tiny.getString("currpath") + tiny.getString("letnik") + "types", types);
+        tiny.putListString(tiny.getString("currpath") + tiny.getString("letnik") + "predms", predms);
 
         Calendar now = Calendar.getInstance();
         Calendar begining = Calendar.getInstance();
@@ -142,9 +177,10 @@ public class weekView extends AppCompatActivity {
             Calendar td = new GregorianCalendar();
             td.setTimeInMillis(d.getTime());
             int weeks = Math.round((float) (td.getTimeInMillis() - begining.getTimeInMillis()) / (1000 * 60 * 60 * 24 * 7)) + 1;
-            for (int i = 0; i < res.size(); i++) {
-                Event ev = res.get(i);
-                if (ev.endWeek >= weeks && ev.beginWeek <= weeks && (ev.dayOfWeek + 1 == (td.get(Calendar.DAY_OF_WEEK)) - 1)) {
+            List<Event> unigonored = DobiFiltirane(res);
+            for (int i = 0; i < unigonored.size(); i++) {
+                Event ev = unigonored.get(i);
+                if (ev.endWeek >= weeks && ev.beginWeek <= weeks && (ev.dayOfWeek == (td.get(Calendar.DAY_OF_WEEK)) - 2)) {
                     today.add(ev);
 
                 }
@@ -267,67 +303,153 @@ public class weekView extends AppCompatActivity {
                 break;
             case R.id.menu_settings:
 
+                final Context con = this;
                 final PopupMenu menu = new PopupMenu(this, findViewById(R.id.menu_settings));
-                TinyDB tiny = new TinyDB(getApplicationContext());
-                ArrayList<String> toignore = tiny.getListString(tiny.getString("currpath") + tiny.getString("letnik"));
-                for (String s : cats) {
-
-                    if (!toignore.contains(s)) {
-                        menu.getMenu().add(s).setCheckable(true).setChecked(true);
-                    } else {
-                        menu.getMenu().add(s).setCheckable(true).setChecked(false);
-                    }
-
-                }
-                menu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                menu.getMenu().add(R.string.FilterGroups).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
                     @Override
                     public boolean onMenuItemClick(MenuItem menuItem) {
-                        menuItem.setChecked(!menuItem.isChecked());
-
-                        menuItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW);
-                        menuItem.setActionView(new View(getApplicationContext()));
-                        menuItem.setOnActionExpandListener(new MenuItem.OnActionExpandListener() {
-                            @Override
-                            public boolean onMenuItemActionExpand(MenuItem item) {
-                                return false;
-                            }
-
-                            @Override
-                            public boolean onMenuItemActionCollapse(MenuItem item) {
-                                return false;
-                            }
-                        });
-                        return false;
-
-                    }
-
-
-                });
-                menu.setOnDismissListener(new PopupMenu.OnDismissListener() {
-                    @Override
-                    public void onDismiss(PopupMenu popupMenu) {
-                        ArrayList<String> ignorecat = new ArrayList<>();
-                        TinyDB tiny = new TinyDB(getApplicationContext());
-                        for (int i = 0; i < cats.size(); i++) {
-                            if (!popupMenu.getMenu().getItem(i).isChecked()) {
-                                ignorecat.add(popupMenu.getMenu().getItem(i).getTitle().toString());
+                        AlertDialog.Builder builder = new AlertDialog.Builder(con);
+                        // Set the dialog title
+                        builder.setTitle(R.string.FilterGroups);
+                        final TinyDB tiny = new TinyDB(getApplicationContext());
+                        final ArrayList<String> toignore = tiny.getListString(tiny.getString("currpath") + tiny.getString("letnik"));
+                        boolean[] checkboxes = new boolean[cats.size()];
+                        int cntr = 0;
+                        for (String s : cats) {
+                            if (!toignore.contains(s)) {
+                                checkboxes[cntr++] = true;
+                            } else {
+                                checkboxes[cntr++] = false;
                             }
                         }
 
-                        tiny.putListString(tiny.getString("currpath") + tiny.getString("letnik"), ignorecat);
-                        rec.getAdapter().notifyDataSetChanged();
+                        builder.setMultiChoiceItems(cats.toArray(new String[]{}), checkboxes,
+                                new DialogInterface.OnMultiChoiceClickListener() {
 
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i, boolean b) {
+                                        if (!b) {
+                                            // If the user checked the item, add it to the selected items
+                                            toignore.add(cats.get(i));
+                                        } else if (toignore.contains(cats.get(i))) {
+                                            // Else, if the item is already in the array, remove it
+                                            toignore.remove(cats.get(i));
+                                        }
+
+
+                                    }
+                                });
+                        builder.setPositiveButton(R.string.Save, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int id) {
+
+                                tiny.putListString(tiny.getString("currpath") + tiny.getString("letnik"), toignore);
+                                Refresh();
+                            }
+                        });
+                        builder.setNegativeButton(R.string.Cancel, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int id) {
+
+                            }
+                        });
+                        builder.show();
+
+                        return false;
+                    }
+                });
+                menu.getMenu().add(R.string.FilterCourses).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem menuItem) {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(con);
+                        // Set the dialog title
+                        builder.setTitle(R.string.FilterCourses);
+                        final TinyDB tiny = new TinyDB(getApplicationContext());
+                        final ArrayList<String> toignore = tiny.getListString(tiny.getString("currpath") + tiny.getString("letnik") + "predmsIgnore");
+                        boolean[] checkboxes = new boolean[predms.size()];
+                        int cntr = 0;
+                        for (String s : predms) {
+                            if (!toignore.contains(s)) {
+                                checkboxes[cntr++] = true;
+                            } else {
+                                checkboxes[cntr++] = false;
+                            }
+                        }
+
+                        builder.setMultiChoiceItems(predms.toArray(new String[]{}), checkboxes,
+                                new DialogInterface.OnMultiChoiceClickListener() {
+
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i, boolean b) {
+                                        if (!b) {
+                                            // If the user checked the item, add it to the selected items
+                                            toignore.add(predms.get(i));
+                                        } else if (toignore.contains(predms.get(i))) {
+                                            // Else, if the item is already in the array, remove it
+                                            toignore.remove(predms.get(i));
+                                        }
+
+
+                                    }
+                                });
+                        builder.setPositiveButton(R.string.Save, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int id) {
+
+                                tiny.putListString(tiny.getString("currpath") + tiny.getString("letnik") + "predmsIgnore", toignore);
+                                Refresh();
+                            }
+                        });
+                        builder.setNegativeButton(R.string.Cancel, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int id) {
+
+                            }
+                        });
+                        builder.show();
+
+                        return false;
 
                     }
                 });
+                menu.getMenu().add(R.string.ChooseLanguage).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem menuItem) {
+                        final TinyDB tiny = new TinyDB(getApplicationContext());
+                        String[] Languages = new String[] {"Slovenščina", "English"};
+                        AlertDialog.Builder builder = new AlertDialog.Builder(con);
+                        builder.setTitle(R.string.ChooseLanguage)
+                                .setItems(Languages, new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        // The 'which' argument contains the index position
+                                        // of the selected item
+                                        switch (which)
+                                        {
+                                            case 0:
+                                                tiny.putString("lang","si");
+                                                break;
+
+                                            case 1:
+                                                tiny.putString("lang","en");
+                                                break;
+                                        }
+                                        Refresh();
+                                    }
+                                });
+                        builder.show();
+
+
+                        return false;
+                    }
+                });
+
                 menu.show();
-
-
                 break;
 
             case R.id.menu_about:
 
                 startActivity(new Intent(getApplicationContext(), About.class));
+                break;
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -351,6 +473,7 @@ public class weekView extends AppCompatActivity {
             else if (d1.getTime() == d1.getTime()) return 0;
             else return 1;
         }
+
     }
 
     public void PreracunajEndTime(Event ev) {
@@ -366,9 +489,7 @@ public class weekView extends AppCompatActivity {
         long NewTime = d1.getTime() + (long) (ev.duration * 60 * 1000);
         cal.setTimeInMillis(NewTime);
         int ura = cal.get(Calendar.HOUR_OF_DAY);
-
         String HourOutput = "";
-
 
         if (ura < 10) {
             HourOutput = "0" + ura;
@@ -380,7 +501,6 @@ public class weekView extends AppCompatActivity {
         } else {
             ev.endTime = HourOutput + ":" + cal.get(Calendar.MINUTE);
         }
-
 
     }
 
@@ -398,7 +518,7 @@ public class weekView extends AppCompatActivity {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                Toast toast = Toast.makeText(getApplicationContext(), "Napaka pri osveževanju, preverite povezavo", Toast.LENGTH_LONG);
+                                Toast toast = Toast.makeText(getApplicationContext(), R.string.ErrorRefresh, Toast.LENGTH_LONG);
                                 toast.show();
 
                             }
@@ -415,13 +535,21 @@ public class weekView extends AppCompatActivity {
                                 TinyDB tiny = new TinyDB(getApplicationContext());
                                 tiny.putString("events", json);
                                 Refresh();
-
                             }
                         });
-
-
                     }
                 });
+    }
+
+    public ArrayList<Event> DobiFiltirane(List<Event> evs) {
+        ArrayList<Event> toreturn = new ArrayList<>();
+        for (Event ev : evs) {
+            if (!IgnoredGroups.contains(ev.group.subGroup) && (!IgnoredCourses.contains(ev.course))) {
+                toreturn.add(ev);
+            }
+        }
+
+        return toreturn;
     }
 }
 

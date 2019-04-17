@@ -6,7 +6,7 @@
     <string name="AboutProject"> UMU je samostojni projekt, ki ponuja rešitev fleksibilnega prikaza urnikov celotne Univerze v Mariboru. Če se želite pridružiti k razvijanju projekta ali pa prijaviti napako ter podati svoje mnenje smo dosegljivi na naslednjem naslovu:</string>
     <string name="PrivacyPolicy">POLITIKA ZASEBNOSTI</string>
     <string name="Authors">Avtorja: \nDomen Jesenovec \nLuka Koprivc</string>
-    
+
     <string name="ChooseFaculty">Izberi fakulteto</string>
     <string name="ChooseClass">Izberi predmet</string>
     <string name="ChooseProfessor">Izberi profesorja</string>
@@ -30,6 +30,15 @@
     <string name="ByProfessor">Po profesorju</string>
     <string name="ByCourse">Po predmetu</string>
 
+    <string name="ErrorRefresh">Napaka pri osveževanju, preverite povezavo in ponovno odprite aplikacijo!</string>
+    <string name="ErrorLoad">Napaka pri povezovanju, preverite povezavo in ponovno odprite aplikacijo!</string>
+
+    <string name="FilterGroups">Filtriraj skupine</string>
+    <string name="FilterCourses">Filtriraj predmete</string>
+    <string name="ChooseLanguage">Nastavi jezik</string>
+
+    <string name="Save">Shrani</string>
+    <string name="Cancel">Prekliči</string>
     <string-array name="Days">
         <item>NED</item>
         <item>PON</item>

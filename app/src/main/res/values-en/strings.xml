@@ -30,6 +30,16 @@
     <string name="ByProfessor">By professor</string>
     <string name="ByCourse">By course</string>
 
+    <string name="ErrorRefresh">Error while refreshing, check your connection and re-open the app!</string>
+    <string name="ErrorLoad">Error while loading, check your connection and re-open the app!</string>
+
+    <string name="FilterGroups">Filter groups</string>
+    <string name="FilterCourses">Filter courses</string>
+    <string name="ChooseLanguage">Set language</string>
+
+    <string name="Save">Save</string>
+    <string name="Cancel">Cancel</string>
+
     <string-array name="Days">
         <item>SUN</item>
         <item>MON</item>
