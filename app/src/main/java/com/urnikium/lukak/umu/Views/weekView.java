@@ -64,6 +64,25 @@ public class weekView extends AppCompatActivity {
         rec = findViewById(R.id.recvieweek);
         TinyDB tiny = new TinyDB(getApplicationContext());
 
+        Locale locale = new Locale(tiny.getString("lang"));
+        Locale.setDefault(locale);
+        Configuration config = new Configuration();
+        config.locale = locale;
+        getBaseContext().getResources().updateConfiguration(config,
+                getBaseContext().getResources().getDisplayMetrics());
+
+
+        Locale current = getResources().getConfiguration().locale;
+        if(!(current.getLanguage().equals("sl") || current.getLanguage().equals("en")) )
+        {
+            current = new Locale("sl");
+            current.setDefault(current);
+            Configuration config2 = new Configuration();
+            config2.locale = current;
+            getBaseContext().getResources().updateConfiguration(config2,
+                    getBaseContext().getResources().getDisplayMetrics());
+            tiny.putString("lang","sl");
+        }
 
         if (tiny.getString("lastq").equals("")) {
             startActivity(new Intent(this, MainActivity.class));
@@ -80,9 +99,13 @@ public class weekView extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         Locale current = getResources().getConfiguration().locale;
+
         TinyDB tiny = new TinyDB(getApplicationContext());
-        if (!current.getISO3Language().substring(0,2).equals(tiny.getString("lang"))) {
-            Refresh();
+        if (current.getISO3Language().length() >= 2)
+        {
+            if (!current.getISO3Language().substring(0, 2).equals(tiny.getString("lang"))) {
+                Refresh();
+            }
         }
     }
 

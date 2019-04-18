@@ -42,13 +42,13 @@
     <string name="Save">Shrani</string>
     <string name="Cancel">Prekliči</string>
     <string-array name="Days">
-        <item>NED</item>
-        <item>PON</item>
-        <item>TOR</item>
-        <item>SRE</item>
-        <item>ČET</item>
-        <item>PET</item>
-        <item>SOB</item>
+        <item>NEDELJA</item>
+        <item>PONEDELJEK</item>
+        <item>TOREK</item>
+        <item>SREDA</item>
+        <item>ČETRTEK</item>
+        <item>PETEK</item>
+        <item>SOBOTA</item>
     </string-array>
 
     <string-array name="Languages">
