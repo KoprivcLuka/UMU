@@ -43,11 +43,8 @@ public class tab_program extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-
         final TinyDB tiny = new TinyDB(view.getContext());
         ArrayList<String> res = new ArrayList<>();
-
         Gson gson = new Gson();
         final List<GroupWYears> groupWYears = Arrays.asList(gson.fromJson(tiny.getString("groupswyears"), GroupWYears[].class));
         Collections.sort(groupWYears, new SortByName());
@@ -60,13 +57,10 @@ public class tab_program extends Fragment {
         AllPaths = view.findViewById(R.id.spinner);
         Year = view.findViewById(R.id.spinner2);
         AllPaths.setAdapter(adapter);
-
         AllPaths.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-
                 List<String> krsmlen = new ArrayList<>();
-                //REEEE Ni sortiran
                 for (int s : groupWYears.get(i).Years) {
                     krsmlen.add(s + "");
                 }
@@ -74,32 +68,24 @@ public class tab_program extends Fragment {
                 ArrayAdapter<String> adapter2 = new ArrayAdapter<>(getContext(),
                         android.R.layout.simple_spinner_item, krsmlen);
                 adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
                 Year.setAdapter(adapter2);
                 Year.setSelection(0);
-
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
-
             }
         });
-
         if (index != -1) {
             AllPaths.setSelection(index);
         } else {
             AllPaths.setSelection(0);
         }
-
         Button PathSelected = view.findViewById(R.id.ButtonSelectPath);
         PathSelected.setEnabled(true);
-
-
         PathSelected.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 TinyDB tiny = new TinyDB(getView().getContext());
                 tiny.putString("lastq","/api/v2/urnik/" + tiny.getString("faksshort") + "/" + AllPaths.getSelectedItem() + "/" + Year.getSelectedItem());
                 tiny.putString("currpath", AllPaths.getSelectedItem().toString());
@@ -107,15 +93,10 @@ public class tab_program extends Fragment {
                 startActivity(new Intent(getView().getContext(), weekView.class));
             }
         });
-
-
     }
-
-
 
     class SortByName implements Comparator<GroupWYears> {
         public int compare(GroupWYears a, GroupWYears b) {
-
             return a.Name.compareTo(b.Name);
         }
     }

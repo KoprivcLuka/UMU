@@ -26,9 +26,7 @@ import java.util.List;
 
 
 public class RecyclerItemWeek extends RecyclerView.Adapter<RecyclerItemWeek.MyViewHolder> {
-    //Tu so arraylist dogodki k bojo unga dneva
-    private ArrayList<ArrayList<Event>> TodaysEvents;
-
+    ArrayList<ArrayList<Event>> TodaysEvents;
     List<String> EventTypes = new ArrayList<>();
     ArrayList<String> IgnoredGroups = new ArrayList<>();
 
@@ -56,12 +54,9 @@ public class RecyclerItemWeek extends RecyclerView.Adapter<RecyclerItemWeek.MyVi
         TinyDB tiny = new TinyDB(myViewHolder.ureplac.getContext());
         IgnoredGroups = tiny.getListString(tiny.getString("currpath") +
                 tiny.getString("letnik"));
-        //i = index dneva
-
         final ArrayList<Event> unignored = TodaysEvents.get(i);
 
         for (int j = 0; j < unignored.size(); j++) {
-
             final View EventBox = inflater.inflate(R.layout.singlepredmet, null);
             TextView StartText = EventBox.findViewById(R.id.Start);
             TextView EndText = EventBox.findViewById(R.id.End);
@@ -73,17 +68,14 @@ public class RecyclerItemWeek extends RecyclerView.Adapter<RecyclerItemWeek.MyVi
             LinearLayout EventTypeColor = EventBox.findViewById(R.id.colortype);
             TextView GroupText = EventBox.findViewById(R.id.Grp);
             EventBox.setTag(unignored.get(j));
-
             String StartTime = unignored.get(j).startTime.split(":")[0];
             if (StartTime.length() == 1) {
                 StartText.setText("0" + unignored.get(j).startTime);
             } else {
                 StartText.setText(unignored.get(j).startTime);
             }
-
             SimpleDateFormat parser = new SimpleDateFormat("HH:mm");
             Date d1 = new Date();
-
             try {
                 d1 = parser.parse(unignored.get(j).startTime);
             } catch (ParseException e) {
@@ -91,9 +83,7 @@ public class RecyclerItemWeek extends RecyclerView.Adapter<RecyclerItemWeek.MyVi
             }
             int pixels = (int) (200 * LocationText.getContext().getResources().getDisplayMetrics().density);
             if (unignored.size() == 1) {
-
                 root.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-
                 if (unignored.get(j).duration < 120) {
                     HeightSetter.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, (120 * 3)));
                 } else {
@@ -101,15 +91,12 @@ public class RecyclerItemWeek extends RecyclerView.Adapter<RecyclerItemWeek.MyVi
                 }
             } else {
                 root.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-
                 if (unignored.get(j).duration < 120) {
                     HeightSetter.setLayoutParams(new LinearLayout.LayoutParams(pixels, (120 * 3)));
                 } else {
                     HeightSetter.setLayoutParams(new LinearLayout.LayoutParams(pixels, (TodaysEvents.get(i).get(j).duration * 3)));
                 }
             }
-
-            //i mean tu je nek horsefuckery not ampak dela?
             Calendar cal = Calendar.getInstance();
             long NewTime = d1.getTime() + (long) (unignored.get(j).duration * 60 * 1000);
             cal.setTimeInMillis(NewTime);
@@ -158,37 +145,30 @@ public class RecyclerItemWeek extends RecyclerView.Adapter<RecyclerItemWeek.MyVi
             switch (EventType) {
                 case 0:
                     EventTypeColor.setBackgroundColor(Color.parseColor("#4f86c6"));
-
                     break;
 
                 case 1:
                     EventTypeColor.setBackgroundColor(Color.parseColor("#21a179"));
-
                     break;
 
                 case 2:
                     EventTypeColor.setBackgroundColor(Color.parseColor("#E17756"));
-
                     break;
 
                 case 3:
                     EventTypeColor.setBackgroundColor(Color.parseColor("#744fc6"));
-
                     break;
 
                 case 4:
                     EventTypeColor.setBackgroundColor(Color.parseColor("#f3a712"));
-
                     break;
 
                 case 5:
                     EventTypeColor.setBackgroundColor(Color.parseColor("#6320ee"));
-
                     break;
 
                 default:
                     EventTypeColor.setBackgroundColor(Color.parseColor("#45E49E"));
-
                     break;
 
             }

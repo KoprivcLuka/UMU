@@ -87,7 +87,6 @@ public class WeekListAdapter extends RecyclerView.Adapter<WeekListAdapter.MyView
 
     class SortByDuration implements Comparator<Event> {
         public int compare(Event a, Event b) {
-
             //Returns reverse sorted
             return Integer.compare(a.duration, b.duration) * -1;
 

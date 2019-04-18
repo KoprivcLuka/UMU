@@ -36,6 +36,7 @@
     <string name="FilterGroups">Filter groups</string>
     <string name="FilterCourses">Filter courses</string>
     <string name="ChooseLanguage">Set language</string>
+    <string name="AboutProjectTitle">About project</string>
 
     <string name="Save">Save</string>
     <string name="Cancel">Cancel</string>
@@ -49,6 +50,9 @@
         <item>FRI</item>
         <item>SAT</item>
     </string-array>
-
+    <string-array name="Languages">
+        <item>Slovenian</item>
+        <item>English</item>
+    </string-array>
 
 </resources>

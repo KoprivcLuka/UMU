@@ -35,8 +35,6 @@ public class tab_prof extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
-
         return inflater.inflate(R.layout.fragment_tab_prof, container, false);
     }
 
@@ -44,9 +42,7 @@ public class tab_prof extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         final TinyDB tiny = new TinyDB(getView().getContext());
-
         RequestProfs(getResources().getString(R.string.ServURL) + "/api/v2/urnik/" + tiny.getString("faksshort") + "/professors");
-
         spins = view.findViewById(R.id.spinner4);
         selectprof = view.findViewById(R.id.ButtonSelectProf);
         selectprof.setOnClickListener(new View.OnClickListener() {
@@ -58,10 +54,8 @@ public class tab_prof extends Fragment {
                 tiny.putString("currpath", spins.getSelectedItem().toString());
                 tiny.putString("letnik", "");
                 startActivity(new Intent(getContext(), weekView.class));
-
             }
         });
-
     }
 
     void RequestProfs(String url) {
@@ -73,12 +67,9 @@ public class tab_prof extends Fragment {
                 .enqueue(new Callback() {
                     @Override
                     public void onFailure(final okhttp3.Call call, IOException e) {
-                        // Error
                         getActivity().runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                // For the example, you can show an error dialog or a toast
-                                // on the main UI thread
 
                             }
                         });
@@ -86,7 +77,6 @@ public class tab_prof extends Fragment {
 
                     @Override
                     public void onResponse(okhttp3.Call call, final okhttp3.Response response) throws IOException {
-
                         final String json = response.body().string();
                         if (getActivity() == null) {
                             return;
@@ -94,17 +84,12 @@ public class tab_prof extends Fragment {
                         getActivity().runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                // For the example, you can show an error dialog or a toast
-                                // on the main UI thread
                                 Gson gson = new Gson();
                                 profs = Arrays.asList(gson.fromJson(json, String[].class));
                                 Collections.sort(profs);
                                 ArrayAdapter<String> adapter2 = new ArrayAdapter<>(getView().getContext(),
                                         android.R.layout.simple_spinner_item, profs);
-
                                 adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-
                                 selectprof.setEnabled(true);
                                 spins.setAdapter(adapter2);
                                 TinyDB tiny = new TinyDB(getView().getContext());
@@ -114,14 +99,9 @@ public class tab_prof extends Fragment {
                                 } else {
                                     spins.setSelection(0);
                                 }
-
-
                             }
                         });
-
-
                     }
                 });
     }
-
 }

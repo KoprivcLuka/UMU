@@ -65,9 +65,6 @@ public class weekView extends AppCompatActivity {
         TinyDB tiny = new TinyDB(getApplicationContext());
 
 
-
-
-
         if (tiny.getString("lastq").equals("")) {
             startActivity(new Intent(this, MainActivity.class));
             finish();
@@ -79,6 +76,15 @@ public class weekView extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Locale current = getResources().getConfiguration().locale;
+        TinyDB tiny = new TinyDB(getApplicationContext());
+        if (!current.getISO3Language().substring(0,2).equals(tiny.getString("lang"))) {
+            Refresh();
+        }
+    }
 
     public void Refresh() {
         res = new ArrayList<>();
@@ -310,7 +316,6 @@ public class weekView extends AppCompatActivity {
                     @Override
                     public boolean onMenuItemClick(MenuItem menuItem) {
                         AlertDialog.Builder builder = new AlertDialog.Builder(con);
-                        // Set the dialog title
                         builder.setTitle(R.string.FilterGroups);
                         final TinyDB tiny = new TinyDB(getApplicationContext());
                         final ArrayList<String> toignore = tiny.getListString(tiny.getString("currpath") + tiny.getString("letnik"));
@@ -330,14 +335,10 @@ public class weekView extends AppCompatActivity {
                                     @Override
                                     public void onClick(DialogInterface dialogInterface, int i, boolean b) {
                                         if (!b) {
-                                            // If the user checked the item, add it to the selected items
                                             toignore.add(cats.get(i));
                                         } else if (toignore.contains(cats.get(i))) {
-                                            // Else, if the item is already in the array, remove it
                                             toignore.remove(cats.get(i));
                                         }
-
-
                                     }
                                 });
                         builder.setPositiveButton(R.string.Save, new DialogInterface.OnClickListener() {
@@ -363,7 +364,6 @@ public class weekView extends AppCompatActivity {
                     @Override
                     public boolean onMenuItemClick(MenuItem menuItem) {
                         AlertDialog.Builder builder = new AlertDialog.Builder(con);
-                        // Set the dialog title
                         builder.setTitle(R.string.FilterCourses);
                         final TinyDB tiny = new TinyDB(getApplicationContext());
                         final ArrayList<String> toignore = tiny.getListString(tiny.getString("currpath") + tiny.getString("letnik") + "predmsIgnore");
@@ -383,10 +383,8 @@ public class weekView extends AppCompatActivity {
                                     @Override
                                     public void onClick(DialogInterface dialogInterface, int i, boolean b) {
                                         if (!b) {
-                                            // If the user checked the item, add it to the selected items
                                             toignore.add(predms.get(i));
                                         } else if (toignore.contains(predms.get(i))) {
-                                            // Else, if the item is already in the array, remove it
                                             toignore.remove(predms.get(i));
                                         }
 
@@ -396,7 +394,6 @@ public class weekView extends AppCompatActivity {
                         builder.setPositiveButton(R.string.Save, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int id) {
-
                                 tiny.putListString(tiny.getString("currpath") + tiny.getString("letnik") + "predmsIgnore", toignore);
                                 Refresh();
                             }
@@ -411,36 +408,6 @@ public class weekView extends AppCompatActivity {
 
                         return false;
 
-                    }
-                });
-                menu.getMenu().add(R.string.ChooseLanguage).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-                    @Override
-                    public boolean onMenuItemClick(MenuItem menuItem) {
-                        final TinyDB tiny = new TinyDB(getApplicationContext());
-                        String[] Languages = new String[] {"Slovenščina", "English"};
-                        AlertDialog.Builder builder = new AlertDialog.Builder(con);
-                        builder.setTitle(R.string.ChooseLanguage)
-                                .setItems(Languages, new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        // The 'which' argument contains the index position
-                                        // of the selected item
-                                        switch (which)
-                                        {
-                                            case 0:
-                                                tiny.putString("lang","si");
-                                                break;
-
-                                            case 1:
-                                                tiny.putString("lang","en");
-                                                break;
-                                        }
-                                        Refresh();
-                                    }
-                                });
-                        builder.show();
-
-
-                        return false;
                     }
                 });
 

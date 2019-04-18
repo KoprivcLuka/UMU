@@ -57,13 +57,9 @@ public class tab_predm extends Fragment {
                 .enqueue(new Callback() {
                     @Override
                     public void onFailure(final okhttp3.Call call, IOException e) {
-                        // Error
                         getActivity().runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                // For the example, you can show an error dialog or a toast
-                                // on the main UI thread
-
                             }
                         });
                     }
@@ -78,8 +74,6 @@ public class tab_predm extends Fragment {
                         getActivity().runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                // For the example, you can show an error dialog or a toast
-                                // on the main UI thread
                                 Gson gson = new Gson();
                                 predmeti = Arrays.asList(gson.fromJson(json, String[].class));
                                 Collections.sort(predmeti);
@@ -94,13 +88,11 @@ public class tab_predm extends Fragment {
                                 selectpred.setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View view) {
-
                                         tiny.putString("predm", spins.getSelectedItem().toString());
                                         tiny.putString("lastq", "/api/v2/urnik/" + tiny.getString("faksshort") + "/course/" + spins.getSelectedItem().toString());
                                         tiny.putString("currpath", spins.getSelectedItem().toString());
                                         tiny.putString("letnik", "");
                                         startActivity(new Intent(getView().getContext(), weekView.class));
-
                                     }
                                 });
 
@@ -111,15 +103,9 @@ public class tab_predm extends Fragment {
                                 } else {
                                     spins.setSelection(0);
                                 }
-
-
                             }
                         });
-
-
                     }
                 });
     }
-
-
 }

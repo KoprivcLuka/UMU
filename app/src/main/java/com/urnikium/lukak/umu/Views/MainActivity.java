@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
     ArrayList<Faculty> res;
     TinyDB tiny;
 
-    //TODO OnFail / Loading....
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -97,12 +97,12 @@ public class MainActivity extends AppCompatActivity {
                                 }
 
                                 tiny.putListString("allpaths", allpaths);
+
                                 TabLayout tabLayout = findViewById(R.id.tab_layout);
                                 tabLayout.removeAllTabs();
                                 tabLayout.addTab(tabLayout.newTab().setText(R.string.ByProgramme));
                                 tabLayout.addTab(tabLayout.newTab().setText(R.string.ByProfessor));
                                 tabLayout.addTab(tabLayout.newTab().setText(R.string.ByCourse));
-
                                 tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
                                 final ViewPager viewPager = findViewById(R.id.pager);
@@ -144,8 +144,6 @@ public class MainActivity extends AppCompatActivity {
                 .enqueue(new Callback() {
                     @Override
                     public void onFailure(final okhttp3.Call call, IOException e) {
-                        // Error
-
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
@@ -162,8 +160,6 @@ public class MainActivity extends AppCompatActivity {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                // For the example, you can show an error dialog or a toast
-                                // on the main UI thread
                                 Gson gson = new Gson();
                                 res = new ArrayList<>(Arrays.asList(gson.fromJson(json, Faculty[].class)));
                                 java.util.Collections.sort(res, new SortByNameFac());
@@ -182,26 +178,20 @@ public class MainActivity extends AppCompatActivity {
                                 } else {
                                     AllFaculties.setSelection(0);
                                 }
-
-
                             }
                         });
-
-
                     }
                 });
     }
 
     class SortByName implements Comparator<GroupWYears> {
         public int compare(GroupWYears a, GroupWYears b) {
-
             return a.Name.toLowerCase().compareTo(b.Name.toLowerCase());
         }
     }
 
     class SortByNameFac implements Comparator<Faculty> {
         public int compare(Faculty a, Faculty b) {
-
             return a.LongName.toLowerCase().compareTo(b.LongName.toLowerCase());
         }
     }

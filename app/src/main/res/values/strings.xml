@@ -37,6 +37,8 @@
     <string name="FilterCourses">Filtriraj predmete</string>
     <string name="ChooseLanguage">Nastavi jezik</string>
 
+    <string name="AboutProjectTitle">O projektu</string>
+
     <string name="Save">Shrani</string>
     <string name="Cancel">Prekliči</string>
     <string-array name="Days">
@@ -47,6 +49,11 @@
         <item>ČET</item>
         <item>PET</item>
         <item>SOB</item>
+    </string-array>
+
+    <string-array name="Languages">
+        <item>Slovenščina</item>
+        <item>Angleščina</item>
     </string-array>
 
 </resources>
