@@ -7,7 +7,7 @@
     android:gravity="center"
     android:baselineAligned="false"
     android:orientation="horizontal"
-    tools:context=".Views.MainActivity">
+    tools:context=".Views.Activity_Selection">
 
     <LinearLayout
         android:layout_width="wrap_content"

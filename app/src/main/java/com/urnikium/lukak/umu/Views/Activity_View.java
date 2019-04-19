@@ -14,7 +14,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.DatePicker;
 import android.widget.PopupMenu;
 import android.widget.Toast;
@@ -23,7 +22,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonParseException;
 import com.urnikium.lukak.umu.Classes.Event;
 import com.urnikium.lukak.umu.Classes.TinyDB;
-import com.urnikium.lukak.umu.Adapters.WeekListAdapter;
+import com.urnikium.lukak.umu.Adapters.Adapter_Day;
 import com.urnikium.lukak.umu.R;
 
 import java.io.IOException;
@@ -43,7 +42,7 @@ import okhttp3.Callback;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 
-public class weekView extends AppCompatActivity {
+public class Activity_View extends AppCompatActivity {
 
     List<Event> res = new ArrayList<>();
     List<Date> dates = new ArrayList<>();
@@ -85,7 +84,7 @@ public class weekView extends AppCompatActivity {
         }
 
         if (tiny.getString("lastq").equals("")) {
-            startActivity(new Intent(this, MainActivity.class));
+            startActivity(new Intent(this, Activity_Selection.class));
             finish();
             return;
         } else {
@@ -132,7 +131,7 @@ public class weekView extends AppCompatActivity {
         try {
             res = Arrays.asList(gson.fromJson(json, Event[].class));
         } catch (JsonParseException e) {
-            startActivity(new Intent(this, MainActivity.class));
+            startActivity(new Intent(this, Activity_Selection.class));
             finish();
             return;
         }
@@ -237,7 +236,7 @@ public class weekView extends AppCompatActivity {
         }
 
 
-        rec.setAdapter(new WeekListAdapter(everything, validdates));
+        rec.setAdapter(new Adapter_Day(everything, validdates));
     }
 
     @Override
@@ -250,7 +249,7 @@ public class weekView extends AppCompatActivity {
 
     @Override
     public boolean onSupportNavigateUp() {
-        startActivity(new Intent(this, MainActivity.class));
+        startActivity(new Intent(this, Activity_Selection.class));
         finish();
         return true;
     }
@@ -258,6 +257,7 @@ public class weekView extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         finish();
+        return;
     }
 
     @Override
@@ -439,7 +439,7 @@ public class weekView extends AppCompatActivity {
 
             case R.id.menu_about:
 
-                startActivity(new Intent(getApplicationContext(), About.class));
+                startActivity(new Intent(getApplicationContext(), Activity_About.class));
                 break;
             default:
                 return super.onOptionsItemSelected(item);

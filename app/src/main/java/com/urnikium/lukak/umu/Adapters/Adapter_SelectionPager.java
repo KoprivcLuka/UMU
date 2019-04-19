@@ -5,14 +5,14 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
-import com.urnikium.lukak.umu.Views.tab_predm;
-import com.urnikium.lukak.umu.Views.tab_prof;
-import com.urnikium.lukak.umu.Views.tab_program;
+import com.urnikium.lukak.umu.Views.Tab_SelectCourse;
+import com.urnikium.lukak.umu.Views.Tab_SelectProf;
+import com.urnikium.lukak.umu.Views.Tab_SelectProgramme;
 
-public class PagerAdapter extends FragmentStatePagerAdapter {
+public class Adapter_SelectionPager extends FragmentStatePagerAdapter {
     int mNumOfTabs;
 
-    public PagerAdapter(FragmentManager fm, int NumOfTabs) {
+    public Adapter_SelectionPager(FragmentManager fm, int NumOfTabs) {
         super(fm);
         this.mNumOfTabs = NumOfTabs;
     }
@@ -22,15 +22,15 @@ public class PagerAdapter extends FragmentStatePagerAdapter {
 
         switch (position) {
             case 0:
-                tab_program tab1 = new tab_program();
+                Tab_SelectProgramme tab1 = new Tab_SelectProgramme();
                 return tab1;
 
             case 1:
-                tab_prof tab12 = new tab_prof();
+                Tab_SelectProf tab12 = new Tab_SelectProf();
                 return tab12;
 
             case 2:
-                tab_predm tab3 = new tab_predm();
+                Tab_SelectCourse tab3 = new Tab_SelectCourse();
                 return tab3;
 
             default:

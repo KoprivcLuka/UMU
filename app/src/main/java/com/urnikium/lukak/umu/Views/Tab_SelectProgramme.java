@@ -19,19 +19,13 @@ import com.urnikium.lukak.umu.Classes.TinyDB;
 import com.urnikium.lukak.umu.R;
 
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import okhttp3.Callback;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-
-public class tab_program extends Fragment {
-    OkHttpClient client = new OkHttpClient();
+public class Tab_SelectProgramme extends Fragment {
     Spinner Year;
     Spinner AllPaths;
 
@@ -90,7 +84,8 @@ public class tab_program extends Fragment {
                 tiny.putString("lastq","/api/v2/urnik/" + tiny.getString("faksshort") + "/" + AllPaths.getSelectedItem() + "/" + Year.getSelectedItem());
                 tiny.putString("currpath", AllPaths.getSelectedItem().toString());
                 tiny.putString("letnik", Year.getSelectedItem().toString());
-                startActivity(new Intent(getView().getContext(), weekView.class));
+                startActivity(new Intent(getView().getContext(), Activity_View.class));
+                getActivity().finish();
             }
         });
     }

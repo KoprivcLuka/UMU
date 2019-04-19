@@ -14,12 +14,12 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
         <activity android:name=".Views.Settings"></activity>
-        <activity android:name=".Views.MainActivity"></activity>
+        <activity android:name=".Views.Activity_Selection"></activity>
         <activity
-            android:name=".Views.About"
+            android:name=".Views.Activity_About"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".Views.weekView"
+            android:name=".Views.Activity_View"
             android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

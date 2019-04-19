@@ -18,12 +18,12 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 
-public class WeekListAdapter extends RecyclerView.Adapter<WeekListAdapter.MyViewHolder> {
+public class Adapter_Day extends RecyclerView.Adapter<Adapter_Day.MyViewHolder> {
     private ArrayList<ArrayList<Event>> list;
     private ArrayList<Date> dates;
     private String[] Dnevi;
 
-    public WeekListAdapter(ArrayList<ArrayList<Event>> list, ArrayList<Date> dates) {
+    public Adapter_Day(ArrayList<ArrayList<Event>> list, ArrayList<Date> dates) {
         this.list = list;
         this.dates = dates;
 
@@ -31,14 +31,14 @@ public class WeekListAdapter extends RecyclerView.Adapter<WeekListAdapter.MyView
 
     @NonNull
     @Override
-    public WeekListAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.recyclerview_week, viewGroup, false);
+    public Adapter_Day.MyViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+        View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.recyclerview_day, viewGroup, false);
         Dnevi = viewGroup.getContext().getResources().getStringArray(R.array.Days);
         return new MyViewHolder(v);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final WeekListAdapter.MyViewHolder myViewHolder, int i) {
+    public void onBindViewHolder(@NonNull final Adapter_Day.MyViewHolder myViewHolder, int i) {
         Calendar tod = Calendar.getInstance();
         tod.setTimeInMillis(dates.get(i).getTime());
         myViewHolder.DateText.setText(Dnevi[tod.get(Calendar.DAY_OF_WEEK) - 1] + " , "
@@ -65,7 +65,7 @@ public class WeekListAdapter extends RecyclerView.Adapter<WeekListAdapter.MyView
         for (int j = 0; j < listpourah.size(); j++) {
             Collections.sort(listpourah.get(j), new SortByDuration());
         }
-        myViewHolder.rec.setAdapter(new RecyclerItemWeek(listpourah));
+        myViewHolder.rec.setAdapter(new Adapter_DayContent(listpourah));
 
     }
 

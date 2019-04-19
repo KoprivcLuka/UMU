@@ -14,7 +14,7 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.urnikium.lukak.umu.Classes.Faculty;
 import com.urnikium.lukak.umu.Classes.GroupWYears;
-import com.urnikium.lukak.umu.Adapters.PagerAdapter;
+import com.urnikium.lukak.umu.Adapters.Adapter_SelectionPager;
 import com.urnikium.lukak.umu.Classes.TinyDB;
 import com.urnikium.lukak.umu.R;
 
@@ -29,7 +29,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 
 
-public class MainActivity extends AppCompatActivity {
+public class Activity_Selection extends AppCompatActivity {
     Spinner AllFaculties;
     OkHttpClient client = new OkHttpClient();
     ArrayList<Faculty> res;
@@ -106,7 +106,7 @@ public class MainActivity extends AppCompatActivity {
                                 tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
                                 final ViewPager viewPager = findViewById(R.id.pager);
-                                final PagerAdapter adapter2 = new PagerAdapter
+                                final Adapter_SelectionPager adapter2 = new Adapter_SelectionPager
                                         (getSupportFragmentManager(), tabLayout.getTabCount());
                                 viewPager.setAdapter(adapter2);
                                 viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));

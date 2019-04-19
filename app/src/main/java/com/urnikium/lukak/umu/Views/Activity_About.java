@@ -18,7 +18,7 @@ import com.urnikium.lukak.umu.Classes.TinyDB;
 import com.urnikium.lukak.umu.R;
 
 
-public class About extends AppCompatActivity {
+public class Activity_About extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

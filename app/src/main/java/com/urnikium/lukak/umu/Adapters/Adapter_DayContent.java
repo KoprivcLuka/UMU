@@ -5,7 +5,6 @@ import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,18 +24,18 @@ import java.util.Date;
 import java.util.List;
 
 
-public class RecyclerItemWeek extends RecyclerView.Adapter<RecyclerItemWeek.MyViewHolder> {
+public class Adapter_DayContent extends RecyclerView.Adapter<Adapter_DayContent.MyViewHolder> {
     ArrayList<ArrayList<Event>> TodaysEvents;
     List<String> EventTypes = new ArrayList<>();
     ArrayList<String> IgnoredGroups = new ArrayList<>();
 
-    public RecyclerItemWeek(ArrayList<ArrayList<Event>> list) {
+    public Adapter_DayContent(ArrayList<ArrayList<Event>> list) {
         this.TodaysEvents = list;
     }
 
     @NonNull
     @Override
-    public RecyclerItemWeek.MyViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+    public Adapter_DayContent.MyViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
 
         TinyDB tiny = new TinyDB(viewGroup.getContext());
         EventTypes = tiny.getListString(tiny.getString("currpath") +
@@ -48,7 +47,7 @@ public class RecyclerItemWeek extends RecyclerView.Adapter<RecyclerItemWeek.MyVi
 
 
     @Override
-    public void onBindViewHolder(@NonNull final RecyclerItemWeek.MyViewHolder myViewHolder, int i) {
+    public void onBindViewHolder(@NonNull final Adapter_DayContent.MyViewHolder myViewHolder, int i) {
         LayoutInflater inflater = (LayoutInflater) myViewHolder.ureplac
                 .getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         TinyDB tiny = new TinyDB(myViewHolder.ureplac.getContext());
@@ -185,7 +184,7 @@ public class RecyclerItemWeek extends RecyclerView.Adapter<RecyclerItemWeek.MyVi
                     AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
                     LayoutInflater inflater = (LayoutInflater) view.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                     assert inflater != null;
-                    View v = inflater.inflate(R.layout.event_popup, null);
+                    View v = inflater.inflate(R.layout.popup_event, null);
                     Event saved = (Event) view.getTag();
 
                     TextView naziv = v.findViewById(R.id.textView);

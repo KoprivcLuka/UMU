@@ -26,7 +26,7 @@ import okhttp3.Callback;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 
-public class tab_prof extends Fragment {
+public class Tab_SelectProf extends Fragment {
 
     OkHttpClient client = new OkHttpClient();
     List<String> profs = new ArrayList<>();
@@ -53,7 +53,8 @@ public class tab_prof extends Fragment {
                 tiny.putString("lastq", "/api/v2/urnik/" + tiny.getString("faksshort") + "/professor/" + spins.getSelectedItem().toString());
                 tiny.putString("currpath", spins.getSelectedItem().toString());
                 tiny.putString("letnik", "");
-                startActivity(new Intent(getContext(), weekView.class));
+                startActivity(new Intent(getContext(), Activity_View.class));
+                getActivity().finish();
             }
         });
     }
