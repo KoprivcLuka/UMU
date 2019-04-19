@@ -1,4 +1,3 @@
-
 # Razredi
 
 ## Event
@@ -57,7 +56,9 @@ Aktivnost, ki vsebuje informacije o projektu ter dialog za izbiro jezika.
 Aktivnost za izbiro fakultete. Vsebuje `Tab_SelectCourse`, `Tab_SelectProf` ter `Tab_SelectProgramme`. Ob pričetku aktivnosti se požene API klic za pridobitev seznama fakultet. Ko je fakulteta izbrana se prižge `Adapter_SelectionPager`.
 ## Activity_View
 Vstopna točka aplikacije. Vsebuje `Adapter_Day` . Ob začetku aktivnosti preveri če je je uporabnik že nastavil fakulteto in tip poizvedbe. Če ne, uporabnika preusmeri na `Activity_Selection`. Če je poizvedba nastavljena, jo poizkusi ponovno zagnati.
-![Alt text](Diagrams/png/Activity_View.png?raw=true "Title")
+
+
+![Activity_View_Diagram](https://git.rajdit.tk/fuu/fuu-mobile/raw/master/Diagrams/PNG/Activity_.View.png "Title")
 ## Tab_SelectCourse
 Ob zagonu kliče API za pridobitev vseh predmetov izbrane fakultete. Po izbranem predmetu zapiše query in ga pošlje na `Activity_View`.
 ## Tab_SelectProf
