@@ -5,37 +5,29 @@
     android:minWidth="200dp"
     android:orientation="vertical">
 
-    <LinearLayout
+    <TextView
+        android:id="@+id/textView5"
+        style="@style/Base.TextAppearance.Widget.AppCompat.Toolbar.Title"
         android:layout_width="match_parent"
-        android:layout_height="36dp"
-        android:background="@color/colorPrimaryDark"
-        android:orientation="horizontal">
+        android:layout_height="wrap_content"
+        android:background="#ffffff"
+        android:foregroundGravity="center_vertical"
+        android:textAlignment="center"
+        android:textColor="@color/colorPrimary"
+        android:textSize="21sp" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:background="@color/colorPrimary"
-            android:padding="5dp"
-            android:text="09:00"
-            android:textColor="#00ffffff" />
-
-        <TextView
-            android:id="@+id/textView5"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/colorPrimaryDark"
-            android:foregroundGravity="center_vertical"
-            android:paddingStart="26sp"
-            android:textAlignment="center"
-            android:textColor="#ffffff"
-            android:textSize="21sp" />
-
-
-    </LinearLayout>
+    <View
+        android:id="@+id/divider3"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="3dp"
+        android:background="@color/colorPrimary" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/vsakdan"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:background="#ffffff">
 

@@ -5,18 +5,22 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.DatePicker;
 import android.widget.PopupMenu;
 import android.widget.Toast;
+
 
 import com.google.gson.Gson;
 import com.google.gson.JsonParseException;
@@ -58,8 +62,9 @@ public class Activity_View extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_week_view);
-        ActionBar bar = getSupportActionBar();
-        bar.setDisplayHomeAsUpEnabled(true);
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         rec = findViewById(R.id.recvieweek);
         TinyDB tiny = new TinyDB(getApplicationContext());
 
@@ -335,6 +340,7 @@ public class Activity_View extends AppCompatActivity {
 
                 final Context con = this;
                 final PopupMenu menu = new PopupMenu(this, findViewById(R.id.menu_settings));
+
                 menu.getMenu().add(R.string.FilterGroups).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
                     @Override
                     public boolean onMenuItemClick(MenuItem menuItem) {

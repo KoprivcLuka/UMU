@@ -3,6 +3,7 @@ package com.urnikium.lukak.umu.Adapters;
 import android.content.Context;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -64,7 +65,7 @@ public class Adapter_DayContent extends RecyclerView.Adapter<Adapter_DayContent.
             TextView LocationText = EventBox.findViewById(R.id.Location);
             RelativeLayout HeightSetter = EventBox.findViewById(R.id.heigtsetter);
             LinearLayout root = EventBox.findViewById(R.id.root);
-            LinearLayout EventTypeColor = EventBox.findViewById(R.id.colortype);
+         //   LinearLayout EventTypeColor = EventBox.findViewById(R.id.colortype);
             TextView GroupText = EventBox.findViewById(R.id.Grp);
             EventBox.setTag(unignored.get(j));
             String StartTime = unignored.get(j).startTime.split(":")[0];
@@ -89,12 +90,27 @@ public class Adapter_DayContent extends RecyclerView.Adapter<Adapter_DayContent.
                     HeightSetter.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, (unignored.get(j).duration * 3)));
                 }
             } else {
-                root.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-                if (unignored.get(j).duration < 120) {
-                    HeightSetter.setLayoutParams(new LinearLayout.LayoutParams(pixels, (120 * 3)));
-                } else {
-                    HeightSetter.setLayoutParams(new LinearLayout.LayoutParams(pixels, (TodaysEvents.get(i).get(j).duration * 3)));
+                if(j != unignored.size() &&  j != 0)
+                {
+                    root.setPadding(0,root.getPaddingTop(),root.getPaddingRight(),root.getPaddingBottom());
+                    root.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+                    if (unignored.get(j).duration < 120) {
+                        HeightSetter.setLayoutParams(new LinearLayout.LayoutParams(pixels, (120 * 3)));
+                    } else {
+                        HeightSetter.setLayoutParams(new LinearLayout.LayoutParams(pixels, (TodaysEvents.get(i).get(j).duration * 3)));
+                    }
                 }
+
+                else
+                {
+                    root.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+                    if (unignored.get(j).duration < 120) {
+                        HeightSetter.setLayoutParams(new LinearLayout.LayoutParams(pixels, (120 * 3)));
+                    } else {
+                        HeightSetter.setLayoutParams(new LinearLayout.LayoutParams(pixels, (TodaysEvents.get(i).get(j).duration * 3)));
+                    }
+                }
+
             }
             Calendar cal = Calendar.getInstance();
             long NewTime = d1.getTime() + (long) (unignored.get(j).duration * 60 * 1000);
@@ -143,31 +159,38 @@ public class Adapter_DayContent extends RecyclerView.Adapter<Adapter_DayContent.
 
             switch (EventType) {
                 case 0:
-                    EventTypeColor.setBackgroundColor(Color.parseColor("#4f86c6"));
+                  //  EventTypeColor.setBackgroundColor(Color.parseColor("#4f86c6"));
+                    root.setBackgroundColor(Color.parseColor("#4f86c6"));
                     break;
 
                 case 1:
-                    EventTypeColor.setBackgroundColor(Color.parseColor("#21a179"));
+                    //EventTypeColor.setBackgroundColor(Color.parseColor("#21a179"));
+                    root.setBackgroundColor(Color.parseColor("#21a179"));
                     break;
 
                 case 2:
-                    EventTypeColor.setBackgroundColor(Color.parseColor("#E17756"));
+                   // EventTypeColor.setBackgroundColor(Color.parseColor("#E17756"));
+                    root.setBackgroundColor(Color.parseColor("#E17756"));
                     break;
 
                 case 3:
-                    EventTypeColor.setBackgroundColor(Color.parseColor("#744fc6"));
+                    //EventTypeColor.setBackgroundColor(Color.parseColor("#744fc6"));
+                    root.setBackgroundColor(Color.parseColor("#744fc6"));
                     break;
 
                 case 4:
-                    EventTypeColor.setBackgroundColor(Color.parseColor("#f3a712"));
+                   // EventTypeColor.setBackgroundColor(Color.parseColor("#f3a712"));
+                    root.setBackgroundColor(Color.parseColor("#f3a712"));
                     break;
 
                 case 5:
-                    EventTypeColor.setBackgroundColor(Color.parseColor("#6320ee"));
+                   // EventTypeColor.setBackgroundColor(Color.parseColor("#6320ee"));
+                    root.setBackgroundColor(Color.parseColor("#6320ee"));
                     break;
 
                 default:
-                    EventTypeColor.setBackgroundColor(Color.parseColor("#45E49E"));
+                   // EventTypeColor.setBackgroundColor(Color.parseColor("#45E49E"));
+                    root.setBackgroundColor(Color.parseColor("#45E49E"));
                     break;
 
             }

@@ -2,9 +2,10 @@
 <HorizontalScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_margin="5dp"
     android:fillViewport="true"
-    android:isScrollContainer="true"
     android:focusableInTouchMode="true"
+    android:isScrollContainer="true"
     android:nestedScrollingEnabled="true"
     android:scrollbars="none">
 
@@ -13,8 +14,8 @@
         android:id="@+id/UrePlac"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:nestedScrollingEnabled="true"
         android:descendantFocusability="blocksDescendants"
+        android:nestedScrollingEnabled="true"
         android:orientation="horizontal">
 
     </LinearLayout>

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.view.View;
@@ -24,13 +25,16 @@ public class Activity_About extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about);
-        this.setTitle(getResources().getString(R.string.AboutProjectTitle));
         Spinner spin = findViewById(R.id.spinner6);
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_spinner_item, getResources().getStringArray(R.array.Languages));
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         final TinyDB tiny = new TinyDB(getApplicationContext());
         spin.setAdapter(adapter);
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        this.setTitle(getResources().getString(R.string.AboutProjectTitle));
 
         if (tiny.getString("lang").equals("sl")) {
             spin.setSelection(0);
@@ -59,8 +63,7 @@ public class Activity_About extends AppCompatActivity {
             }
         });
 
-        ActionBar bar = getSupportActionBar();
-        bar.setDisplayHomeAsUpEnabled(true);
+
         Button SendEmail = findViewById(R.id.button);
         SendEmail.setOnClickListener(new View.OnClickListener() {
             @Override

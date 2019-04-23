@@ -17,10 +17,10 @@
         <activity android:name=".Views.Activity_Selection"></activity>
         <activity
             android:name=".Views.Activity_About"
-            android:theme="@style/AppTheme" />
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".Views.Activity_View"
-            android:theme="@style/AppTheme">
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
