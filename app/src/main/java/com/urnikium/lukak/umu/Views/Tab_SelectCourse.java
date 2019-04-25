@@ -78,7 +78,7 @@ public class Tab_SelectCourse extends Fragment {
                                 predmeti = Arrays.asList(gson.fromJson(json, String[].class));
                                 Collections.sort(predmeti);
                                 ArrayAdapter<String> adapter2 = new ArrayAdapter<>(getView().getContext(),
-                                        android.R.layout.simple_spinner_item, predmeti);
+                                        R.layout.simple_spinner_item, predmeti);
                                 final TinyDB tiny = new TinyDB(getView().getContext());
                                 adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                                 spins = getView().findViewById(R.id.spinner5);

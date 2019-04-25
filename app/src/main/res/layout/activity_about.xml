@@ -5,17 +5,18 @@
     android:id="@+id/mainlayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/background"
     android:orientation="vertical"
     tools:context=".Views.Activity_About">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
-        android:minHeight="?attr/actionBarSize"
         android:layout_width="match_parent"
-        android:elevation="4dp"
         android:layout_height="wrap_content"
-        app:titleTextColor="@color/colorPrimary"
-        android:background="#ffffff"/>
+        android:background="@color/background"
+        android:elevation="4dp"
+        android:minHeight="?attr/actionBarSize"
+        app:titleTextColor="@color/colorPrimary" />
 
     <TextView
         android:id="@+id/textView13"
@@ -29,7 +30,19 @@
     <Spinner
         android:id="@+id/spinner6"
         android:layout_width="match_parent"
+        android:backgroundTint="@color/colorPrimary"
         android:layout_height="wrap_content" />
+
+    <Switch
+        android:id="@+id/switch1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginBottom="10dp"
+        android:text="@string/DarkMode"
+        android:textColor="@color/colorPrimary" />
 
     <View
         android:id="@+id/divider3"
@@ -46,16 +59,16 @@
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
         android:text="@string/AboutProject"
-        android:textColor="#000000" />
+        android:textColor="@color/textcolorprimary" />
 
     <Button
         android:id="@+id/button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
-        android:background="#ffffffff"
+        android:background="@color/background"
         android:text="@string/ContactMail"
-        android:textColor="#000000" />
+        android:textColor="@color/textcolorprimary" />
 
     <View
         android:id="@+id/divider4"
@@ -72,13 +85,14 @@
         android:layout_marginStart="5dp"
         android:layout_marginEnd="5dp"
         android:text="@string/Authors"
-        android:textColor="#000000" />
+        android:textColor="@color/textcolorprimary" />
 
     <TextView
         android:id="@+id/textView8"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
+        android:textColor="@color/textcolordarker"
         android:text="@string/PrivacyPolicy"
         android:textAlignment="center"
         android:textSize="14sp" />

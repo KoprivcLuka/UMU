@@ -1,5 +1,7 @@
 package com.urnikium.lukak.umu.Views;
 
+import android.app.UiModeManager;
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -12,7 +14,9 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.Spinner;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import com.urnikium.lukak.umu.Classes.TinyDB;
@@ -27,7 +31,7 @@ public class Activity_About extends AppCompatActivity {
         setContentView(R.layout.activity_about);
         Spinner spin = findViewById(R.id.spinner6);
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
-                android.R.layout.simple_spinner_item, getResources().getStringArray(R.array.Languages));
+                R.layout.simple_spinner_item, getResources().getStringArray(R.array.Languages));
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         final TinyDB tiny = new TinyDB(getApplicationContext());
         spin.setAdapter(adapter);
@@ -35,6 +39,26 @@ public class Activity_About extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         this.setTitle(getResources().getString(R.string.AboutProjectTitle));
+
+
+        Switch sw = findViewById(R.id.switch1);
+        sw.setChecked(tiny.getBoolean("nightmode"));
+
+        sw.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                tiny.putBoolean("nightmode",isChecked);
+                UiModeManager uiManager = (UiModeManager) getSystemService(Context.UI_MODE_SERVICE);
+                if(isChecked)
+                {
+                    uiManager.setNightMode(UiModeManager.MODE_NIGHT_YES);
+                }
+                else
+                {
+                    uiManager.setNightMode(UiModeManager.MODE_NIGHT_NO);
+                }
+            }
+        });
 
         if (tiny.getString("lang").equals("sl")) {
             spin.setSelection(0);

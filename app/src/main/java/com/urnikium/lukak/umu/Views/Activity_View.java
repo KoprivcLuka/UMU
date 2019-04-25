@@ -1,6 +1,7 @@
 package com.urnikium.lukak.umu.Views;
 
 import android.app.DatePickerDialog;
+import android.app.UiModeManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -67,6 +68,18 @@ public class Activity_View extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         rec = findViewById(R.id.recvieweek);
         TinyDB tiny = new TinyDB(getApplicationContext());
+
+        UiModeManager uiManager = (UiModeManager) getSystemService(Context.UI_MODE_SERVICE);
+        if(tiny.getBoolean("nightmode"))
+        {
+            uiManager.setNightMode(UiModeManager.MODE_NIGHT_YES);
+        }
+        else
+        {
+            uiManager.setNightMode(UiModeManager.MODE_NIGHT_NO);
+        }
+
+
 
         Locale locale = new Locale(tiny.getString("lang"));
         Locale.setDefault(locale);

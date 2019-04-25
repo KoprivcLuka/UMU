@@ -1,6 +1,7 @@
 package com.urnikium.lukak.umu.Adapters;
 
 import android.content.Context;
+import android.content.res.Configuration;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
@@ -81,13 +82,13 @@ public class Adapter_DayContent extends RecyclerView.Adapter<Adapter_DayContent.
             } catch (ParseException e) {
                 e.printStackTrace();
             }
-            int pixels = (int) (200 * LocationText.getContext().getResources().getDisplayMetrics().density);
+        /*    int pixels = (int) (200 * LocationText.getContext().getResources().getDisplayMetrics().density);
             if (unignored.size() == 1) {
                 root.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
                 if (unignored.get(j).duration < 120) {
-                    HeightSetter.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, (120 * 3)));
+                    HeightSetter.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, (120 * 2)));
                 } else {
-                    HeightSetter.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, (unignored.get(j).duration * 3)));
+                    HeightSetter.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, (unignored.get(j).duration * 2)));
                 }
             } else {
                 if(j != unignored.size() &&  j != 0)
@@ -95,9 +96,9 @@ public class Adapter_DayContent extends RecyclerView.Adapter<Adapter_DayContent.
                     root.setPadding(0,root.getPaddingTop(),root.getPaddingRight(),root.getPaddingBottom());
                     root.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
                     if (unignored.get(j).duration < 120) {
-                        HeightSetter.setLayoutParams(new LinearLayout.LayoutParams(pixels, (120 * 3)));
+                        HeightSetter.setLayoutParams(new LinearLayout.LayoutParams(pixels, (120 * 2)));
                     } else {
-                        HeightSetter.setLayoutParams(new LinearLayout.LayoutParams(pixels, (TodaysEvents.get(i).get(j).duration * 3)));
+                        HeightSetter.setLayoutParams(new LinearLayout.LayoutParams(pixels, (TodaysEvents.get(i).get(j).duration * 2)));
                     }
                 }
 
@@ -105,13 +106,45 @@ public class Adapter_DayContent extends RecyclerView.Adapter<Adapter_DayContent.
                 {
                     root.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
                     if (unignored.get(j).duration < 120) {
-                        HeightSetter.setLayoutParams(new LinearLayout.LayoutParams(pixels, (120 * 3)));
+                        HeightSetter.setLayoutParams(new LinearLayout.LayoutParams(pixels, (120 * 2)));
                     } else {
-                        HeightSetter.setLayoutParams(new LinearLayout.LayoutParams(pixels, (TodaysEvents.get(i).get(j).duration * 3)));
+                        HeightSetter.setLayoutParams(new LinearLayout.LayoutParams(pixels, (TodaysEvents.get(i).get(j).duration * 2)));
                     }
                 }
 
+            } */
+            int orientation =  myViewHolder.ureplac.getContext().getResources().getConfiguration().orientation;
+            if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                if (unignored.size() == 1) {
+                    root.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+                } else {
+                    if(j != unignored.size() &&  j != 0)
+                    {
+                        root.setPadding(root.getPaddingLeft(),root.getPaddingTop(),0,root.getPaddingBottom());
+                        root.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+                    }
+                    else
+                    {
+                        root.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+                    }
+                }
+
+            } else {
+                if (unignored.size() == 1) {
+                    root.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+                } else {
+                    if(j != unignored.size() &&  j != 0)
+                    {
+                        root.setPadding(0,root.getPaddingTop(),root.getPaddingRight(),root.getPaddingBottom());
+                        root.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+                    }
+                    else
+                    {
+                        root.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+                    }
+                }
             }
+
             Calendar cal = Calendar.getInstance();
             long NewTime = d1.getTime() + (long) (unignored.get(j).duration * 60 * 1000);
             cal.setTimeInMillis(NewTime);

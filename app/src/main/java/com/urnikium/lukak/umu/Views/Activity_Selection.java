@@ -168,7 +168,7 @@ public class Activity_Selection extends AppCompatActivity {
                                     zadapter.add(f.LongName);
                                 }
                                 ArrayAdapter<String> adapter2 = new ArrayAdapter<>(getApplicationContext(),
-                                        android.R.layout.simple_spinner_item, zadapter);
+                                        R.layout.simple_spinner_item, zadapter);
 
                                 adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                                 int index22 = zadapter.indexOf(tiny.getString("faks"));

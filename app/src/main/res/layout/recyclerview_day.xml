@@ -15,12 +15,12 @@
 
     <TextView
         android:id="@+id/textView5"
+        style="@style/Base.TextAppearance.Widget.AppCompat.Toolbar.Title"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#ffffff"
+        android:background="@color/background"
         android:foregroundGravity="center_vertical"
         android:textAlignment="center"
-        style="@style/Base.TextAppearance.Widget.AppCompat.Toolbar.Title"
         android:textColor="@color/colorPrimary"
         android:textSize="21sp" />
 
@@ -31,14 +31,14 @@
         android:layout_height="1dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:layout_marginBottom="3dp"
+        android:layout_marginBottom="5dp"
         android:background="@color/colorPrimary" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/vsakdan"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#ffffff"
+        android:background="@color/background"
         android:isScrollContainer="true"
         android:nestedScrollingEnabled="true" />
 </LinearLayout>

@@ -4,25 +4,24 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#ffffff"
+    android:background="@color/background"
     android:orientation="vertical"
     tools:context=".Views.Activity_View">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
-        android:minHeight="?attr/actionBarSize"
         android:layout_width="match_parent"
-        android:elevation="4dp"
         android:layout_height="wrap_content"
-        app:titleTextColor="@color/colorPrimary"
-        android:background="#ffffff">
-    </android.support.v7.widget.Toolbar>
+        android:background="@color/background"
+        android:elevation="4dp"
+        android:minHeight="?attr/actionBarSize"
+        app:titleTextColor="@color/colorPrimary"></android.support.v7.widget.Toolbar>
 
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recvieweek"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#ffffff"
+        android:background="@color/background"
         android:orientation="horizontal" />
 </LinearLayout>

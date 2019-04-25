@@ -14,7 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAlignment="center"
-        android:textColor="#000000"
+        android:textColor="@color/textcolorprimary"
         android:textSize="24sp" />
 
     <TextView
@@ -22,45 +22,52 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/Type"
-        android:textAlignment="viewStart" />
+        android:textAlignment="viewStart"
+        android:textColor="@color/textcolordarker" />
 
     <TextView
         android:id="@+id/textView6"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/Programme"
-        android:textAlignment="viewStart" />
+        android:textAlignment="viewStart"
+        android:textColor="@color/textcolordarker" />
 
     <TextView
         android:id="@+id/textView7"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/Group"
-        android:textAlignment="viewStart" />
+        android:textAlignment="viewStart"
+        android:textColor="@color/textcolordarker" />
 
     <TextView
         android:id="@+id/textView9"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/Handler"
-        android:textAlignment="viewStart" />
+        android:textAlignment="viewStart"
+        android:textColor="@color/textcolordarker" />
 
     <TextView
         android:id="@+id/textView10"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/Location"
-        android:textAlignment="viewStart" />
+        android:textAlignment="viewStart"
+        android:textColor="@color/textcolordarker" />
 
     <TextView
         android:id="@+id/textView11"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/StartTime" />
+        android:text="@string/StartTime"
+        android:textColor="@color/textcolordarker" />
 
     <TextView
         android:id="@+id/textView12"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/EndTime" />
+        android:text="@string/EndTime"
+        android:textColor="@color/textcolordarker" />
 </LinearLayout>
