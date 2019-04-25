@@ -1,6 +1,8 @@
 package com.urnikium.lukak.umu.Views;
 
 
+import android.app.UiModeManager;
+import android.content.Context;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -8,7 +10,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.CompoundButton;
 import android.widget.Spinner;
+import android.widget.Switch;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -36,12 +40,34 @@ public class Activity_Selection extends AppCompatActivity {
     TinyDB tiny;
 
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         AllFaculties = findViewById(R.id.spinner3);
         tiny = new TinyDB(this);
+
+
+        Switch sw = findViewById(R.id.switch1);
+        sw.setChecked(tiny.getBoolean("nightmode"));
+
+        sw.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                tiny.putBoolean("nightmode",isChecked);
+                UiModeManager uiManager = (UiModeManager) getSystemService(Context.UI_MODE_SERVICE);
+                if(isChecked)
+                {
+                    uiManager.setNightMode(UiModeManager.MODE_NIGHT_YES);
+                }
+                else
+                {
+                    uiManager.setNightMode(UiModeManager.MODE_NIGHT_NO);
+                }
+            }
+        });
 
         RequestFaculties(getResources().getString(R.string.ServURL) + "/api/v2/urnik/faculties");
         AllFaculties.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {

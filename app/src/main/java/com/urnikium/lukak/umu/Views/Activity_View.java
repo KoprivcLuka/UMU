@@ -211,20 +211,20 @@ public class Activity_View extends AppCompatActivity {
         Calendar end = Calendar.getInstance();
         end.setTimeInMillis(begining.getTimeInMillis());
         end.add(Calendar.HOUR, (zadntedn * 168) - 24);
+        now.set(now.get(Calendar.YEAR),now.get(Calendar.MONTH),now.get(Calendar.DAY_OF_MONTH),0,0);
 
         while (now.getTimeInMillis() < end.getTimeInMillis()) {
 
             dates.add(new Date(now.getTimeInMillis()));
             now.add(Calendar.HOUR, 24);
         }
-
+        List<Event> unigonored = DobiFiltirane(res);
         ArrayList<ArrayList<Event>> everything = new ArrayList<>();
         for (Date d : dates) {
             ArrayList<Event> today = new ArrayList<>();
             Calendar td = new GregorianCalendar();
             td.setTimeInMillis(d.getTime());
-            int weeks = Math.round((float) (td.getTimeInMillis() - begining.getTimeInMillis()) / (1000 * 60 * 60 * 24 * 7)) + 1;
-            List<Event> unigonored = DobiFiltirane(res);
+            int weeks = (int) (Math.floor((td.getTimeInMillis() - begining.getTimeInMillis()) / (1000 * 60 * 60 * 24 * 7)) + 1);
             for (int i = 0; i < unigonored.size(); i++) {
                 Event ev = unigonored.get(i);
                 if (ev.endWeek >= weeks && ev.beginWeek <= weeks && (ev.dayOfWeek == (td.get(Calendar.DAY_OF_WEEK)) - 2)) {

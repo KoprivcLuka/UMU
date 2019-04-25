@@ -41,24 +41,6 @@ public class Activity_About extends AppCompatActivity {
         this.setTitle(getResources().getString(R.string.AboutProjectTitle));
 
 
-        Switch sw = findViewById(R.id.switch1);
-        sw.setChecked(tiny.getBoolean("nightmode"));
-
-        sw.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                tiny.putBoolean("nightmode",isChecked);
-                UiModeManager uiManager = (UiModeManager) getSystemService(Context.UI_MODE_SERVICE);
-                if(isChecked)
-                {
-                    uiManager.setNightMode(UiModeManager.MODE_NIGHT_YES);
-                }
-                else
-                {
-                    uiManager.setNightMode(UiModeManager.MODE_NIGHT_NO);
-                }
-            }
-        });
 
         if (tiny.getString("lang").equals("sl")) {
             spin.setSelection(0);
