@@ -39,17 +39,12 @@ public class Activity_Selection extends AppCompatActivity {
     ArrayList<Faculty> res;
     TinyDB tiny;
 
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         AllFaculties = findViewById(R.id.spinner3);
         tiny = new TinyDB(this);
-
-
         Switch sw = findViewById(R.id.switch1);
         sw.setChecked(tiny.getBoolean("nightmode"));
 

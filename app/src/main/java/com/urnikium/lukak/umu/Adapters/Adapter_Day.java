@@ -61,12 +61,10 @@ public class Adapter_Day extends RecyclerView.Adapter<Adapter_Day.MyViewHolder> 
             }
         }
         listpourah.add(enaura);
-
         for (int j = 0; j < listpourah.size(); j++) {
             Collections.sort(listpourah.get(j), new SortByDuration());
         }
         myViewHolder.rec.setAdapter(new Adapter_DayContent(listpourah));
-
     }
 
     @Override

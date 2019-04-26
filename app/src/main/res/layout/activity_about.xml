@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mainlayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -24,14 +24,27 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="5dp"
         android:layout_marginEnd="5dp"
-        android:textColor="@color/colorPrimary"
-        android:text="@string/ChooseLanguage" />
+        android:text="@string/ChooseLanguage"
+        android:textColor="@color/colorPrimary" />
 
     <Spinner
         android:id="@+id/spinner6"
         android:layout_width="match_parent"
-        android:backgroundTint="@color/colorPrimary"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/colorPrimary" />
+
+    <Switch
+        android:id="@+id/switch1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginBottom="20dp"
+        android:foregroundGravity="right"
+        android:gravity="center_vertical"
+        android:text="@string/DarkMode"
+        android:textColor="@color/colorPrimary" />
 
     <View
         android:id="@+id/divider3"
@@ -81,9 +94,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
-        android:textColor="@color/textcolordarker"
         android:text="@string/PrivacyPolicy"
         android:textAlignment="center"
+        android:textColor="@color/textcolordarker"
         android:textSize="14sp" />
 
 </LinearLayout>

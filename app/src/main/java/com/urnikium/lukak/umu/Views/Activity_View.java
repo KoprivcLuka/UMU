@@ -79,8 +79,6 @@ public class Activity_View extends AppCompatActivity {
             uiManager.setNightMode(UiModeManager.MODE_NIGHT_NO);
         }
 
-
-
         Locale locale = new Locale(tiny.getString("lang"));
         Locale.setDefault(locale);
         Configuration config = new Configuration();
@@ -93,7 +91,7 @@ public class Activity_View extends AppCompatActivity {
         if(!(current.getLanguage().equals("sl") || current.getLanguage().equals("en")) )
         {
             current = new Locale("sl");
-            current.setDefault(current);
+            Locale.setDefault(current);
             Configuration config2 = new Configuration();
             config2.locale = current;
             getBaseContext().getResources().updateConfiguration(config2,
@@ -212,7 +210,6 @@ public class Activity_View extends AppCompatActivity {
         end.setTimeInMillis(begining.getTimeInMillis());
         end.add(Calendar.HOUR, (zadntedn * 168) - 24);
         now.set(now.get(Calendar.YEAR),now.get(Calendar.MONTH),now.get(Calendar.DAY_OF_MONTH),0,0);
-
         while (now.getTimeInMillis() < end.getTimeInMillis()) {
 
             dates.add(new Date(now.getTimeInMillis()));
@@ -240,17 +237,12 @@ public class Activity_View extends AppCompatActivity {
             today = new ArrayList<>();
         }
 
-        //Evo maš evente ki majo dneve, g g
-
         rec = findViewById(R.id.recvieweek);
         int orientation = getResources().getConfiguration().orientation;
         if (orientation == Configuration.ORIENTATION_PORTRAIT) {
             rec.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         } else {
             rec.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-          /*  SnapHelper helper = new LinearSnapHelper();
-            helper.attachToRecyclerView(recyclerView); */
-
         }
 
 
@@ -287,7 +279,7 @@ public class Activity_View extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle item selection
+
         switch (item.getItemId()) {
 
             case R.id.menu_calendar:
@@ -364,11 +356,7 @@ public class Activity_View extends AppCompatActivity {
                         boolean[] checkboxes = new boolean[cats.size()];
                         int cntr = 0;
                         for (String s : cats) {
-                            if (!toignore.contains(s)) {
-                                checkboxes[cntr++] = true;
-                            } else {
-                                checkboxes[cntr++] = false;
-                            }
+                            checkboxes[cntr++] = !toignore.contains(s);
                         }
 
                         builder.setMultiChoiceItems(cats.toArray(new String[]{}), checkboxes,
@@ -378,9 +366,7 @@ public class Activity_View extends AppCompatActivity {
                                     public void onClick(DialogInterface dialogInterface, int i, boolean b) {
                                         if (!b) {
                                             toignore.add(cats.get(i));
-                                        } else if (toignore.contains(cats.get(i))) {
-                                            toignore.remove(cats.get(i));
-                                        }
+                                        } else toignore.remove(cats.get(i));
                                     }
                                 });
                         builder.setPositiveButton(R.string.Save, new DialogInterface.OnClickListener() {
@@ -412,11 +398,7 @@ public class Activity_View extends AppCompatActivity {
                         boolean[] checkboxes = new boolean[predms.size()];
                         int cntr = 0;
                         for (String s : predms) {
-                            if (!toignore.contains(s)) {
-                                checkboxes[cntr++] = true;
-                            } else {
-                                checkboxes[cntr++] = false;
-                            }
+                            checkboxes[cntr++] = !toignore.contains(s);
                         }
 
                         builder.setMultiChoiceItems(predms.toArray(new String[]{}), checkboxes,
@@ -426,9 +408,7 @@ public class Activity_View extends AppCompatActivity {
                                     public void onClick(DialogInterface dialogInterface, int i, boolean b) {
                                         if (!b) {
                                             toignore.add(predms.get(i));
-                                        } else if (toignore.contains(predms.get(i))) {
-                                            toignore.remove(predms.get(i));
-                                        }
+                                        } else toignore.remove(predms.get(i));
 
 
                                     }
