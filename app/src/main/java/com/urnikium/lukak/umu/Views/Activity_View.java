@@ -69,15 +69,6 @@ public class Activity_View extends AppCompatActivity {
         rec = findViewById(R.id.recvieweek);
         TinyDB tiny = new TinyDB(getApplicationContext());
 
-        UiModeManager uiManager = (UiModeManager) getSystemService(Context.UI_MODE_SERVICE);
-        if(tiny.getBoolean("nightmode"))
-        {
-            uiManager.setNightMode(UiModeManager.MODE_NIGHT_YES);
-        }
-        else
-        {
-            uiManager.setNightMode(UiModeManager.MODE_NIGHT_NO);
-        }
 
         Locale locale = new Locale(tiny.getString("lang"));
         Locale.setDefault(locale);
@@ -88,15 +79,14 @@ public class Activity_View extends AppCompatActivity {
 
 
         Locale current = getResources().getConfiguration().locale;
-        if(!(current.getLanguage().equals("sl") || current.getLanguage().equals("en")) )
-        {
+        if (!(current.getLanguage().equals("sl") || current.getLanguage().equals("en"))) {
             current = new Locale("sl");
             Locale.setDefault(current);
             Configuration config2 = new Configuration();
             config2.locale = current;
             getBaseContext().getResources().updateConfiguration(config2,
                     getBaseContext().getResources().getDisplayMetrics());
-            tiny.putString("lang","sl");
+            tiny.putString("lang", "sl");
         }
 
         if (tiny.getString("lastq").equals("")) {
@@ -116,8 +106,7 @@ public class Activity_View extends AppCompatActivity {
         Locale current = getResources().getConfiguration().locale;
 
         TinyDB tiny = new TinyDB(getApplicationContext());
-        if (current.getISO3Language().length() >= 2)
-        {
+        if (current.getISO3Language().length() >= 2) {
             if (!current.getISO3Language().substring(0, 2).equals(tiny.getString("lang"))) {
                 Refresh();
             }
@@ -145,6 +134,11 @@ public class Activity_View extends AppCompatActivity {
                 getBaseContext().getResources().getDisplayMetrics());
         if (json.equals("")) return;
         try {
+            if (json.equals("null\n" +
+                    "    ")) {
+                throw new JsonParseException("Null");
+
+            }
             res = Arrays.asList(gson.fromJson(json, Event[].class));
         } catch (JsonParseException e) {
             startActivity(new Intent(this, Activity_Selection.class));
@@ -209,7 +203,7 @@ public class Activity_View extends AppCompatActivity {
         Calendar end = Calendar.getInstance();
         end.setTimeInMillis(begining.getTimeInMillis());
         end.add(Calendar.HOUR, (zadntedn * 168) - 24);
-        now.set(now.get(Calendar.YEAR),now.get(Calendar.MONTH),now.get(Calendar.DAY_OF_MONTH),0,0);
+        now.set(now.get(Calendar.YEAR), now.get(Calendar.MONTH), now.get(Calendar.DAY_OF_MONTH), 0, 0);
         while (now.getTimeInMillis() < end.getTimeInMillis()) {
 
             dates.add(new Date(now.getTimeInMillis()));

@@ -40,12 +40,16 @@ public class Activity_About extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         this.setTitle(getResources().getString(R.string.AboutProjectTitle));
 
+        UiModeManager uiManager = (UiModeManager) getSystemService(Context.UI_MODE_SERVICE);
         Switch sw = findViewById(R.id.switch1);
-        sw.setChecked(tiny.getBoolean("nightmode"));
+        if(uiManager.getNightMode()  == UiModeManager.MODE_NIGHT_YES)
+        {
+            sw.setChecked(true);
+        }
+
         sw.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                tiny.putBoolean("nightmode",isChecked);
                 UiModeManager uiManager = (UiModeManager) getSystemService(Context.UI_MODE_SERVICE);
                 if(isChecked)
                 {
