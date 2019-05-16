@@ -134,9 +134,8 @@ public class Activity_View extends AppCompatActivity {
                 getBaseContext().getResources().getDisplayMetrics());
         if (json.equals("")) return;
         try {
-            if (json.equals("null\n" +
-                    "    ")) {
-                throw new JsonParseException("Null");
+            if (json.trim().equals("null") || json.trim().equals("[]") || json.trim().equals("{}") ) {
+                throw new JsonParseException("Null query");
 
             }
             res = Arrays.asList(gson.fromJson(json, Event[].class));
