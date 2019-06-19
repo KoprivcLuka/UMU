@@ -1,3 +1,11 @@
+# Zadnja verzija
+[Povezava](https://github.com/KoprivcLuka/UMU/blob/master/latest-release.apk)
+
+
+![Mobile_screenshot](https://raw.githubusercontent.com/KoprivcLuka/UMU/master/Grafika/Mobile.png "Title")
+
+
+![Tablet_Screenshot](https://raw.githubusercontent.com/KoprivcLuka/UMU/master/Grafika/Tablet.png "Title")
 # Razredi
 
 ## Event
@@ -58,7 +66,7 @@ Aktivnost za izbiro fakultete. Vsebuje `Tab_SelectCourse`, `Tab_SelectProf` ter 
 Vstopna točka aplikacije. Vsebuje `Adapter_Day` . Ob začetku aktivnosti preveri če je je uporabnik že nastavil fakulteto in tip poizvedbe. Če ne, uporabnika preusmeri na `Activity_Selection`. Če je poizvedba nastavljena, jo poizkusi ponovno zagnati.
 
 
-![Activity_View_Diagram](https://git.rajdit.tk/fuu/fuu-mobile/raw/master/Diagrams/PNG/Activity_.View.png "Title")
+
 ## Tab_SelectCourse
 Ob zagonu kliče API za pridobitev vseh predmetov izbrane fakultete. Po izbranem predmetu zapiše query in ga pošlje na `Activity_View`.
 ## Tab_SelectProf
