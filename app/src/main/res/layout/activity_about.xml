@@ -63,14 +63,16 @@
         android:text="@string/AboutProject"
         android:textColor="@color/textcolorprimary" />
 
-    <Button
+    <TextView
         android:id="@+id/button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
+        android:textAlignment="center"
+        android:textSize="21sp"
         android:background="@color/background"
         android:text="@string/ContactMail"
-        android:textColor="@color/textcolorprimary" />
+        android:textColor="@color/colorPrimary" />
 
     <View
         android:id="@+id/divider4"

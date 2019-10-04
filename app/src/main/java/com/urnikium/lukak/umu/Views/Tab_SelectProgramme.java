@@ -81,7 +81,7 @@ public class Tab_SelectProgramme extends Fragment {
             @Override
             public void onClick(View view) {
                 TinyDB tiny = new TinyDB(getView().getContext());
-                tiny.putString("lastq","/api/v2/urnik/" + tiny.getString("faksshort") + "/" + AllPaths.getSelectedItem() + "/" + Year.getSelectedItem());
+                tiny.putString("lastq","/api/v2/schedule/faculty/" + tiny.getString("faksshort") + "/" + AllPaths.getSelectedItem() + "/" + Year.getSelectedItem());
                 tiny.putString("currpath", AllPaths.getSelectedItem().toString());
                 tiny.putString("letnik", Year.getSelectedItem().toString());
                 startActivity(new Intent(getView().getContext(), Activity_View.class));

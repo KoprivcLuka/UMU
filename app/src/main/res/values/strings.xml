@@ -1,11 +1,12 @@
 <resources>
     <string name="app_name">UMU</string>
-    <string name="ServURL">https://feri-urnik.si:8080</string>
+    <string name="ServURL">https://api.urnik-mb.cf</string>
 
-    <string name="ContactMail">urnik.um@gmail.com</string>
-    <string name="AboutProject"> UMU je samostojni projekt, ki ponuja rešitev fleksibilnega prikaza urnikov celotne Univerze v Mariboru. Če se želite pridružiti k razvijanju projekta ali pa prijaviti napako ter podati svoje mnenje smo dosegljivi na naslednjem naslovu:</string>
+    <string name="ContactMail">https://urnik-mb.cf/</string>
+    <string name="AboutProject"> UMU je samostojni projekt, ki ponuja rešitev fleksibilnega prikaza urnikov celotne Univerze v Mariboru. Za napačne ali nepopolne podatke urnika ne odgovarjamo.  </string>
     <string name="PrivacyPolicy">POLITIKA ZASEBNOSTI</string>
     <string name="Authors">Avtorja: \nDomen Jesenovec \nLuka Koprivc</string>
+    <string name="NoData"> Manjkajoči podatki! Poizkusite ponovno kasneje!</string>
 
     <string name="ChooseFaculty">Izberi fakulteto</string>
     <string name="ChooseClass">Izberi predmet</string>
@@ -33,8 +34,8 @@
     <string name="ErrorRefresh">Napaka pri osveževanju, preverite povezavo in ponovno odprite aplikacijo!</string>
     <string name="ErrorLoad">Napaka pri povezovanju, preverite povezavo in ponovno odprite aplikacijo!</string>
 
-    <string name="FilterGroups">Filtriraj skupine</string>
-    <string name="FilterCourses">Filtriraj predmete</string>
+    <string name="FilterGroups">Izberi skupine</string>
+    <string name="FilterCourses">Izberi predmete</string>
     <string name="ChooseLanguage">Nastavi jezik</string>
     <string name="DarkMode">Temni način  </string>
 

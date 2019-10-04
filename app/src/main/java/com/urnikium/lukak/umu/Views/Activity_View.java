@@ -120,9 +120,12 @@ public class Activity_View extends AppCompatActivity {
         cats = new ArrayList<>();
         types = new ArrayList<>();
         predms = new ArrayList<>();
-        TinyDB tiny = new TinyDB(this);
+        final TinyDB tiny = new TinyDB(this);
         IgnoredGroups = tiny.getListString(tiny.getString("currpath") +
                 tiny.getString("letnik"));
+        if (IgnoredGroups.size() == 0) {
+
+        } //todo če smer še ni bila odprta
         IgnoredCourses = tiny.getListString(tiny.getString("currpath") + tiny.getString("letnik") + "predmsIgnore");
         String json = tiny.getString("events");
         Gson gson = new Gson();
@@ -134,7 +137,7 @@ public class Activity_View extends AppCompatActivity {
                 getBaseContext().getResources().getDisplayMetrics());
         if (json.equals("")) return;
         try {
-            if (json.trim().equals("null") || json.trim().equals("[]") || json.trim().equals("{}") ) {
+            if (json.trim().equals("null") || json.trim().equals("[]") || json.trim().equals("{}")) {
                 throw new JsonParseException("Null query");
 
             }
@@ -150,7 +153,7 @@ public class Activity_View extends AppCompatActivity {
             this.setTitle(tiny.getString("currpath"));
         }
 
-        int zadntedn = 0;
+        int zadntedn = 0; //to niso barilla špageti, to so dizajnerski špageti
         for (int i = 0; i < res.size(); i++) {
 
             res.get(i).startTime = res.get(i).startTime.replace('.', ':');
@@ -194,18 +197,24 @@ public class Activity_View extends AppCompatActivity {
         Calendar begining = Calendar.getInstance();
 
 
-        if (begining.get(Calendar.MONTH) < 9) {
-            begining.set(begining.get(Calendar.YEAR) - 1, 9, 1);
+        if (begining.get(Calendar.MONTH) < 7) {
+            begining.set(begining.get(Calendar.YEAR) - 1, 9, 1, 0, 0,0);
         } else {
-            begining.set(begining.get(Calendar.YEAR), 9, 1);
+            begining.set(begining.get(Calendar.YEAR), 9, 1,0,0,0);
         }
+
+
+        begining.setTimeInMillis(begining.getTimeInMillis() - ((begining.get(Calendar.DAY_OF_WEEK)-begining.getFirstDayOfWeek()) * 1000 * 60 * 60 *24));
         Calendar end = Calendar.getInstance();
         end.setTimeInMillis(begining.getTimeInMillis());
         end.add(Calendar.HOUR, (zadntedn * 168) - 24);
         now.set(now.get(Calendar.YEAR), now.get(Calendar.MONTH), now.get(Calendar.DAY_OF_MONTH), 0, 0);
+
         while (now.getTimeInMillis() < end.getTimeInMillis()) {
 
-            dates.add(new Date(now.getTimeInMillis()));
+            if (now.getTimeInMillis() >= begining.getTimeInMillis()) {
+                dates.add(new Date(now.getTimeInMillis()));
+            } //ne dodajamo dni izven časa semestra
             now.add(Calendar.HOUR, 24);
         }
         List<Event> unigonored = DobiFiltirane(res);

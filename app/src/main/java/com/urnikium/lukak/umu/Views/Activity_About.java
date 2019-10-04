@@ -3,9 +3,11 @@ package com.urnikium.lukak.umu.Views;
 import android.app.UiModeManager;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
@@ -21,6 +23,8 @@ import android.widget.TextView;
 
 import com.urnikium.lukak.umu.Classes.TinyDB;
 import com.urnikium.lukak.umu.R;
+
+import org.w3c.dom.Text;
 
 
 public class Activity_About extends AppCompatActivity {
@@ -42,6 +46,7 @@ public class Activity_About extends AppCompatActivity {
 
         UiModeManager uiManager = (UiModeManager) getSystemService(Context.UI_MODE_SERVICE);
         Switch sw = findViewById(R.id.switch1);
+        if(Build.VERSION.SDK_INT >= 29){sw.setVisibility(View.GONE);} //Popravi za 10
         if(uiManager.getNightMode()  == UiModeManager.MODE_NIGHT_YES)
         {
             sw.setChecked(true);
@@ -57,6 +62,7 @@ public class Activity_About extends AppCompatActivity {
                 }
                 else
                 {
+
                     uiManager.setNightMode(UiModeManager.MODE_NIGHT_NO);
                 }
             }
@@ -90,16 +96,9 @@ public class Activity_About extends AppCompatActivity {
         });
 
 
-        Button SendEmail = findViewById(R.id.button);
-        SendEmail.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(Intent.ACTION_SEND);
-                intent.setType("text/html");
-                intent.putExtra(Intent.EXTRA_EMAIL, R.string.ContactMail);
-                startActivity(intent);
-            }
-        });
+        TextView Spletna= findViewById(R.id.button);
+        Spletna.setText(Html.fromHtml( "<a href=https://urnik-mb.cf/>" + getResources().getString(R.string.ContactMail) + " </a>"));
+        Spletna.setMovementMethod(LinkMovementMethod.getInstance());
         TextView tx = findViewById(R.id.textView8);
         tx.setText(Html.fromHtml("<a href=https://feri-urnik.si:8080/privacy>" + getResources().getString(R.string.PrivacyPolicy) + " </a>"));
         tx.setMovementMethod(LinkMovementMethod.getInstance());

@@ -43,7 +43,7 @@ public class Tab_SelectCourse extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 
         TinyDB tiny = new TinyDB(getContext());
-        RequestPreds(getResources().getString(R.string.ServURL) + "/api/v2/urnik/" + tiny.getString("faksshort") + "/courses");
+        RequestPreds(getResources().getString(R.string.ServURL) + "/api/v2/courses/" + tiny.getString("faksshort"));
         super.onViewCreated(view, savedInstanceState);
 
     }
@@ -89,7 +89,7 @@ public class Tab_SelectCourse extends Fragment {
                                     @Override
                                     public void onClick(View view) {
                                         tiny.putString("predm", spins.getSelectedItem().toString());
-                                        tiny.putString("lastq", "/api/v2/urnik/" + tiny.getString("faksshort") + "/course/" + spins.getSelectedItem().toString());
+                                        tiny.putString("lastq", "/api/v2/schedule/course/" + tiny.getString("faksshort") + "/" + spins.getSelectedItem().toString());
                                         tiny.putString("currpath", spins.getSelectedItem().toString());
                                         tiny.putString("letnik", "");
                                         startActivity(new Intent(getView().getContext(), Activity_View.class));

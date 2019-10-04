@@ -6,8 +6,9 @@
     android:focusableInTouchMode="true"
     android:isScrollContainer="true"
     android:minHeight="0dp"
+    android:layout_marginLeft="5dp"
+    android:layout_marginRight="5dp"
     android:nestedScrollingEnabled="true"
-    android:padding="5dp"
     android:scrollbars="none">
 
 

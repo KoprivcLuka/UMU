@@ -3,6 +3,8 @@ package com.urnikium.lukak.umu.Views;
 
 import android.app.UiModeManager;
 import android.content.Context;
+import android.opengl.Visibility;
+import android.os.Build;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -47,6 +49,7 @@ public class Activity_Selection extends AppCompatActivity {
         tiny = new TinyDB(this);
         UiModeManager uiManager = (UiModeManager) getSystemService(Context.UI_MODE_SERVICE);
         Switch sw = findViewById(R.id.switch1);
+        if(Build.VERSION.SDK_INT >= 29){sw.setVisibility(View.INVISIBLE);} //skrijemo na android 10+
         if(uiManager.getNightMode()  == UiModeManager.MODE_NIGHT_YES)
         {
             sw.setChecked(true);
@@ -67,13 +70,13 @@ public class Activity_Selection extends AppCompatActivity {
             }
         });
 
-        RequestFaculties(getResources().getString(R.string.ServURL) + "/api/v2/urnik/faculties");
+        RequestFaculties(getResources().getString(R.string.ServURL) + "/api/v2/faculties");
         AllFaculties.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 tiny.putString("faks", AllFaculties.getSelectedItem().toString());
                 tiny.putString("faksshort", res.get(AllFaculties.getSelectedItemPosition()).ShortName);
-                RequestPathsList(getResources().getString(R.string.ServURL) + "/api/v2/urnik/" + res.get(AllFaculties.getSelectedItemPosition()).ShortName + "/groups/years");
+                RequestPathsList(getResources().getString(R.string.ServURL) + "/api/v2/groups/" + res.get(AllFaculties.getSelectedItemPosition()).ShortName + "/years");
 
             }
 
@@ -106,12 +109,28 @@ public class Activity_Selection extends AppCompatActivity {
                     @Override
                     public void onResponse(okhttp3.Call call, final okhttp3.Response response) throws IOException {
 
-                        final String json = response.body().string();
+                        final String json = response.body().string().trim();
+                        if(response.code() == 404){
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+
+                                    Toast toast = Toast.makeText(getApplicationContext(), R.string.NoData, Toast.LENGTH_LONG);
+                                    toast.show();
+                                    ViewPager pager = findViewById(R.id.pager);
+                                    pager.setVisibility(View.INVISIBLE);
+                                    TabLayout tabLayout = findViewById(R.id.tab_layout);
+                                    tabLayout.setVisibility(View.INVISIBLE);
+                                    tabLayout.removeAllTabs();
+                                }
+                            });
+
+                            return;}
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
 
-                                Gson gson = new Gson();
+                                Gson gson = new Gson()  ;
                                 ArrayList<GroupWYears> res = new ArrayList<>(Arrays.asList(gson.fromJson(json, GroupWYears[].class)));
                                 java.util.Collections.sort(res, new SortByName());
                                 tiny.putString("groupswyears", json);
@@ -122,8 +141,11 @@ public class Activity_Selection extends AppCompatActivity {
 
                                 tiny.putListString("allpaths", allpaths);
 
+                                ViewPager pager = findViewById(R.id.pager);
+                                pager.setVisibility(View.VISIBLE);
                                 TabLayout tabLayout = findViewById(R.id.tab_layout);
                                 tabLayout.removeAllTabs();
+                                tabLayout.setVisibility(View.VISIBLE);
                                 tabLayout.addTab(tabLayout.newTab().setText(R.string.ByProgramme));
                                 tabLayout.addTab(tabLayout.newTab().setText(R.string.ByProfessor));
                                 tabLayout.addTab(tabLayout.newTab().setText(R.string.ByCourse));

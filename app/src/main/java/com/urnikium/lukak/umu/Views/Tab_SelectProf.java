@@ -42,7 +42,7 @@ public class Tab_SelectProf extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         final TinyDB tiny = new TinyDB(getView().getContext());
-        RequestProfs(getResources().getString(R.string.ServURL) + "/api/v2/urnik/" + tiny.getString("faksshort") + "/professors");
+        RequestProfs(getResources().getString(R.string.ServURL) + "/api/v2/professors/" + tiny.getString("faksshort"));
         spins = view.findViewById(R.id.spinner4);
         selectprof = view.findViewById(R.id.ButtonSelectProf);
         selectprof.setOnClickListener(new View.OnClickListener() {
@@ -50,7 +50,7 @@ public class Tab_SelectProf extends Fragment {
             public void onClick(View view) {
                 final TinyDB tiny = new TinyDB(getView().getContext());
                 tiny.putString("prof", spins.getSelectedItem().toString());
-                tiny.putString("lastq", "/api/v2/urnik/" + tiny.getString("faksshort") + "/professor/" + spins.getSelectedItem().toString());
+                tiny.putString("lastq", "/api/v2/schedule/professor/" + tiny.getString("faksshort") + "/" + spins.getSelectedItem().toString());
                 tiny.putString("currpath", spins.getSelectedItem().toString());
                 tiny.putString("letnik", "");
                 startActivity(new Intent(getContext(), Activity_View.class));
