@@ -3,7 +3,7 @@
     <string name="ServURL">https://api.urnik-mb.cf</string>
 
     <string name="ContactMail">https://urnik-mb.cf/</string>
-    <string name="AboutProject"> UMU je samostojni projekt, ki ponuja rešitev fleksibilnega prikaza urnikov celotne Univerze v Mariboru. Če se želite pridružiti k razvijanju projekta ali pa prijaviti napako ter podati svoje mnenje smo dosegljivi na naslednjem naslovu:</string>
+    <string name="AboutProject">UMU is an independent project, whose goal is offering a flexible solution for viewing timetables of Univerza v Mariboru. Authors of this application do not claim responsibility for incorrect or incomplete data.</string>
     <string name="PrivacyPolicy">PRIVACY POLICY</string>
     <string name="Authors">Authors: \nDomen Jesenovec \nLuka Koprivc</string>
     <string name="NoData"> Data not found! Try again later!</string>

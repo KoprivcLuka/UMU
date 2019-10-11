@@ -60,7 +60,9 @@ public class Adapter_DayContent extends RecyclerView.Adapter<Adapter_DayContent.
         for (int j = 0; j < unignored.size(); j++) {
             final View EventBox = inflater.inflate(R.layout.singlepredmet, null);
             TextView StartText = EventBox.findViewById(R.id.Start);
+            RelativeLayout HeighSetter = EventBox.findViewById(R.id.heigtsetter);
             TextView EndText = EventBox.findViewById(R.id.End);
+            View Endline = EventBox.findViewById(R.id.EndLine);
             TextView CourseText = EventBox.findViewById(R.id.Course);
             TextView ProfText = EventBox.findViewById(R.id.Prof);
             TextView LocationText = EventBox.findViewById(R.id.Location);
@@ -81,33 +83,37 @@ public class Adapter_DayContent extends RecyclerView.Adapter<Adapter_DayContent.
                 e.printStackTrace();
             }
 
-            int orientation =  myViewHolder.ureplac.getContext().getResources().getConfiguration().orientation;
+            int orientation = myViewHolder.ureplac.getContext().getResources().getConfiguration().orientation;
             if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
                 if (unignored.size() == 1) {
                     root.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
                 } else {
-                    if(j != unignored.size() &&  j != 0)
-                    {
-                        root.setPadding(root.getPaddingLeft(),root.getPaddingTop(),0,root.getPaddingBottom());
+                    if (j != unignored.size() && j != 0) {
+                        root.setPadding(root.getPaddingLeft(), root.getPaddingTop(), 0, root.getPaddingBottom());
                         root.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-                    }
-                    else
-                    {
+                    } else {
                         root.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
                     }
                 }
 
             } else {
                 if (unignored.size() == 1) {
+
                     root.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+
                 } else {
-                    if(j != unignored.size() &&  j != 0)
-                    {
-                        root.setPadding(0,root.getPaddingTop(),root.getPaddingRight(),root.getPaddingBottom());
+                    if (j != unignored.size() && j != 0) {
+
+                        //todo heighsetterparams poprav
+                        LinearLayout.LayoutParams parms = (LinearLayout.LayoutParams) StartText.getLayoutParams();
+                        parms.setMarginStart(0);
+                       StartText.setLayoutParams(parms);
+                        EndText.setLayoutParams(parms);
+                       HeighSetter.setLayoutParams(parms);
+
+
                         root.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-                    }
-                    else
-                    {
+                    } else {
                         root.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
                     }
                 }
@@ -134,6 +140,7 @@ public class Adapter_DayContent extends RecyclerView.Adapter<Adapter_DayContent.
                             //Če ima naslednik isti začetni čas kot prejšni končni čas
                             if (!(cal.getTimeInMillis() == d2.getTime())) {
                                 EndText.setText(unignored.get(j).endTime);
+                                Endline.setVisibility(View.VISIBLE);
                             }
                             //V kateremkoli primeru smo našli naslednika - konec
                             found = true;
