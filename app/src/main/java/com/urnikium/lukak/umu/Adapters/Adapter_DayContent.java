@@ -68,6 +68,7 @@ public class Adapter_DayContent extends RecyclerView.Adapter<Adapter_DayContent.
             TextView LocationText = EventBox.findViewById(R.id.Location);
             LinearLayout root = EventBox.findViewById(R.id.root);
             TextView GroupText = EventBox.findViewById(R.id.Grp);
+            TextView PathAndTypeText = EventBox.findViewById(R.id.pth);
             EventBox.setTag(unignored.get(j));
             String StartTime = unignored.get(j).startTime.split(":")[0];
             if (StartTime.length() == 1) {
@@ -104,12 +105,11 @@ public class Adapter_DayContent extends RecyclerView.Adapter<Adapter_DayContent.
                 } else {
                     if (j != unignored.size() && j != 0) {
 
-                        //todo heighsetterparams poprav
                         LinearLayout.LayoutParams parms = (LinearLayout.LayoutParams) StartText.getLayoutParams();
-                        parms.setMarginStart(0);
-                       StartText.setLayoutParams(parms);
+                        parms.setMargins(0, 0, 25, 0);
+                        StartText.setLayoutParams(parms);
                         EndText.setLayoutParams(parms);
-                       HeighSetter.setLayoutParams(parms);
+                        HeighSetter.setLayoutParams(parms);
 
 
                         root.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
@@ -197,8 +197,9 @@ public class Adapter_DayContent extends RecyclerView.Adapter<Adapter_DayContent.
             }
 
             CourseText.setText(unignored.get(j).course);
-            GroupText.setText(unignored.get(j).type + " " + unignored.get(j).group.field +
-                    unignored.get(j).group.year + " " + unignored.get(j).group.subGroup);
+            GroupText.setText(unignored.get(j).group.field + " " +
+                    unignored.get(j).group.year + ". letnik");
+            PathAndTypeText.setText("(" + unignored.get(j).type + ") " + unignored.get(j).group.subGroup);
             ProfText.setText(unignored.get(j).professor);
             LocationText.setText(unignored.get(j).room);
 

@@ -49,6 +49,7 @@ import okhttp3.Request;
 
 public class Activity_View extends AppCompatActivity {
 
+    Boolean IsNewQuery = false; //zaradi sistema cachiranja.. naj preveri šele ko je zagnan nov query ne ko je prvič narisan UI
     List<Event> res = new ArrayList<>();
     List<Date> dates = new ArrayList<>();
     ArrayList<Date> validdates = new ArrayList<>();
@@ -67,7 +68,7 @@ public class Activity_View extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         rec = findViewById(R.id.recvieweek);
-        TinyDB tiny = new TinyDB(getApplicationContext());
+        final TinyDB tiny = new TinyDB(getApplicationContext());
 
 
         Locale locale = new Locale(tiny.getString("lang"));
@@ -98,6 +99,8 @@ public class Activity_View extends AppCompatActivity {
         }
         Refresh();
 
+
+
     }
 
     @Override
@@ -123,9 +126,7 @@ public class Activity_View extends AppCompatActivity {
         final TinyDB tiny = new TinyDB(this);
         IgnoredGroups = tiny.getListString(tiny.getString("currpath") +
                 tiny.getString("letnik"));
-        if (IgnoredGroups.size() == 0) {
 
-        } //todo če smer še ni bila odprta
         IgnoredCourses = tiny.getListString(tiny.getString("currpath") + tiny.getString("letnik") + "predmsIgnore");
         String json = tiny.getString("events");
         Gson gson = new Gson();
@@ -248,7 +249,49 @@ public class Activity_View extends AppCompatActivity {
         }
 
 
+
         rec.setAdapter(new Adapter_Day(everything, validdates));
+
+
+        if(!tiny.getBoolean(tiny.getString("currpath") + tiny.getString("letnik")+"isset") && IsNewQuery)
+        {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle(R.string.FilterGroups);
+            final ArrayList<String> toignore = tiny.getListString(tiny.getString("currpath") + tiny.getString("letnik"));
+            boolean[] checkboxes = new boolean[cats.size()];
+            int cntr = 0;
+            for (String s : cats) {
+                checkboxes[cntr++] = !toignore.contains(s);
+            }
+
+            builder.setMultiChoiceItems(cats.toArray(new String[]{}), checkboxes,
+                    new DialogInterface.OnMultiChoiceClickListener() {
+
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i, boolean b) {
+                            if (!b) {
+                                toignore.add(cats.get(i));
+                            } else toignore.remove(cats.get(i));
+                        }
+                    });
+            builder.setPositiveButton(R.string.Save, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int id) {
+
+                    tiny.putListString(tiny.getString("currpath") + tiny.getString("letnik"), toignore);
+                    tiny.putBoolean((tiny.getString("currpath") + tiny.getString("letnik")+"isset"), true);
+                    Refresh();
+                }
+            });
+            builder.setNegativeButton(R.string.Cancel, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int id) {
+
+                }
+            });
+            builder.show();
+        }
+
     }
 
     @Override
@@ -376,6 +419,7 @@ public class Activity_View extends AppCompatActivity {
                             public void onClick(DialogInterface dialog, int id) {
 
                                 tiny.putListString(tiny.getString("currpath") + tiny.getString("letnik"), toignore);
+                                tiny.putBoolean((tiny.getString("currpath") + tiny.getString("letnik")+"isset"), true);
                                 Refresh();
                             }
                         });
@@ -526,6 +570,7 @@ public class Activity_View extends AppCompatActivity {
                             public void run() {
                                 TinyDB tiny = new TinyDB(getApplicationContext());
                                 tiny.putString("events", json);
+                                IsNewQuery = true;
                                 Refresh();
                             }
                         });

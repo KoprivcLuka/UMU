@@ -64,6 +64,7 @@
                     android:layout_width="14sp"
                     android:layout_height="14sp"
                     android:layout_gravity="center"
+                    android:layout_margin="2dp"
                     android:src="@drawable/ic_group_gray" />
 
                 <TextView
@@ -74,6 +75,31 @@
                     android:layout_marginEnd="5dp"
                     android:maxWidth="300dp"
                     android:text="Grp"
+                    android:textAlignment="center"
+                    android:textColor="@color/textcolordarker"
+                    tools:ignore="HardcodedText" />
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="start">
+
+                <ImageView
+                    android:layout_width="14sp"
+                    android:layout_height="14sp"
+                    android:layout_gravity="center"
+                    android:layout_margin="2dp"
+                    android:src="@drawable/ic_school_gray" />
+
+                <TextView
+                    android:id="@+id/pth"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginEnd="5dp"
+                    android:maxWidth="300dp"
+                    android:text="Type+skp"
                     android:textAlignment="center"
                     android:textColor="@color/textcolordarker"
                     tools:ignore="HardcodedText" />

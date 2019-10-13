@@ -5,21 +5,19 @@
     android:id="@+id/root"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-   >
+    android:orientation="vertical">
 
 
     <TextView
         android:id="@+id/Start"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:paddingStart="5dp"
         android:layout_weight="1"
         android:background="@color/background"
         android:gravity="top"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:paddingStart="10dp"
-        android:paddingEnd="10dp"
         android:textColor="@color/colorPrimary" />
 
     <RelativeLayout
@@ -27,21 +25,21 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         android:layout_weight="0"
         android:background="@color/background"
         android:elevation="-1dp"
         android:gravity="center"
-        android:minWidth="220dp"
+        android:minWidth="200dp"
         android:minHeight="150dp"
-        android:orientation="vertical"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp" >
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
-            android:gravity="center_vertical|center"
+            android:gravity="center"
             android:orientation="vertical">
 
             <TextView
@@ -49,21 +47,25 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:minWidth="300dp"
                 android:maxWidth="300dp"
+                android:paddingStart="5dp"
+                android:paddingEnd="5dp"
                 android:text="PredmetPaTip"
                 android:textAlignment="center"
                 android:textColor="@color/textcolorprimary"
                 android:textSize="16sp" />
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="start">
+                android:gravity="center">
 
                 <ImageView
                     android:layout_width="14sp"
                     android:layout_height="14sp"
                     android:layout_gravity="center"
+                    android:layout_margin="2dp"
                     android:src="@drawable/ic_group_gray" />
 
                 <TextView
@@ -71,9 +73,33 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
+                    android:gravity="center"
+                    android:maxWidth="260dp"
+                    android:text="Grp"
+                    android:textColor="@color/textcolordarker" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center">
+
+                <ImageView
+                    android:layout_width="14sp"
+                    android:layout_height="14sp"
+                    android:layout_gravity="center"
+                    android:layout_margin="2dp"
+                    android:src="@drawable/ic_school_gray" />
+
+                <TextView
+                    android:id="@+id/pth"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:layout_marginEnd="5dp"
                     android:maxWidth="300dp"
-                    android:text="Grp"
+                    android:text="Type+skp"
                     android:textAlignment="center"
                     android:textColor="@color/textcolordarker"
                     tools:ignore="HardcodedText" />
@@ -81,11 +107,9 @@
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="start"
-                app:layout_constraintStart_toStartOf="@+id/Course"
-                app:layout_constraintTop_toTopOf="@+id/Course">
+                android:gravity="center">
 
                 <ImageView
                     android:layout_width="14sp"
@@ -96,11 +120,10 @@
 
                 <TextView
                     android:id="@+id/Prof"
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginEnd="5dp"
-                    android:layout_weight="1"
                     android:maxWidth="300dp"
                     android:text="Prof"
                     android:textAlignment="center"
@@ -109,11 +132,9 @@
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                app:layout_constraintStart_toStartOf="@+id/Course"
-                app:layout_constraintTop_toTopOf="@+id/Course">
+                android:gravity="center">
 
                 <ImageView
                     android:layout_width="14sp"
@@ -124,15 +145,14 @@
 
                 <TextView
                     android:id="@+id/Location"
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginEnd="5dp"
-                    android:layout_weight="1"
                     android:maxWidth="300dp"
-                    android:text="Lokacija"
+                    android:text="Prof"
                     android:textAlignment="center"
-                    android:textColor="@color/textcolordarker" />
+                    android:textColor="@color/textcolordarker"/>
 
             </LinearLayout>
         </LinearLayout>
@@ -142,22 +162,22 @@
 
     <TextView
         android:id="@+id/End"
+        android:paddingStart="5dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         android:layout_weight="1"
         android:background="@color/background"
         android:gravity="bottom"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:paddingStart="10dp"
-        android:paddingEnd="10dp"
         android:textColor="@color/colorPrimary" />
+
     <View
         android:id="@+id/EndLine"
-        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="10dp"
-        android:background="@color/background"/>
+        android:background="@color/background"
+        android:visibility="gone" />
 
 </LinearLayout>
 
