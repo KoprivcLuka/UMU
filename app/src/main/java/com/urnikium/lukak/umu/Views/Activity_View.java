@@ -100,7 +100,6 @@ public class Activity_View extends AppCompatActivity {
         Refresh();
 
 
-
     }
 
     @Override
@@ -197,15 +196,14 @@ public class Activity_View extends AppCompatActivity {
         Calendar now = Calendar.getInstance();
         Calendar begining = Calendar.getInstance();
 
-
         if (begining.get(Calendar.MONTH) < 7) {
-            begining.set(begining.get(Calendar.YEAR) - 1, 9, 1, 0, 0,0);
+            begining.set(begining.get(Calendar.YEAR) - 1, 9, 1, 0, 0, 0);
         } else {
-            begining.set(begining.get(Calendar.YEAR), 9, 1,0,0,0);
+            begining.set(begining.get(Calendar.YEAR), 9, 1, 0, 0, 0);
         }
 
 
-        begining.setTimeInMillis(begining.getTimeInMillis() - ((begining.get(Calendar.DAY_OF_WEEK)-begining.getFirstDayOfWeek()) * 1000 * 60 * 60 *24));
+        begining.setTimeInMillis(begining.getTimeInMillis() - ((begining.get(Calendar.DAY_OF_WEEK) - begining.getFirstDayOfWeek()) * 1000 * 60 * 60 * 24));
         Calendar end = Calendar.getInstance();
         end.setTimeInMillis(begining.getTimeInMillis());
         end.add(Calendar.HOUR, (zadntedn * 168) - 24);
@@ -220,6 +218,8 @@ public class Activity_View extends AppCompatActivity {
         }
         List<Event> unigonored = DobiFiltirane(res);
         ArrayList<ArrayList<Event>> everything = new ArrayList<>();
+
+
         for (Date d : dates) {
             ArrayList<Event> today = new ArrayList<>();
             Calendar td = new GregorianCalendar();
@@ -249,12 +249,10 @@ public class Activity_View extends AppCompatActivity {
         }
 
 
-
         rec.setAdapter(new Adapter_Day(everything, validdates));
 
 
-        if(!tiny.getBoolean(tiny.getString("currpath") + tiny.getString("letnik")+"isset") && IsNewQuery)
-        {
+        if (!tiny.getBoolean(tiny.getString("currpath") + tiny.getString("letnik") + "isset") && IsNewQuery) {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle(R.string.FilterGroups);
             final ArrayList<String> toignore = tiny.getListString(tiny.getString("currpath") + tiny.getString("letnik"));
@@ -279,7 +277,7 @@ public class Activity_View extends AppCompatActivity {
                 public void onClick(DialogInterface dialog, int id) {
 
                     tiny.putListString(tiny.getString("currpath") + tiny.getString("letnik"), toignore);
-                    tiny.putBoolean((tiny.getString("currpath") + tiny.getString("letnik")+"isset"), true);
+                    tiny.putBoolean((tiny.getString("currpath") + tiny.getString("letnik") + "isset"), true);
                     Refresh();
                 }
             });
@@ -419,7 +417,7 @@ public class Activity_View extends AppCompatActivity {
                             public void onClick(DialogInterface dialog, int id) {
 
                                 tiny.putListString(tiny.getString("currpath") + tiny.getString("letnik"), toignore);
-                                tiny.putBoolean((tiny.getString("currpath") + tiny.getString("letnik")+"isset"), true);
+                                tiny.putBoolean((tiny.getString("currpath") + tiny.getString("letnik") + "isset"), true);
                                 Refresh();
                             }
                         });

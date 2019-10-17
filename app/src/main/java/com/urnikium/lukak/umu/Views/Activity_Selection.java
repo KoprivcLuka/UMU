@@ -49,7 +49,7 @@ public class Activity_Selection extends AppCompatActivity {
         tiny = new TinyDB(this);
         UiModeManager uiManager = (UiModeManager) getSystemService(Context.UI_MODE_SERVICE);
         Switch sw = findViewById(R.id.switch1);
-        if(Build.VERSION.SDK_INT >= 29){sw.setVisibility(View.INVISIBLE);} //skrijemo na android 10+
+        if(Build.VERSION.SDK_INT >= 29){sw.setVisibility(View.GONE);} //skrijemo na android 10+
         if(uiManager.getNightMode()  == UiModeManager.MODE_NIGHT_YES)
         {
             sw.setChecked(true);

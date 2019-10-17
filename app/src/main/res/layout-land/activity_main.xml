@@ -29,13 +29,6 @@
             android:text="@string/DarkMode"
             android:textColor="@color/colorPrimary" />
 
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
-            android:src="@drawable/umulogo" />
-
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -78,8 +71,9 @@
 
         <android.support.v4.view.ViewPager
             android:id="@+id/pager"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:layout_weight="1"
             android:background="@color/background" />
 
     </LinearLayout>

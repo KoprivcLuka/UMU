@@ -30,9 +30,12 @@ public class Adapter_DayContent extends RecyclerView.Adapter<Adapter_DayContent.
     ArrayList<ArrayList<Event>> TodaysEvents;
     List<String> EventTypes = new ArrayList<>();
     ArrayList<String> IgnoredGroups = new ArrayList<>();
+    Boolean Today = true;
 
-    public Adapter_DayContent(ArrayList<ArrayList<Event>> list) {
+
+    public Adapter_DayContent(ArrayList<ArrayList<Event>> list, boolean day) {
         this.TodaysEvents = list;
+        this.Today = day;
     }
 
     @NonNull
@@ -235,6 +238,34 @@ public class Adapter_DayContent extends RecyclerView.Adapter<Adapter_DayContent.
                     builder.show();
                 }
             });
+            if (Today)
+            {// pogoji : ce je dogodek mimo ali ce je dogodek v teku
+                try {
+                    Calendar now = Calendar.getInstance();
+                    Calendar start = Calendar.getInstance();
+                    start.setTime((parser.parse(unignored.get(j).startTime)));
+                    start.set(now.get(Calendar.YEAR),now.get(Calendar.MONTH),now.get(Calendar.DATE));
+                    Calendar end = Calendar.getInstance();
+                    end.setTime((parser.parse(unignored.get(j).endTime)));
+                    end.set(now.get(Calendar.YEAR),now.get(Calendar.MONTH),now.get(Calendar.DATE));
+                    if(end.before(now))
+                    {
+                        EventBox.setAlpha(.3f);
+                    }
+                    else if(now.before(end) && now.after(start))
+                    {
+                        HeighSetter.setBackgroundColor(HeighSetter.getContext().getResources().getColor(R.color.InProgress));
+                        StartText.setBackgroundColor(HeighSetter.getContext().getResources().getColor(R.color.InProgress));
+                        EndText.setBackgroundColor(HeighSetter.getContext().getResources().getColor(R.color.InProgress));
+                    }
+
+
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+
+
+            }
             myViewHolder.ureplac.addView(EventBox);
 
         }

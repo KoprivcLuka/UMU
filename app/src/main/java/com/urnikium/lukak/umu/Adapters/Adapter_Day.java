@@ -40,7 +40,13 @@ public class Adapter_Day extends RecyclerView.Adapter<Adapter_Day.MyViewHolder> 
     @Override
     public void onBindViewHolder(@NonNull final Adapter_Day.MyViewHolder myViewHolder, int i) {
         Calendar tod = Calendar.getInstance();
+        Boolean IsToday = false;
         tod.setTimeInMillis(dates.get(i).getTime());
+        Calendar keriŠpageti = Calendar.getInstance();
+        if(tod.get(Calendar.DATE) == keriŠpageti.get(Calendar.DATE) && tod.get(Calendar.MONTH) == keriŠpageti.get(Calendar.MONTH) && tod.get(Calendar.YEAR) == keriŠpageti.get(Calendar.YEAR))
+        {
+            IsToday = true;
+        }
         myViewHolder.DateText.setText(Dnevi[tod.get(Calendar.DAY_OF_WEEK) - 1] + " , "
                 + tod.get(Calendar.DAY_OF_MONTH) + "." + (tod.get(Calendar.MONTH) + 1));
         myViewHolder.rec.setLayoutManager(new LinearLayoutManager(myViewHolder.rec.getContext(), LinearLayoutManager.VERTICAL, false));
@@ -64,7 +70,7 @@ public class Adapter_Day extends RecyclerView.Adapter<Adapter_Day.MyViewHolder> 
         for (int j = 0; j < listpourah.size(); j++) {
             Collections.sort(listpourah.get(j), new SortByDuration());
         }
-        myViewHolder.rec.setAdapter(new Adapter_DayContent(listpourah));
+        myViewHolder.rec.setAdapter(new Adapter_DayContent(listpourah,IsToday));
     }
 
     @Override
