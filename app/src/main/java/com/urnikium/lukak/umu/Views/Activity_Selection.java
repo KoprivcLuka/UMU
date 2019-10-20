@@ -3,12 +3,16 @@ package com.urnikium.lukak.umu.Views;
 
 import android.app.UiModeManager;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.res.Configuration;
 import android.opengl.Visibility;
 import android.os.Build;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatDelegate;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -47,25 +51,25 @@ public class Activity_Selection extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         AllFaculties = findViewById(R.id.spinner3);
         tiny = new TinyDB(this);
-        UiModeManager uiManager = (UiModeManager) getSystemService(Context.UI_MODE_SERVICE);
         Switch sw = findViewById(R.id.switch1);
-        if(Build.VERSION.SDK_INT >= 29){sw.setVisibility(View.GONE);} //skrijemo na android 10+
-        if(uiManager.getNightMode()  == UiModeManager.MODE_NIGHT_YES)
-        {
-            sw.setChecked(true);
-        }
+
+        sw.setChecked(tiny.getBoolean("IsDarkMode"));
+
 
         sw.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                UiModeManager uiManager = (UiModeManager) getSystemService(Context.UI_MODE_SERVICE);
-                if(isChecked)
-                {
-                    uiManager.setNightMode(UiModeManager.MODE_NIGHT_YES);
-                }
-                else
-                {
-                    uiManager.setNightMode(UiModeManager.MODE_NIGHT_NO);
+                if (isChecked) {
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                    tiny.putBoolean("IsDarkMode",true);
+                    recreate();
+
+
+                } else {
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                    tiny.putBoolean("IsDarkMode",false);
+                    recreate();
+
                 }
             }
         });
@@ -86,6 +90,27 @@ public class Activity_Selection extends AppCompatActivity {
             }
         });
 
+        if (!tiny.getBoolean("agreed")) {
+            //todo
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle(R.string.Warning);
+            builder.setMessage(R.string.Disclaimer);
+            builder.setPositiveButton(R.string.Agreed, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int id) {
+
+                  tiny.putBoolean("agreed",true);
+                }
+            });
+            builder.setNegativeButton(R.string.Exit, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int id) {
+                    System.exit(1);
+                }
+            });
+
+            builder.show();
+        }
     }
 
     void RequestPathsList(String url) {
@@ -110,7 +135,7 @@ public class Activity_Selection extends AppCompatActivity {
                     public void onResponse(okhttp3.Call call, final okhttp3.Response response) throws IOException {
 
                         final String json = response.body().string().trim();
-                        if(response.code() == 404){
+                        if (response.code() == 404) {
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
@@ -125,12 +150,13 @@ public class Activity_Selection extends AppCompatActivity {
                                 }
                             });
 
-                            return;}
+                            return;
+                        }
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
 
-                                Gson gson = new Gson()  ;
+                                Gson gson = new Gson();
                                 ArrayList<GroupWYears> res = new ArrayList<>(Arrays.asList(gson.fromJson(json, GroupWYears[].class)));
                                 java.util.Collections.sort(res, new SortByName());
                                 tiny.putString("groupswyears", json);

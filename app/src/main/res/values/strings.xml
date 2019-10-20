@@ -41,6 +41,10 @@
 
     <string name="AboutProjectTitle">O projektu</string>
 
+    <string name="Warning">Opozorilo!</string>
+    <string name="Agreed">Strinjam se</string>
+    <string name="Exit">Izhod</string>
+    <string name="Disclaimer">Aplikacija je neodvisen samostojni projekt. Za napačne ali nepopolne podatke urnika ne odgovarjamo. Uporabna na lastno odgovornost!</string>
     <string name="Save">Shrani</string>
     <string name="Cancel">Prekliči</string>
     <string-array name="Days">

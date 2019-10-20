@@ -1,5 +1,6 @@
 package com.urnikium.lukak.umu.Views;
 
+import android.app.Activity;
 import android.app.UiModeManager;
 import android.content.Context;
 import android.content.Intent;
@@ -44,27 +45,27 @@ public class Activity_About extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         this.setTitle(getResources().getString(R.string.AboutProjectTitle));
 
-        UiModeManager uiManager = (UiModeManager) getSystemService(Context.UI_MODE_SERVICE);
+
         Switch sw = findViewById(R.id.switch1);
-        if(Build.VERSION.SDK_INT >= 29){sw.setVisibility(View.GONE);} //Popravi za 10
-        if(uiManager.getNightMode()  == UiModeManager.MODE_NIGHT_YES)
-        {
-            sw.setChecked(true);
-        }
+        sw.setChecked(tiny.getBoolean("IsDarkMode"));
+
 
         sw.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                UiModeManager uiManager = (UiModeManager) getSystemService(Context.UI_MODE_SERVICE);
-                if(isChecked)
-                {
-                    uiManager.setNightMode(UiModeManager.MODE_NIGHT_YES);
-                }
-                else
-                {
+                if (isChecked) {
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                    tiny.putBoolean("IsDarkMode",true);
+                    recreate();
 
-                    uiManager.setNightMode(UiModeManager.MODE_NIGHT_NO);
+
+                } else {
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                    tiny.putBoolean("IsDarkMode",false);
+                    recreate();
+
                 }
+                tiny.putBoolean("SettingsChanged",true);
             }
         });
 

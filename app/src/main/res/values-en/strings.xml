@@ -3,7 +3,7 @@
     <string name="ServURL">https://api.urnik-mb.cf</string>
 
     <string name="ContactMail">https://urnik-mb.cf/</string>
-    <string name="AboutProject">UMU is an independent project, whose goal is offering a flexible solution for viewing timetables of Univerza v Mariboru. Authors of this application do not claim responsibility for incorrect or incomplete data.</string>
+    <string name="AboutProject">UMU is an independent project, whose goal is offering a flexible solution for viewing timetables of Univerza v Mariboru. Authors of this application do not claim responsibility for incorrect or incomplete data. Use at your own risk!</string>
     <string name="PrivacyPolicy">PRIVACY POLICY</string>
     <string name="Authors">Authors: \nDomen Jesenovec \nLuka Koprivc</string>
     <string name="NoData"> Data not found! Try again later!</string>
@@ -40,6 +40,10 @@
     <string name="ChooseLanguage">Set language</string>
     <string name="AboutProjectTitle">About project</string>
 
+    <string name="Warning">Warning!</string>
+    <string name="Agreed">I agree</string>
+    <string name="Disclaimer">This applications in an independent project. Authors of this application do not claim responsibility for incorrect or incomplete data. Use at your own risk!</string>
+    <string name="Exit">Exit</string>
     <string name="Save">Save</string>
     <string name="Cancel">Cancel</string>
 

@@ -12,6 +12,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -62,14 +63,23 @@ public class Activity_View extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        final TinyDB tiny = new TinyDB(getApplicationContext());
+
+        if (tiny.getBoolean("IsDarkMode")) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+
+        } else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+
+
+        }
         super.onCreate(savedInstanceState);
+        if (!tiny.getBoolean("agreed")) { finish(); startActivity(new Intent(this, Activity_Selection.class)); return;}
         setContentView(R.layout.activity_week_view);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         rec = findViewById(R.id.recvieweek);
-        final TinyDB tiny = new TinyDB(getApplicationContext());
-
 
         Locale locale = new Locale(tiny.getString("lang"));
         Locale.setDefault(locale);
@@ -108,11 +118,19 @@ public class Activity_View extends AppCompatActivity {
         Locale current = getResources().getConfiguration().locale;
 
         TinyDB tiny = new TinyDB(getApplicationContext());
+
+        if(tiny.getBoolean("SettingsChanged"))
+        {
+            tiny.putBoolean("SettingsChanged",false);
+            recreate();
+        }
         if (current.getISO3Language().length() >= 2) {
             if (!current.getISO3Language().substring(0, 2).equals(tiny.getString("lang"))) {
                 Refresh();
             }
         }
+
+
     }
 
     public void Refresh() {
