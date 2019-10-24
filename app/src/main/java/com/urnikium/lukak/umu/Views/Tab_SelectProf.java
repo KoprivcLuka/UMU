@@ -89,7 +89,7 @@ public class Tab_SelectProf extends Fragment {
                                 profs = Arrays.asList(gson.fromJson(json, String[].class));
                                 Collections.sort(profs);
                                 ArrayAdapter<String> adapter2 = new ArrayAdapter<>(getView().getContext(),
-                                        R.layout.simple_spinner_item, profs);
+                                        R.layout.spinner_item, profs);
                                 adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                                 selectprof.setEnabled(true);
                                 spins.setAdapter(adapter2);

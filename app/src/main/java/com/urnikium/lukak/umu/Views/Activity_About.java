@@ -1,11 +1,5 @@
 package com.urnikium.lukak.umu.Views;
 
-import android.app.Activity;
-import android.app.UiModeManager;
-import android.content.Context;
-import android.content.Intent;
-import android.os.Build;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatDelegate;
@@ -13,10 +7,8 @@ import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.Spinner;
 import android.widget.Switch;
@@ -24,8 +16,6 @@ import android.widget.TextView;
 
 import com.urnikium.lukak.umu.Classes.TinyDB;
 import com.urnikium.lukak.umu.R;
-
-import org.w3c.dom.Text;
 
 
 public class Activity_About extends AppCompatActivity {
@@ -36,7 +26,7 @@ public class Activity_About extends AppCompatActivity {
         setContentView(R.layout.activity_about);
         Spinner spin = findViewById(R.id.spinner6);
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
-                R.layout.simple_spinner_item, getResources().getStringArray(R.array.Languages));
+                R.layout.spinner_item, getResources().getStringArray(R.array.Languages));
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         final TinyDB tiny = new TinyDB(getApplicationContext());
         spin.setAdapter(adapter);

@@ -1,12 +1,7 @@
 package com.urnikium.lukak.umu.Views;
 
 
-import android.app.UiModeManager;
-import android.content.Context;
 import android.content.DialogInterface;
-import android.content.res.Configuration;
-import android.opengl.Visibility;
-import android.os.Build;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
@@ -18,7 +13,9 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CompoundButton;
 import android.widget.Spinner;
+import android.widget.SpinnerAdapter;
 import android.widget.Switch;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -78,6 +75,8 @@ public class Activity_Selection extends AppCompatActivity {
         AllFaculties.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+
+                ((TextView) adapterView.getChildAt(0)).setTextColor(getResources().getColor(R.color.textcolorprimary));
                 tiny.putString("faks", AllFaculties.getSelectedItem().toString());
                 tiny.putString("faksshort", res.get(AllFaculties.getSelectedItemPosition()).ShortName);
                 RequestPathsList(getResources().getString(R.string.ServURL) + "/api/v2/groups/" + res.get(AllFaculties.getSelectedItemPosition()).ShortName + "/years");
@@ -91,7 +90,6 @@ public class Activity_Selection extends AppCompatActivity {
         });
 
         if (!tiny.getBoolean("agreed")) {
-            //todo
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle(R.string.Warning);
             builder.setMessage(R.string.Disclaimer);
@@ -240,7 +238,7 @@ public class Activity_Selection extends AppCompatActivity {
                                     zadapter.add(f.LongName);
                                 }
                                 ArrayAdapter<String> adapter2 = new ArrayAdapter<>(getApplicationContext(),
-                                        R.layout.simple_spinner_item, zadapter);
+                                        R.layout.spinner_item, zadapter);
 
                                 adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                                 int index22 = zadapter.indexOf(tiny.getString("faks"));

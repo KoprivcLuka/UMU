@@ -46,7 +46,7 @@ public class Tab_SelectProgramme extends Fragment {
             res.add(e.Name);
         }
         int index = res.indexOf(tiny.getString("currpath"));
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(view.getContext(), R.layout.simple_spinner_item, res);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(view.getContext(), R.layout.spinner_item, res);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         AllPaths = view.findViewById(R.id.spinner);
         Year = view.findViewById(R.id.spinner2);
@@ -60,7 +60,7 @@ public class Tab_SelectProgramme extends Fragment {
                 }
                 Collections.sort(krsmlen);
                 ArrayAdapter<String> adapter2 = new ArrayAdapter<>(getContext(),
-                        R.layout.simple_spinner_item, krsmlen);
+                        R.layout.spinner_item, krsmlen);
                 adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 Year.setAdapter(adapter2);
                 Year.setSelection(0);
