@@ -74,7 +74,11 @@ public class Activity_View extends AppCompatActivity {
 
         }
         super.onCreate(savedInstanceState);
-        if (!tiny.getBoolean("agreed")) { finish(); startActivity(new Intent(this, Activity_Selection.class)); return;}
+        if (!tiny.getBoolean("agreed")) {
+            finish();
+            startActivity(new Intent(this, Activity_Selection.class));
+            return;
+        }
         setContentView(R.layout.activity_week_view);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -119,9 +123,8 @@ public class Activity_View extends AppCompatActivity {
 
         TinyDB tiny = new TinyDB(getApplicationContext());
 
-        if(tiny.getBoolean("SettingsChanged"))
-        {
-            tiny.putBoolean("SettingsChanged",false);
+        if (tiny.getBoolean("SettingsChanged")) {
+            tiny.putBoolean("SettingsChanged", false);
             recreate();
         }
         if (current.getISO3Language().length() >= 2) {
@@ -350,7 +353,9 @@ public class Activity_View extends AppCompatActivity {
                     @Override
                     public void onDateSet(DatePicker datePicker, int y, int m, int dom) {
 
-
+                        if (validdates.size() == 0) {
+                            return;
+                        }
                         int index = -1;
                         Calendar cal2 = Calendar.getInstance();
                         cal2.setTimeInMillis(new GregorianCalendar(y, m, dom).getTimeInMillis());
