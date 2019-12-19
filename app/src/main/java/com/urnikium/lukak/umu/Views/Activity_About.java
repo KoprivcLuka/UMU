@@ -1,7 +1,7 @@
 package com.urnikium.lukak.umu.Views;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
@@ -45,17 +45,28 @@ public class Activity_About extends AppCompatActivity {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-                    tiny.putBoolean("IsDarkMode",true);
+                    tiny.putBoolean("IsDarkMode", true);
                     recreate();
 
 
                 } else {
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-                    tiny.putBoolean("IsDarkMode",false);
+                    tiny.putBoolean("IsDarkMode", false);
                     recreate();
 
                 }
-                tiny.putBoolean("SettingsChanged",true);
+                tiny.putBoolean("SettingsChanged", true);
+            }
+        });
+
+        Switch goneEventsSwitch = findViewById(R.id.goneEventsSwitch);
+        goneEventsSwitch.setChecked(tiny.getBoolean("ShowGoneEvents"));
+
+        goneEventsSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+                tiny.putBoolean("ShowGoneEvents", isChecked);
+                tiny.putBoolean("SettingsChanged", true);
             }
         });
 
@@ -87,8 +98,8 @@ public class Activity_About extends AppCompatActivity {
         });
 
 
-        TextView Spletna= findViewById(R.id.button);
-        Spletna.setText(Html.fromHtml( "<a href=https://urnik-mb.cf/>" + getResources().getString(R.string.ContactMail) + " </a>"));
+        TextView Spletna = findViewById(R.id.button);
+        Spletna.setText(Html.fromHtml("<a href=https://urnik-mb.cf/>" + getResources().getString(R.string.ContactMail) + " </a>"));
         Spletna.setMovementMethod(LinkMovementMethod.getInstance());
         TextView tx = findViewById(R.id.textView8);
         tx.setText(Html.fromHtml("<a href=https://feri-urnik.si:8080/privacy>" + getResources().getString(R.string.PrivacyPolicy) + " </a>"));

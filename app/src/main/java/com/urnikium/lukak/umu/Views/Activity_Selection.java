@@ -2,26 +2,25 @@ package com.urnikium.lukak.umu.Views;
 
 
 import android.content.DialogInterface;
+import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.app.AppCompatDelegate;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CompoundButton;
 import android.widget.Spinner;
-import android.widget.SpinnerAdapter;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
+import com.urnikium.lukak.umu.Adapters.Adapter_SelectionPager;
 import com.urnikium.lukak.umu.Classes.Faculty;
 import com.urnikium.lukak.umu.Classes.GroupWYears;
-import com.urnikium.lukak.umu.Adapters.Adapter_SelectionPager;
 import com.urnikium.lukak.umu.Classes.TinyDB;
 import com.urnikium.lukak.umu.R;
 
@@ -29,7 +28,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
-
 
 import okhttp3.Callback;
 import okhttp3.OkHttpClient;
@@ -48,6 +46,12 @@ public class Activity_Selection extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         AllFaculties = findViewById(R.id.spinner3);
         tiny = new TinyDB(this);
+
+        if (!tiny.getBoolean("SavedGoneEvents")) {
+            tiny.putBoolean("ShowGoneEvents", true);
+            tiny.putBoolean("SavedGoneEvents", true);
+        }
+
         Switch sw = findViewById(R.id.switch1);
 
         sw.setChecked(tiny.getBoolean("IsDarkMode"));
@@ -58,13 +62,13 @@ public class Activity_Selection extends AppCompatActivity {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-                    tiny.putBoolean("IsDarkMode",true);
+                    tiny.putBoolean("IsDarkMode", true);
                     recreate();
 
 
                 } else {
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-                    tiny.putBoolean("IsDarkMode",false);
+                    tiny.putBoolean("IsDarkMode", false);
                     recreate();
 
                 }
@@ -97,7 +101,7 @@ public class Activity_Selection extends AppCompatActivity {
                 @Override
                 public void onClick(DialogInterface dialog, int id) {
 
-                  tiny.putBoolean("agreed",true);
+                    tiny.putBoolean("agreed", true);
                 }
             });
             builder.setNegativeButton(R.string.Exit, new DialogInterface.OnClickListener() {
