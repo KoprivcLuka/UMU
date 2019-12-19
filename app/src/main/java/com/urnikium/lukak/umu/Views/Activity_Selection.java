@@ -71,7 +71,7 @@ public class Activity_Selection extends AppCompatActivity {
             }
         });
 
-        RequestFaculties(getResources().getString(R.string.ServURL) + "/api/v2/faculties");
+        RequestFaculties(getResources().getString(R.string.ServURL) + "/api/v2/faculties" + "?client=umu-mobile-prod");
         AllFaculties.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -79,7 +79,7 @@ public class Activity_Selection extends AppCompatActivity {
                 ((TextView) adapterView.getChildAt(0)).setTextColor(getResources().getColor(R.color.textcolorprimary));
                 tiny.putString("faks", AllFaculties.getSelectedItem().toString());
                 tiny.putString("faksshort", res.get(AllFaculties.getSelectedItemPosition()).ShortName);
-                RequestPathsList(getResources().getString(R.string.ServURL) + "/api/v2/groups/" + res.get(AllFaculties.getSelectedItemPosition()).ShortName + "/years");
+                RequestPathsList(getResources().getString(R.string.ServURL) + "/api/v2/groups/" + res.get(AllFaculties.getSelectedItemPosition()).ShortName + "/years" + "?client=umu-mobile-prod");
 
             }
 

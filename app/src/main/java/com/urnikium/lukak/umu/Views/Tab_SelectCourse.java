@@ -43,7 +43,7 @@ public class Tab_SelectCourse extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 
         TinyDB tiny = new TinyDB(getContext());
-        RequestPreds(getResources().getString(R.string.ServURL) + "/api/v2/courses/" + tiny.getString("faksshort"));
+        RequestPreds(getResources().getString(R.string.ServURL) + "/api/v2/courses/" + tiny.getString("faksshort") + "?client=umu-mobile-prod");
         super.onViewCreated(view, savedInstanceState);
 
     }

@@ -109,7 +109,7 @@ public class Activity_View extends AppCompatActivity {
             finish();
             return;
         } else {
-            RequestPath(getResources().getString(R.string.ServURL) + tiny.getString("lastq"));
+            RequestPath(getResources().getString(R.string.ServURL) + tiny.getString("lastq") + "?client=umu-mobile-prod");
         }
         Refresh();
 
@@ -224,11 +224,12 @@ public class Activity_View extends AppCompatActivity {
         }
 
 
+        now.setTimeInMillis(begining.getTimeInMillis());
+        now.set(now.get(Calendar.YEAR), now.get(Calendar.MONTH), now.get(Calendar.DAY_OF_MONTH), 0, 0);
         begining.setTimeInMillis(begining.getTimeInMillis() - ((begining.get(Calendar.DAY_OF_WEEK) - begining.getFirstDayOfWeek()) * 1000 * 60 * 60 * 24));
         Calendar end = Calendar.getInstance();
         end.setTimeInMillis(begining.getTimeInMillis());
         end.add(Calendar.HOUR, (zadntedn * 168) - 24);
-        now.set(now.get(Calendar.YEAR), now.get(Calendar.MONTH), now.get(Calendar.DAY_OF_MONTH), 0, 0);
 
         while (now.getTimeInMillis() < end.getTimeInMillis()) {
 
@@ -311,6 +312,8 @@ public class Activity_View extends AppCompatActivity {
             builder.show();
         }
 
+        now = Calendar.getInstance();
+        ScrollToPosition(now.get(Calendar.YEAR),now.get(Calendar.MONTH),now.get(Calendar.DAY_OF_MONTH), false);
     }
 
     @Override
@@ -353,51 +356,10 @@ public class Activity_View extends AppCompatActivity {
                     @Override
                     public void onDateSet(DatePicker datePicker, int y, int m, int dom) {
 
-                        if (validdates.size() == 0) {
-                            return;
-                        }
-                        int index = -1;
-                        Calendar cal2 = Calendar.getInstance();
-                        cal2.setTimeInMillis(new GregorianCalendar(y, m, dom).getTimeInMillis());
-
-
-                        for (int i = 0; i < validdates.size(); i++) {
-                            Calendar cal3 = Calendar.getInstance();
-                            cal3.setTimeInMillis(validdates.get(i).getTime());
-                            cal3.setTimeInMillis((new GregorianCalendar(cal3.get(Calendar.YEAR), cal3.get(Calendar.MONTH), cal3.get(Calendar.DAY_OF_MONTH)).getTimeInMillis()));
-                            Long diff = cal3.getTimeInMillis() - cal2.getTimeInMillis();
-                            if (diff == 0) {
-                                index = i;
-                                break;
-                            }
-                        }
-
-                        if (index != -1) {
-
-                            rec.smoothScrollToPosition(index);
-
-
-                        } else {
-                            int nearest = -1;
-                            for (int j = 0; j < validdates.size(); j++) {
-
-                                if (cal2.getTimeInMillis() - validdates.get(j).getTime() < 0) {
-                                    nearest = j;
-                                    break;
-                                }
-                            }
-                            if (nearest == -1) {
-                                rec.smoothScrollToPosition(validdates.size() - 1);
-                            } else {
-                                rec.smoothScrollToPosition(nearest);
-                            }
-
-                        }
-
+                        ScrollToPosition(y, m, dom, true);
 
                     }
                 }, cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH));
-                datePickerDialog.getDatePicker().setMinDate(cal.getTimeInMillis());
                 datePickerDialog.getDatePicker().setFirstDayOfWeek(2);
 
 
@@ -557,6 +519,65 @@ public class Activity_View extends AppCompatActivity {
             ev.endTime = HourOutput + ":0" + cal.get(Calendar.MINUTE);
         } else {
             ev.endTime = HourOutput + ":" + cal.get(Calendar.MINUTE);
+        }
+
+    }
+
+    void ScrollToPosition(int y, int m, int dom, boolean smooth) {
+        if (validdates.size() == 0) {
+            return;
+        }
+        int index = -1;
+        Calendar cal2 = Calendar.getInstance();
+        cal2.setTimeInMillis(new GregorianCalendar(y, m, dom).getTimeInMillis());
+
+
+        for (int i = 0; i < validdates.size(); i++) {
+            Calendar cal3 = Calendar.getInstance();
+            cal3.setTimeInMillis(validdates.get(i).getTime());
+            cal3.setTimeInMillis((new GregorianCalendar(cal3.get(Calendar.YEAR), cal3.get(Calendar.MONTH), cal3.get(Calendar.DAY_OF_MONTH)).getTimeInMillis()));
+            Long diff = cal3.getTimeInMillis() - cal2.getTimeInMillis();
+            if (diff == 0) {
+                index = i;
+                break;
+            }
+        }
+
+        if (index != -1) {
+
+            if(smooth)
+            { rec.smoothScrollToPosition(index);}
+            else {
+                rec.scrollToPosition(index);
+            }
+
+
+        } else {
+            int nearest = -1;
+            for (int j = 0; j < validdates.size(); j++) {
+
+                if (cal2.getTimeInMillis() - validdates.get(j).getTime() < 0) {
+                    nearest = j;
+                    break;
+                }
+            }
+            if (nearest == -1) {
+                if(smooth)
+                { rec.smoothScrollToPosition(validdates.size() - 1);}
+                else {
+                    rec.smoothScrollToPosition(validdates.size() - 1);
+                }
+
+
+            } else {
+                if(smooth)
+                { rec.smoothScrollToPosition(nearest);}
+                else {
+                    rec.scrollToPosition(nearest);
+                }
+
+            }
+
         }
 
     }

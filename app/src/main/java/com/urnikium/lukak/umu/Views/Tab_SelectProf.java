@@ -42,7 +42,7 @@ public class Tab_SelectProf extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         final TinyDB tiny = new TinyDB(getView().getContext());
-        RequestProfs(getResources().getString(R.string.ServURL) + "/api/v2/professors/" + tiny.getString("faksshort"));
+        RequestProfs(getResources().getString(R.string.ServURL) + "/api/v2/professors/" + tiny.getString("faksshort") + "?client=umu-mobile-prod");
         spins = view.findViewById(R.id.spinner4);
         selectprof = view.findViewById(R.id.ButtonSelectProf);
         selectprof.setOnClickListener(new View.OnClickListener() {

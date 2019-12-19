@@ -31,11 +31,14 @@ public class Adapter_DayContent extends RecyclerView.Adapter<Adapter_DayContent.
     List<String> EventTypes = new ArrayList<>();
     ArrayList<String> IgnoredGroups = new ArrayList<>();
     Boolean Today = true;
+    Boolean Past = true;
 
 
-    public Adapter_DayContent(ArrayList<ArrayList<Event>> list, boolean day) {
+    public Adapter_DayContent(ArrayList<ArrayList<Event>> list, boolean day, boolean past) {
         this.TodaysEvents = list;
         this.Today = day;
+        this.Past = past;
+
     }
 
     @NonNull
@@ -238,6 +241,7 @@ public class Adapter_DayContent extends RecyclerView.Adapter<Adapter_DayContent.
                     builder.show();
                 }
             });
+            if(Past) {EventBox.setAlpha(.3f);}
             if (Today)
             {// pogoji : ce je dogodek mimo ali ce je dogodek v teku
                 try {
