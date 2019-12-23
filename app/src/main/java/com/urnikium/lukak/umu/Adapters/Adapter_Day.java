@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.urnikium.lukak.umu.Classes.Event;
+import com.urnikium.lukak.umu.Classes.TinyDB;
 import com.urnikium.lukak.umu.R;
 
 
@@ -40,42 +41,62 @@ public class Adapter_Day extends RecyclerView.Adapter<Adapter_Day.MyViewHolder> 
     @Override
     public void onBindViewHolder(@NonNull final Adapter_Day.MyViewHolder myViewHolder, int i) {
         Calendar tod = Calendar.getInstance();
-        Boolean IsToday = false;
-        Boolean Past = false;
-        if(tod.getTimeInMillis() > dates.get(i).getTime()) {
-         Past = true;
-        }
-        tod.setTimeInMillis(dates.get(i).getTime());
+        boolean isToday = false;
+        boolean past = false;
 
-        Calendar keriŠpageti = Calendar.getInstance();
-        if(tod.get(Calendar.DATE) == keriŠpageti.get(Calendar.DATE) && tod.get(Calendar.MONTH) == keriŠpageti.get(Calendar.MONTH) && tod.get(Calendar.YEAR) == keriŠpageti.get(Calendar.YEAR))
-        {
-            IsToday = true;
+        Date date8PM = getDateTo8PM(dates.get(i)); //Date is in the past After Eight
+
+        if (tod.getTimeInMillis() > date8PM.getTime()) {
+            past = true;
         }
-        myViewHolder.DateText.setText(Dnevi[tod.get(Calendar.DAY_OF_WEEK) - 1] + " , "
-                + tod.get(Calendar.DAY_OF_MONTH) + "." + (tod.get(Calendar.MONTH) + 1));
+
+        tod.setTimeInMillis(dates.get(i).getTime());
+        Calendar calendar = Calendar.getInstance();
+
+        if (tod.get(Calendar.DATE) == calendar.get(Calendar.DATE) && tod.get(Calendar.MONTH) == calendar.get(Calendar.MONTH) && tod.get(Calendar.YEAR) == calendar.get(Calendar.YEAR)) {
+            isToday = true;
+        }
+
+        myViewHolder.DateText.setText(Dnevi[tod.get(Calendar.DAY_OF_WEEK) - 1] + " , " + tod.get(Calendar.DAY_OF_MONTH) + "." + (tod.get(Calendar.MONTH) + 1));
         myViewHolder.rec.setLayoutManager(new LinearLayoutManager(myViewHolder.rec.getContext(), LinearLayoutManager.VERTICAL, false));
-        ArrayList<Event> enaura = new ArrayList<>();
-        ArrayList<ArrayList<Event>> listpourah = new ArrayList<>();
+
+        ArrayList<Event> enaUra = new ArrayList<>();
+        ArrayList<ArrayList<Event>> listPoUrah = new ArrayList<>();
 
         for (int j = 0; j < list.get(i).size(); j++) {
             if (j == 0) {
-                enaura.add(list.get(i).get(j));
+                enaUra.add(list.get(i).get(j));
             } else {
                 if (!list.get(i).get(j - 1).startTime.equals(list.get(i).get(j).startTime)) {
-                    listpourah.add(enaura);
-                    enaura = new ArrayList<>();
-                    enaura.add(list.get(i).get(j));
+                    listPoUrah.add(enaUra);
+                    enaUra = new ArrayList<>();
+                    enaUra.add(list.get(i).get(j));
                 } else {
-                    enaura.add(list.get(i).get(j));
+                    enaUra.add(list.get(i).get(j));
                 }
             }
         }
-        listpourah.add(enaura);
-        for (int j = 0; j < listpourah.size(); j++) {
-            Collections.sort(listpourah.get(j), new SortByDuration());
+
+            listPoUrah.add(enaUra);
+
+        for (int j = 0; j < listPoUrah.size(); j++) {
+            Collections.sort(listPoUrah.get(j), new SortByDuration());
         }
-        myViewHolder.rec.setAdapter(new Adapter_DayContent(listpourah,IsToday, Past));
+
+        myViewHolder.rec.setAdapter(new Adapter_DayContent(listPoUrah, isToday, past));
+    }
+
+
+    private Date getDateTo8PM(Date date) {
+        Calendar cal = Calendar.getInstance();
+
+        cal.setTime(date);
+        cal.set(Calendar.HOUR_OF_DAY, 23);
+        cal.set(Calendar.MINUTE, 55);
+        cal.set(Calendar.SECOND, 0);
+        cal.set(Calendar.MILLISECOND, 0);
+
+        return cal.getTime();
     }
 
     @Override

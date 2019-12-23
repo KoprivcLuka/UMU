@@ -23,22 +23,23 @@ public class Activity_About extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_about);
-        Spinner spin = findViewById(R.id.spinner6);
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
-                R.layout.spinner_item, getResources().getStringArray(R.array.Languages));
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         final TinyDB tiny = new TinyDB(getApplicationContext());
+
+        setContentView(R.layout.activity_about);
+
+        Spinner spin = findViewById(R.id.spinner6);
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.spinner_item, getResources().getStringArray(R.array.Languages));
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spin.setAdapter(adapter);
+
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         this.setTitle(getResources().getString(R.string.AboutProjectTitle));
 
-
         Switch sw = findViewById(R.id.switch1);
         sw.setChecked(tiny.getBoolean("IsDarkMode"));
-
 
         sw.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -60,12 +61,12 @@ public class Activity_About extends AppCompatActivity {
         });
 
         Switch goneEventsSwitch = findViewById(R.id.goneEventsSwitch);
-        goneEventsSwitch.setChecked(tiny.getBoolean("ShowGoneEvents"));
+        goneEventsSwitch.setChecked(!tiny.getBoolean("ShowGoneEvents"));
 
         goneEventsSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
-                tiny.putBoolean("ShowGoneEvents", isChecked);
+                tiny.putBoolean("ShowGoneEvents", !isChecked);
                 tiny.putBoolean("SettingsChanged", true);
             }
         });

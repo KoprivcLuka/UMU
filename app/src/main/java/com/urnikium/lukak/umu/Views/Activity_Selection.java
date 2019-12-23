@@ -47,11 +47,6 @@ public class Activity_Selection extends AppCompatActivity {
         AllFaculties = findViewById(R.id.spinner3);
         tiny = new TinyDB(this);
 
-        if (!tiny.getBoolean("SavedGoneEvents")) {
-            tiny.putBoolean("ShowGoneEvents", true);
-            tiny.putBoolean("SavedGoneEvents", true);
-        }
-
         Switch sw = findViewById(R.id.switch1);
 
         sw.setChecked(tiny.getBoolean("IsDarkMode"));

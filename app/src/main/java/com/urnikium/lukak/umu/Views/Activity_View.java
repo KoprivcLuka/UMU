@@ -65,11 +65,6 @@ public class Activity_View extends AppCompatActivity {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         }
 
-        if (!tiny.getBoolean("SavedGoneEvents")) {
-            tiny.putBoolean("ShowGoneEvents", true);
-            tiny.putBoolean("SavedGoneEvents", true);
-        }
-
         super.onCreate(savedInstanceState);
         if (!tiny.getBoolean("agreed")) {
             finish();
@@ -225,7 +220,7 @@ public class Activity_View extends AppCompatActivity {
             begining.set(begining.get(Calendar.YEAR), 9, 1, 0, 0, 0);
         }
 
-        if (tiny.getBoolean("ShowGoneEvents")) {
+        if (!tiny.getBoolean("ShowGoneEvents")) {
             now.setTimeInMillis(begining.getTimeInMillis());
         }
 
