@@ -102,9 +102,7 @@ public class Activity_About extends AppCompatActivity {
         TextView Spletna = findViewById(R.id.button);
         Spletna.setText(Html.fromHtml("<a href=https://urnik-mb.cf/>" + getResources().getString(R.string.ContactMail) + " </a>"));
         Spletna.setMovementMethod(LinkMovementMethod.getInstance());
-        TextView tx = findViewById(R.id.textView8);
-        tx.setText(Html.fromHtml("<a href=https://feri-urnik.si:8080/privacy>" + getResources().getString(R.string.PrivacyPolicy) + " </a>"));
-        tx.setMovementMethod(LinkMovementMethod.getInstance());
+
     }
 
     @Override
