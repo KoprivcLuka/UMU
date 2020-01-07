@@ -1,5 +1,5 @@
 # Zadnja verzija
-[Povezava](https://github.com/KoprivcLuka/UMU/blob/master/latest-release.apk)
+[Povezava](https://play.google.com/store/apps/details?id=com.urnikium.lukak.umu)
 
 
 ![Mobile_screenshot](https://raw.githubusercontent.com/KoprivcLuka/UMU/master/Grafika/Mobile.png "Title")
