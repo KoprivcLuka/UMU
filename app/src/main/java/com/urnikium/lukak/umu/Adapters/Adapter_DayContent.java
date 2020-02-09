@@ -173,7 +173,7 @@ public class Adapter_DayContent extends RecyclerView.Adapter<Adapter_DayContent.
 
             switch (EventType) {
                 case 0:
-                    root.setBackgroundColor(Color.parseColor("#4f86c6"));
+                    root.setBackgroundColor(Color.parseColor("#90C147"));
                     break;
 
                 case 1:

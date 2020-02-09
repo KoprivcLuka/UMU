@@ -2,14 +2,20 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-
+    android:layout_marginEnd="10dp"
+    android:layout_marginStart="10dp"
+    android:background="@drawable/background_rounded_l2"
+    android:padding="10dp"
+    android:elevation="5dp"
+    android:layout_marginBottom="10dp"
     android:orientation="vertical">
 
     <TextView
         android:id="@+id/textView5"
         style="@style/Base.TextAppearance.Widget.AppCompat.Toolbar.Title"
-        android:background="@drawable/background_rounded_nobottom"
-        android:layout_marginTop="10dp"
+        android:background="@drawable/background_rounded"
+        android:elevation="5dp"
+        android:layout_marginBottom="10dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:foregroundGravity="center_vertical"
@@ -22,10 +28,13 @@
     <android.support.v7.widget.RecyclerView
         android:paddingStart="5dp"
         android:paddingEnd="5dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:elevation="5dp"
         android:id="@+id/vsakdan"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/background"
+        android:background="@drawable/background_rounded"
         android:isScrollContainer="true"
         android:nestedScrollingEnabled="true" />
 </LinearLayout>

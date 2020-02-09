@@ -31,7 +31,7 @@
     <string name="ByProfessor">By professor</string>
     <string name="ByCourse">By course</string>
     <string name="DarkMode">Dark mode  </string>
-    <string name="GoneEvents">Show passed events</string>
+    <string name="GoneEvents">Show past events</string>
 
     <string name="ErrorRefresh">Error while refreshing, check your connection and re-open the app!</string>
     <string name="ErrorLoad">Error while loading, check your connection and re-open the app!</string>
