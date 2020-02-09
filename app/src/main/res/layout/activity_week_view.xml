@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background"
+    android:background="@color/colorPrimaryDark"
     android:orientation="vertical"
     tools:context=".Views.Activity_View">
 
@@ -12,16 +12,22 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/background"
-        android:elevation="4dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/background_rounded"
+        android:elevation="20dp"
         android:minHeight="?attr/actionBarSize"
-        app:titleTextColor="@color/colorPrimary"></android.support.v7.widget.Toolbar>
+        app:titleTextColor="@color/colorPrimary"/>
 
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recvieweek"
+        android:elevation="20dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginStart="5dp"
+        android:background="@drawable/background_rounded_nobottom"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/background"
         android:orientation="horizontal" />
 </LinearLayout>

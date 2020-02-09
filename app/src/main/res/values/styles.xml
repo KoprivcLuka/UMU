@@ -16,7 +16,7 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:homeAsUpIndicator">@drawable/ic_arrow_back_blu</item>
-        <item name="android:statusBarColor">@color/statbar</item>
+        <item name="android:statusBarColor">@color/colorPrimaryDark</item>
     </style>
 
 
