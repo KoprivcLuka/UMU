@@ -3,8 +3,9 @@
     <color name="colorPrimary">#288AC8</color>
     <color name="colorPrimaryDark">#1D6EB6</color>
     <color name="colorAccent">#1D6EB6</color>
-    <color name="primarySemiTrans">#7716202A</color>
     <color name="background">#16202A</color>
+    <color name="gradientStart">#0F151C</color>
+    <color name="gradientEnd">#000000</color>
     <color name="textcolorprimary">#FAFAFA</color>
     <color name="textcolordarker">#8898A5</color>
     <color name="statbar">@color/background</color>

@@ -1,5 +1,6 @@
 package com.urnikium.lukak.umu.Views;
 
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDelegate;
@@ -7,6 +8,8 @@ import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CompoundButton;
@@ -20,12 +23,21 @@ import com.urnikium.lukak.umu.R;
 
 public class Activity_About extends AppCompatActivity {
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         final TinyDB tiny = new TinyDB(getApplicationContext());
 
         setContentView(R.layout.activity_about);
+
+        //Nastavi status bar
+        Window window = this.getWindow();
+        Drawable background = this.getResources().getDrawable(R.drawable.backgroundgradient);
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        window.setStatusBarColor(this.getResources().getColor(android.R.color.transparent));
+        window.setNavigationBarColor(this.getResources().getColor(android.R.color.transparent));
+        window.setBackgroundDrawable(background);
 
         Spinner spin = findViewById(R.id.spinner6);
 
@@ -104,6 +116,8 @@ public class Activity_About extends AppCompatActivity {
         Spletna.setMovementMethod(LinkMovementMethod.getInstance());
 
     }
+
+
 
     @Override
     public boolean onSupportNavigateUp() {

@@ -4,7 +4,6 @@
 
     <string name="ContactMail">https://urnik-mb.cf/</string>
     <string name="AboutProject">UMU is an independent project, whose goal is offering a flexible solution for viewing timetables of Univerza v Mariboru. Authors of this application do not claim responsibility for incorrect or incomplete data. Use at your own risk!</string>
-    <string name="PrivacyPolicy">PRIVACY POLICY</string>
     <string name="Authors">Authors: \nDomen Jesenovec \nLuka Koprivc</string>
     <string name="NoData"> Data not found! Try again later!</string>
 
@@ -19,7 +18,6 @@
     <string name="Next">Next</string>
 
     <string name="Handler">Speaker</string>
-    <string name="Professor">Professor</string>
     <string name="Type">Type</string>
     <string name="Programme">Programme</string>
     <string name="Group">Group</string>

@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -15,6 +16,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.DatePicker;
 import android.widget.PopupMenu;
 import android.widget.Toast;
@@ -73,6 +76,14 @@ public class Activity_View extends AppCompatActivity {
         }
 
         setContentView(R.layout.activity_week_view);
+
+        //Nastavi status bar
+        Window window = this.getWindow();
+        Drawable background = this.getResources().getDrawable(R.drawable.backgroundgradient);
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        window.setStatusBarColor(this.getResources().getColor(android.R.color.transparent));
+        window.setNavigationBarColor(this.getResources().getColor(android.R.color.transparent));
+        window.setBackgroundDrawable(background);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);

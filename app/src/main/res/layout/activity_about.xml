@@ -14,19 +14,22 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
         android:layout_marginEnd="10dp"
-        android:layout_marginBottom="10dp"
+        android:layout_marginBottom="5dp"
         android:background="@drawable/background_rounded"
         android:elevation="5dp"
-        android:minHeight="?attr/actionBarSize"
-        app:titleTextColor="@color/colorPrimary" />
+        android:foregroundGravity="center_vertical"
+        android:gravity="center_vertical"
+        app:titleTextColor="@color/colorPrimary" >
+    </android.support.v7.widget.Toolbar>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        android:elevation="5dp"
         android:background="@drawable/background_rounded"
+        android:elevation="5dp"
         android:orientation="vertical">
 
         <LinearLayout
@@ -86,15 +89,14 @@
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:background="@drawable/background_rounded"
-
             android:orientation="vertical">
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
-                android:gravity="center_vertical|center_horizontal"
                 android:layout_marginEnd="5dp"
+                android:gravity="center_vertical|center_horizontal"
                 android:text="@string/AboutProject"
                 android:textColor="@color/textcolorprimary" />
 

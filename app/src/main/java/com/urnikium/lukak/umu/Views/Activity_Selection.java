@@ -2,6 +2,7 @@ package com.urnikium.lukak.umu.Views;
 
 
 import android.content.DialogInterface;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
@@ -9,6 +10,8 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDelegate;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CompoundButton;
@@ -44,6 +47,15 @@ public class Activity_Selection extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //Nastavi status bar
+        Window window = this.getWindow();
+        Drawable background = this.getResources().getDrawable(R.drawable.backgroundgradient);
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        window.setStatusBarColor(this.getResources().getColor(android.R.color.transparent));
+        window.setNavigationBarColor(this.getResources().getColor(android.R.color.transparent));
+        window.setBackgroundDrawable(background);
+
         AllFaculties = findViewById(R.id.spinner3);
         tiny = new TinyDB(this);
 
