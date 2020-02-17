@@ -34,6 +34,8 @@
 
     <string name="FilterGroups">Izberi skupine</string>
     <string name="FilterCourses">Izberi predmete</string>
+    <string name="FilterTypes">Izberi tipe</string>
+
     <string name="ChooseLanguage">Nastavi jezik</string>
     <string name="DarkMode">Temni način  </string>
     <string name="GoneEvents">Prikaži minule dogodke</string>
@@ -46,6 +48,12 @@
     <string name="Disclaimer">Aplikacija je neodvisen samostojni projekt. Za napačne ali nepopolne podatke urnika ne odgovarjamo. Uporabna na lastno odgovornost!</string>
     <string name="Save">Shrani</string>
     <string name="Cancel">Prekliči</string>
+    <string name="Choose">Izberi</string>
+
+    <string name="Courses">Predmete</string>
+    <string name="Groups">Skupine</string>
+    <string name="Types">Tip</string>
+
     <string-array name="Days">
         <item>NEDELJA</item>
         <item>PONEDELJEK</item>
@@ -60,5 +68,7 @@
         <item>Slovenščina</item>
         <item>Angleščina</item>
     </string-array>
+
+
 
 </resources>

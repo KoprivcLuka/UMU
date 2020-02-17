@@ -13,9 +13,12 @@ import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.ContextThemeWrapper;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.DatePicker;
@@ -57,6 +60,8 @@ public class Activity_View extends AppCompatActivity {
     ArrayList<Date> validDates = new ArrayList<>();
     ArrayList<String> ignoredGroups = new ArrayList<>();
     ArrayList<String> ignoredCourses = new ArrayList<>();
+    ArrayList<String> ignoredTypes = new ArrayList<>();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -157,6 +162,7 @@ public class Activity_View extends AppCompatActivity {
 
         ignoredGroups = tiny.getListString(tiny.getString("currpath") + tiny.getString("letnik"));
         ignoredCourses = tiny.getListString(tiny.getString("currpath") + tiny.getString("letnik") + "predmsIgnore");
+        ignoredTypes = tiny.getListString(tiny.getString("currpath") + tiny.getString("letnik") + "typesIgnore");
 
         Gson gson = new Gson();
         String json = tiny.getString("events");
@@ -354,11 +360,6 @@ public class Activity_View extends AppCompatActivity {
     }
 
     @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
-        return super.onPrepareOptionsMenu(menu);
-    }
-
-    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_calendar:
@@ -383,15 +384,18 @@ public class Activity_View extends AppCompatActivity {
                 break;
             case R.id.menu_settings:
                 final Context con = this;
-                final PopupMenu menu = new PopupMenu(this, findViewById(R.id.menu_settings));
 
-                menu.getMenu().add(R.string.FilterGroups).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                assert inflater != null;
+                View v = inflater.inflate(R.layout.sortdialog, null);
+                v.findViewById(R.id.buttonSelectPredm).setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public boolean onMenuItemClick(MenuItem menuItem) {
+                    public void onClick(View v) {
                         final TinyDB tiny = new TinyDB(getApplicationContext());
                         final ArrayList<String> toignore = tiny.getListString(tiny.getString("currpath") + tiny.getString("letnik"));
 
-                        AlertDialog.Builder builder = new AlertDialog.Builder(con);
+                        AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(con,R.style.AlertDialogCustom));
                         builder.setTitle(R.string.FilterGroups);
 
                         int cntr = 0;
@@ -419,6 +423,7 @@ public class Activity_View extends AppCompatActivity {
                                 tiny.putListString(tiny.getString("currpath") + tiny.getString("letnik"), toignore);
                                 tiny.putBoolean((tiny.getString("currpath") + tiny.getString("letnik") + "isset"), true);
                                 refresh();
+
                             }
                         });
 
@@ -431,13 +436,13 @@ public class Activity_View extends AppCompatActivity {
 
                         builder.show();
 
-                        return false;
+                        return;
                     }
                 });
 
-                menu.getMenu().add(R.string.FilterCourses).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+                v.findViewById(R.id.buttonSelectSkup).setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public boolean onMenuItemClick(MenuItem menuItem) {
+                    public void onClick(View v) {
                         final TinyDB tiny = new TinyDB(getApplicationContext());
                         final ArrayList<String> toignore = tiny.getListString(tiny.getString("currpath") + tiny.getString("letnik") + "predmsIgnore");
 
@@ -448,7 +453,7 @@ public class Activity_View extends AppCompatActivity {
                             checkboxes[cntr++] = !toignore.contains(s);
                         }
 
-                        AlertDialog.Builder builder = new AlertDialog.Builder(con);
+                        AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(con,R.style.AlertDialogCustom));
                         builder.setTitle(R.string.FilterCourses);
 
                         builder.setMultiChoiceItems(predms.toArray(new String[]{}), checkboxes,
@@ -481,11 +486,64 @@ public class Activity_View extends AppCompatActivity {
 
                         builder.show();
 
-                        return false;
+                        return;
                     }
+
                 });
 
-                menu.show();
+                v.findViewById(R.id.buttonSelectTip).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        final TinyDB tiny = new TinyDB(getApplicationContext());
+                        final ArrayList<String> toignore = tiny.getListString(tiny.getString("currpath") + tiny.getString("letnik") + "typesIgnore");
+
+                        int cntr = 0;
+                        boolean[] checkboxes = new boolean[types.size()];
+
+                        for (String s : types) {
+                            checkboxes[cntr++] = !toignore.contains(s);
+                        }
+
+                        AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(con,R.style.AlertDialogCustom));
+                        builder.setTitle(R.string.FilterTypes);
+
+                        builder.setMultiChoiceItems(types.toArray(new String[]{}), checkboxes,
+                                new DialogInterface.OnMultiChoiceClickListener() {
+
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i, boolean b) {
+                                        if (!b) {
+                                            toignore.add(types.get(i));
+                                        } else toignore.remove(types.get(i));
+
+
+                                    }
+                                });
+
+                        builder.setPositiveButton(R.string.Save, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int id) {
+                                tiny.putListString(tiny.getString("currpath") + tiny.getString("letnik") + "typesIgnore", toignore);
+                                refresh();
+                            }
+                        });
+
+                        builder.setNegativeButton(R.string.Cancel, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int id) {
+
+                            }
+                        });
+
+                        builder.show();
+
+                        return;
+                    }
+
+                });
+                builder.setView(v);
+                builder.show();
+
                 break;
             case R.id.menu_about:
                 startActivity(new Intent(getApplicationContext(), Activity_About.class));
@@ -644,7 +702,7 @@ public class Activity_View extends AppCompatActivity {
         ArrayList<Event> result = new ArrayList<>();
 
         for (Event ev : evs) {
-            if (!ignoredGroups.contains(ev.group.subGroup) && (!ignoredCourses.contains(ev.course))) {
+            if (!ignoredGroups.contains(ev.group.subGroup) && (!ignoredCourses.contains(ev.course) && (!ignoredTypes.contains(ev.type)))) {
                 result.add(ev);
             }
         }

@@ -11,18 +11,10 @@
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
+        style="@style/ToolBarCustom"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginBottom="5dp"
-        android:background="@drawable/background_rounded"
-        android:elevation="5dp"
-        android:foregroundGravity="center_vertical"
-        android:gravity="center_vertical"
-        app:titleTextColor="@color/colorPrimary" >
-    </android.support.v7.widget.Toolbar>
+        app:titleTextColor="@color/colorPrimary"
+        android:layout_height="wrap_content"/>
 
     <LinearLayout
         android:layout_width="match_parent"

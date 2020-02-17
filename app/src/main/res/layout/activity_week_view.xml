@@ -17,10 +17,8 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:background="@drawable/background_rounded"
-            android:elevation="5dp"
-            app:titleTextColor="@color/colorPrimary" />
+            app:titleTextColor="@color/colorPrimary"
+            style="@style/ToolBarCustom" />
 
 
         <android.support.v7.widget.RecyclerView
