@@ -15,11 +15,10 @@
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
+            style="@style/ToolBarCustom"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:titleTextColor="@color/colorPrimary"
-            style="@style/ToolBarCustom" />
-
+            app:titleTextColor="@color/colorPrimary" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recvieweek"

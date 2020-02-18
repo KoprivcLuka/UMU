@@ -13,8 +13,7 @@
         android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
-        <activity android:name=".Views.Settings"></activity>
-        <activity android:name=".Views.Activity_Selection"></activity>
+        <activity android:name=".Views.Activity_Selection" />
         <activity
             android:name=".Views.Activity_About"
             android:theme="@style/AppTheme.NoActionBar" />

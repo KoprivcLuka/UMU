@@ -5,57 +5,64 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_margin="0dp"
-    android:background="@color/background"
+    android:background="@drawable/backgroundgradient"
     android:baselineAligned="false"
-    android:gravity="center"
     android:orientation="horizontal"
+    android:paddingTop="20dp"
     tools:context=".Views.Activity_Selection">
 
     <LinearLayout
-        android:layout_width="365dp"
+        android:layout_width="500dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:orientation="vertical">
 
         <Switch
             android:id="@+id/switch1"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="5dp"
-            android:foregroundGravity="right"
-            android:gravity="right |center_vertical"
+            android:layout_margin="10dp"
+            android:background="@drawable/background_rounded"
             android:text="@string/DarkMode"
             android:textColor="@color/colorPrimary" />
 
-        <TextView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:text="@string/ChooseFaculty"
-            android:textColor="@color/colorPrimaryDark"
-            android:textSize="16sp" />
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:background="@drawable/background_rounded"
+            android:orientation="vertical">
 
-        <Spinner
-            android:id="@+id/spinner3"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:backgroundTint="@color/colorPrimary"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:spinnerMode="dialog" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:text="@string/ChooseFaculty"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="16sp" />
+
+            <Spinner
+                android:id="@+id/spinner3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:backgroundTint="@color/colorPrimary"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:spinnerMode="dialog" />
+        </LinearLayout>
     </LinearLayout>
 
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_margin="10dp"
         android:layout_weight="1"
-        android:background="@color/background"
+        android:background="@drawable/background_rounded"
         android:orientation="vertical">
 
         <android.support.design.widget.TabLayout
@@ -72,7 +79,7 @@
         <android.support.v4.view.ViewPager
             android:id="@+id/pager"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="250dp"
             android:background="@color/background" />
 
     </LinearLayout>

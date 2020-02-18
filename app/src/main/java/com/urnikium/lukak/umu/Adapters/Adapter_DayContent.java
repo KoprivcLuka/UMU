@@ -173,7 +173,7 @@ public class Adapter_DayContent extends RecyclerView.Adapter<Adapter_DayContent.
 
             switch (EventType) {
                 case 0:
-                    root.setBackgroundColor(Color.parseColor("#4f86c6"));
+                    root.setBackgroundColor(Color.parseColor("#90C147"));
                     break;
 
                 case 1:
@@ -217,7 +217,6 @@ public class Adapter_DayContent extends RecyclerView.Adapter<Adapter_DayContent.
                     assert inflater != null;
                     View v = inflater.inflate(R.layout.popup_event, null);
                     Event saved = (Event) view.getTag();
-
                     TextView naziv = v.findViewById(R.id.textView);
                     TextView tip = v.findViewById(R.id.textView4);
                     TextView Program = v.findViewById(R.id.textView6);
@@ -241,23 +240,21 @@ public class Adapter_DayContent extends RecyclerView.Adapter<Adapter_DayContent.
                     builder.show();
                 }
             });
-            if(Past) {EventBox.setAlpha(.3f);}
-            if (Today)
-            {// pogoji : ce je dogodek mimo ali ce je dogodek v teku
+            if (Past) {
+                EventBox.setAlpha(.3f);
+            }
+            if (Today) {// pogoji : ce je dogodek mimo ali ce je dogodek v teku
                 try {
                     Calendar now = Calendar.getInstance();
                     Calendar start = Calendar.getInstance();
                     start.setTime((parser.parse(unignored.get(j).startTime)));
-                    start.set(now.get(Calendar.YEAR),now.get(Calendar.MONTH),now.get(Calendar.DATE));
+                    start.set(now.get(Calendar.YEAR), now.get(Calendar.MONTH), now.get(Calendar.DATE));
                     Calendar end = Calendar.getInstance();
                     end.setTime((parser.parse(unignored.get(j).endTime)));
-                    end.set(now.get(Calendar.YEAR),now.get(Calendar.MONTH),now.get(Calendar.DATE));
-                    if(end.before(now))
-                    {
+                    end.set(now.get(Calendar.YEAR), now.get(Calendar.MONTH), now.get(Calendar.DATE));
+                    if (end.before(now)) {
                         EventBox.setAlpha(.3f);
-                    }
-                    else if(now.before(end) && now.after(start))
-                    {
+                    } else if (now.before(end) && now.after(start)) {
                         HeighSetter.setBackgroundColor(HeighSetter.getContext().getResources().getColor(R.color.InProgress));
                         StartText.setBackgroundColor(HeighSetter.getContext().getResources().getColor(R.color.InProgress));
                         EndText.setBackgroundColor(HeighSetter.getContext().getResources().getColor(R.color.InProgress));

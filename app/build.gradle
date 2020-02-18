@@ -4,7 +4,7 @@ android {
     compileSdkVersion 28
     defaultConfig {
         applicationId "com.urnikium.lukak.umu"
-        minSdkVersion 22
+        minSdkVersion 23
         targetSdkVersion 28
         versionCode 4
         versionName "1.21"

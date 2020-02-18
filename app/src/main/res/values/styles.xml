@@ -1,12 +1,6 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Base.Theme.AppCompat.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
-    </style>
 
 
     <style name="AppTheme.NoActionBar" parent="Theme.MaterialComponents.Light.NoActionBar">
@@ -15,14 +9,41 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:homeAsUpIndicator">@drawable/ic_arrow_back_blu</item>
+        <item name="android:homeAsUpIndicator">@drawable/ic_arrow_back</item>
         <item name="android:statusBarColor">@color/statbar</item>
+        <item name="android:buttonStyle">@style/MaterialButtonCustom</item>
     </style>
 
 
+    <style name="MaterialButtonCustom" parent="Widget.MaterialComponents.Button">
+        <item name="android:layout_margin">5dp</item>
+        <item name="android:backgroundTint">@color/colorPrimary</item>
+        <item name="android:drawableTint">#ffffff</item>
+        <item name="android:elevation">5dp</item>
+        <item name="android:gravity">start|center</item>
+        <item name="android:stateListAnimator">@null</item>
+        <item name="android:textColor">#ffffff</item>
+    </style>
 
+    <style name="ToolBarCustom" parent="Widget.AppCompat.Toolbar">
+        <item name="android:layout_margin">10dp</item>
+        <item name="android:background">@drawable/background_rounded</item>
+        <item name="android:elevation">5dp</item>
+        <item name="android:foregroundGravity">center_vertical</item>
+        <item name="android:gravity">center_vertical</item>
+    </style>
 
+    <style name="AlertDialogCustom" parent="Theme.MaterialComponents.Dialog">
+        <item name="android:background">@color/background</item>
+        <item name="android:textColor">@color/colorPrimary</item>
+        <item name="buttonBarButtonStyle">@style/DialogButtonStyle</item>
+        <item name="textColorAlertDialogListItem">@color/textcolorprimary</item>
+        <item name="colorAccent">@color/colorPrimary</item>
+    </style>
 
+    <style name="DialogButtonStyle" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
+        <item name="android:textColor">@color/colorPrimary</item>
+    </style>
 
 
 </resources>
