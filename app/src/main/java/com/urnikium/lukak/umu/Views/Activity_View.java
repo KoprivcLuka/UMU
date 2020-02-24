@@ -389,7 +389,7 @@ public class Activity_View extends AppCompatActivity {
                 LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                 assert inflater != null;
                 View v = inflater.inflate(R.layout.sortdialog, null);
-                v.findViewById(R.id.buttonSelectPredm).setOnClickListener(new View.OnClickListener() {
+                v.findViewById(R.id.buttonSelectSkup).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         final TinyDB tiny = new TinyDB(getApplicationContext());
@@ -440,7 +440,7 @@ public class Activity_View extends AppCompatActivity {
                     }
                 });
 
-                v.findViewById(R.id.buttonSelectSkup).setOnClickListener(new View.OnClickListener() {
+                v.findViewById(R.id.buttonSelectPredm).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         final TinyDB tiny = new TinyDB(getApplicationContext());

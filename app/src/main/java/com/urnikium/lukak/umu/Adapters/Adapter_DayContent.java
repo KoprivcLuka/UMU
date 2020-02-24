@@ -1,22 +1,24 @@
 package com.urnikium.lukak.umu.Adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Color;
+import android.provider.CalendarContract;
 import android.support.annotation.NonNull;
-import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.urnikium.lukak.umu.Classes.Event;
 import com.urnikium.lukak.umu.Classes.TinyDB;
-import com.urnikium.lukak.umu.*;
+import com.urnikium.lukak.umu.R;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -32,13 +34,29 @@ public class Adapter_DayContent extends RecyclerView.Adapter<Adapter_DayContent.
     ArrayList<String> IgnoredGroups = new ArrayList<>();
     Boolean Today = true;
     Boolean Past = true;
+    Date Date;
 
 
-    public Adapter_DayContent(ArrayList<ArrayList<Event>> list, boolean day, boolean past) {
+    public Adapter_DayContent(ArrayList<ArrayList<Event>> list, Date Date) {
+        Calendar tod = Calendar.getInstance();
+        this.Today = false;
+        this.Past = false;
+        this.Date = Date;
+
+        Date date8PM = getDateTo8PM(Date); //Date is in the past After Eight
+
+        if (tod.getTimeInMillis() > date8PM.getTime()) {
+            this.Past = true;
+        }
+
+        tod.setTimeInMillis(Date.getTime());
+        Calendar calendar = Calendar.getInstance();
+
+        if (tod.get(Calendar.DATE) == calendar.get(Calendar.DATE) && tod.get(Calendar.MONTH) == calendar.get(Calendar.MONTH) && tod.get(Calendar.YEAR) == calendar.get(Calendar.YEAR)) {
+            this.Today = true;
+        }
+
         this.TodaysEvents = list;
-        this.Today = day;
-        this.Past = past;
-
     }
 
     @NonNull
@@ -216,8 +234,8 @@ public class Adapter_DayContent extends RecyclerView.Adapter<Adapter_DayContent.
                     LayoutInflater inflater = (LayoutInflater) view.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                     assert inflater != null;
                     View v = inflater.inflate(R.layout.popup_event, null);
-                    Event saved = (Event) view.getTag();
-                    TextView naziv = v.findViewById(R.id.textView);
+                    final Event saved = (Event) view.getTag();
+                    final TextView naziv = v.findViewById(R.id.textView);
                     TextView tip = v.findViewById(R.id.textView4);
                     TextView Program = v.findViewById(R.id.textView6);
                     TextView Skupina = v.findViewById(R.id.textView7);
@@ -234,6 +252,24 @@ public class Adapter_DayContent extends RecyclerView.Adapter<Adapter_DayContent.
                     Location.append(": " + saved.room);
                     Start.append(": " + saved.startTime);
                     End.append(": " + saved.endTime);
+
+                    Button Export = v.findViewById(R.id.exportButton);
+                    Export.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent intent = new Intent(Intent.ACTION_INSERT);
+                            intent.setType("vnd.android.cursor.item/event");
+                            SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");
+
+                            intent.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, saved.startTime);
+                            intent.putExtra(CalendarContract.EXTRA_EVENT_END_TIME, saved.endTime);
+                            intent.putExtra(CalendarContract.EXTRA_EVENT_ALL_DAY, false);
+                            intent.putExtra(CalendarContract.Events.TITLE, saved.course);
+                            intent.putExtra(CalendarContract.Events.DESCRIPTION, saved.group.subGroup + "\n" + saved.professor);
+                            intent.putExtra(CalendarContract.Events.EVENT_LOCATION, saved.room);
+                            v.getContext().startActivity(intent);
+                        }
+                    });
 
 
                     builder.setView(v);
@@ -254,11 +290,13 @@ public class Adapter_DayContent extends RecyclerView.Adapter<Adapter_DayContent.
                     end.set(now.get(Calendar.YEAR), now.get(Calendar.MONTH), now.get(Calendar.DATE));
                     if (end.before(now)) {
                         EventBox.setAlpha(.3f);
-                    } else if (now.before(end) && now.after(start)) {
+                    }
+
+                    /*else if (now.before(end) && now.after(start)) {
                         HeighSetter.setBackgroundColor(HeighSetter.getContext().getResources().getColor(R.color.InProgress));
                         StartText.setBackgroundColor(HeighSetter.getContext().getResources().getColor(R.color.InProgress));
                         EndText.setBackgroundColor(HeighSetter.getContext().getResources().getColor(R.color.InProgress));
-                    }
+                    } */
 
 
                 } catch (ParseException e) {
@@ -289,6 +327,18 @@ public class Adapter_DayContent extends RecyclerView.Adapter<Adapter_DayContent.
 
 
         }
+    }
+
+    private Date getDateTo8PM(Date date) {
+        Calendar cal = Calendar.getInstance();
+
+        cal.setTime(date);
+        cal.set(Calendar.HOUR_OF_DAY, 23);
+        cal.set(Calendar.MINUTE, 55);
+        cal.set(Calendar.SECOND, 0);
+        cal.set(Calendar.MILLISECOND, 0);
+
+        return cal.getTime();
     }
 
 

@@ -24,6 +24,7 @@
     <string name="Location">Location</string>
     <string name="StartTime">Starts at</string>
     <string name="EndTime">Ends at</string>
+    <string name="Export">Export</string>
 
     <string name="ByProgramme">By programme</string>
     <string name="ByProfessor">By professor</string>
