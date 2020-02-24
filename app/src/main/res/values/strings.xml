@@ -24,6 +24,8 @@
     <string name="Location">Lokacija</string>
     <string name="StartTime">Pričetek</string>
     <string name="EndTime">Konec</string>
+    <string name="Export">Izvozi</string>
+
 
     <string name="ByProgramme">Po programu</string>
     <string name="ByProfessor">Po profesorju</string>

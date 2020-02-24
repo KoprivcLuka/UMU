@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_marginTop="5dp"
@@ -16,7 +15,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAlignment="center"
-        android:textColor="@color/textcolorprimary"
+        android:textColor="@color/colorPrimary"
         android:textSize="24sp" />
 
 
@@ -33,7 +32,7 @@
             android:foregroundGravity="center"
             android:paddingEnd="1dp"
             android:scaleType="fitCenter"
-            android:tint="@color/textcolordarker"
+            android:tint="@color/colorPrimary"
             app:srcCompat="@drawable/ic_turned_in" />
 
         <TextView
@@ -42,7 +41,7 @@
             android:layout_height="wrap_content"
             android:text="@string/Type"
             android:textAlignment="viewStart"
-            android:textColor="@color/textcolordarker" />
+            android:textColor="@color/textcolorprimary" />
     </LinearLayout>
 
     <LinearLayout
@@ -59,7 +58,7 @@
             android:maxHeight="16dp"
             android:paddingEnd="1dp"
             android:scaleType="fitCenter"
-            android:tint="@color/textcolordarker"
+            android:tint="@color/colorPrimary"
             app:srcCompat="@drawable/ic_school" />
 
 
@@ -69,7 +68,7 @@
             android:layout_height="wrap_content"
             android:text="@string/Programme"
             android:textAlignment="textStart"
-            android:textColor="@color/textcolordarker" />
+            android:textColor="@color/textcolorprimary" />
     </LinearLayout>
 
     <LinearLayout
@@ -86,7 +85,7 @@
             android:maxHeight="16dp"
             android:paddingEnd="1dp"
             android:scaleType="fitCenter"
-            android:tint="@color/textcolordarker"
+            android:tint="@color/colorPrimary"
             app:srcCompat="@drawable/ic_group" />
 
 
@@ -96,7 +95,7 @@
             android:layout_height="wrap_content"
             android:text="@string/Group"
             android:textAlignment="viewStart"
-            android:textColor="@color/textcolordarker" />
+            android:textColor="@color/textcolorprimary" />
 
     </LinearLayout>
 
@@ -114,7 +113,7 @@
             android:maxHeight="16dp"
             android:paddingEnd="1dp"
             android:scaleType="fitCenter"
-            android:tint="@color/textcolordarker"
+            android:tint="@color/colorPrimary"
             app:srcCompat="@drawable/ic_person" />
 
 
@@ -124,7 +123,7 @@
             android:layout_height="wrap_content"
             android:text="@string/Handler"
             android:textAlignment="viewStart"
-            android:textColor="@color/textcolordarker" />
+            android:textColor="@color/textcolorprimary" />
 
     </LinearLayout>
 
@@ -142,7 +141,7 @@
             android:maxHeight="16dp"
             android:paddingEnd="1dp"
             android:scaleType="fitCenter"
-            android:tint="@color/textcolordarker"
+            android:tint="@color/colorPrimary"
             app:srcCompat="@drawable/ic_location" />
 
 
@@ -152,7 +151,7 @@
             android:layout_height="wrap_content"
             android:text="@string/Location"
             android:textAlignment="viewStart"
-            android:textColor="@color/textcolordarker" />
+            android:textColor="@color/textcolorprimary" />
 
     </LinearLayout>
 
@@ -170,7 +169,7 @@
             android:maxHeight="16dp"
             android:paddingEnd="1dp"
             android:scaleType="fitCenter"
-            android:tint="@color/textcolordarker"
+            android:tint="@color/colorPrimary"
             app:srcCompat="@drawable/ic_hourglass" />
 
 
@@ -179,7 +178,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/StartTime"
-            android:textColor="@color/textcolordarker" />
+            android:textColor="@color/textcolorprimary" />
 
     </LinearLayout>
 
@@ -197,7 +196,7 @@
             android:maxHeight="16dp"
             android:paddingEnd="1dp"
             android:scaleType="fitCenter"
-            android:tint="@color/textcolordarker"
+            android:tint="@color/colorPrimary"
             app:srcCompat="@drawable/ic_hourglass_empty" />
 
 
@@ -206,9 +205,17 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/EndTime"
-            android:textColor="@color/textcolordarker" />
+            android:textColor="@color/textcolorprimary" />
 
     </LinearLayout>
+
+    <Button
+        android:id="@+id/exportButton"
+        style="@style/MaterialButtonCustom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/Export"
+        app:icon="@drawable/ic_arrow_forward" />
 
 
 </LinearLayout>
