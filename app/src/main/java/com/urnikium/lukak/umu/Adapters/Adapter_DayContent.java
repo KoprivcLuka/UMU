@@ -25,6 +25,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 
@@ -34,7 +35,7 @@ public class Adapter_DayContent extends RecyclerView.Adapter<Adapter_DayContent.
     ArrayList<String> IgnoredGroups = new ArrayList<>();
     Boolean Today = true;
     Boolean Past = true;
-    Date Date;
+    final Date Date;
 
 
     public Adapter_DayContent(ArrayList<ArrayList<Event>> list, Date Date) {
@@ -42,6 +43,8 @@ public class Adapter_DayContent extends RecyclerView.Adapter<Adapter_DayContent.
         this.Today = false;
         this.Past = false;
         this.Date = Date;
+        Date.setHours(0);
+        Date.setMinutes(0);
 
         Date date8PM = getDateTo8PM(Date); //Date is in the past After Eight
 
@@ -127,21 +130,11 @@ public class Adapter_DayContent extends RecyclerView.Adapter<Adapter_DayContent.
                     root.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
 
                 } else {
-                    if (j != unignored.size() && j != 0) {
 
-                        LinearLayout.LayoutParams parms = (LinearLayout.LayoutParams) StartText.getLayoutParams();
-                        parms.setMargins(0, 0, 25, 0);
-                        StartText.setLayoutParams(parms);
-                        EndText.setLayoutParams(parms);
-                        HeighSetter.setLayoutParams(parms);
-
-
-                        root.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-                    } else {
-                        root.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-                    }
+                    root.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
                 }
             }
+
 
             Calendar cal = Calendar.getInstance();
             long NewTime = d1.getTime() + (long) (unignored.get(j).duration * 60 * 1000);
@@ -259,10 +252,23 @@ public class Adapter_DayContent extends RecyclerView.Adapter<Adapter_DayContent.
                         public void onClick(View v) {
                             Intent intent = new Intent(Intent.ACTION_INSERT);
                             intent.setType("vnd.android.cursor.item/event");
-                            SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");
+                            SimpleDateFormat format1 = new SimpleDateFormat("hh:mm");
+                            try {
+                                Calendar cal = Calendar.getInstance();
+                                cal.setTimeInMillis(Date.getTime());
 
-                            intent.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, saved.startTime);
-                            intent.putExtra(CalendarContract.EXTRA_EVENT_END_TIME, saved.endTime);
+                                cal.set(Calendar.HOUR_OF_DAY, format1.parse(saved.startTime).getHours());
+                                cal.set(Calendar.MINUTE, format1.parse(saved.startTime).getMinutes());
+                                intent.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, cal.getTimeInMillis());
+
+                                cal.set(Calendar.HOUR_OF_DAY, format1.parse(saved.endTime).getHours());
+                                cal.set(Calendar.MINUTE, format1.parse(saved.endTime).getMinutes());
+                                intent.putExtra(CalendarContract.EXTRA_EVENT_END_TIME, cal.getTimeInMillis());
+
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+
                             intent.putExtra(CalendarContract.EXTRA_EVENT_ALL_DAY, false);
                             intent.putExtra(CalendarContract.Events.TITLE, saved.course);
                             intent.putExtra(CalendarContract.Events.DESCRIPTION, saved.group.subGroup + "\n" + saved.professor);
@@ -327,6 +333,7 @@ public class Adapter_DayContent extends RecyclerView.Adapter<Adapter_DayContent.
 
 
         }
+
     }
 
     private Date getDateTo8PM(Date date) {

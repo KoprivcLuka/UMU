@@ -39,6 +39,7 @@ public class Adapter_Day extends RecyclerView.Adapter<Adapter_Day.MyViewHolder> 
     @Override
     public void onBindViewHolder(@NonNull final Adapter_Day.MyViewHolder myViewHolder, int i) {
         Calendar tod = Calendar.getInstance();
+        tod.setTimeInMillis(dates.get(i).getTime());
 
         myViewHolder.DateText.setText(Dnevi[tod.get(Calendar.DAY_OF_WEEK) - 1] + " , " + tod.get(Calendar.DAY_OF_MONTH) + "." + (tod.get(Calendar.MONTH) + 1));
         myViewHolder.rec.setLayoutManager(new LinearLayoutManager(myViewHolder.rec.getContext(), LinearLayoutManager.VERTICAL, false));
