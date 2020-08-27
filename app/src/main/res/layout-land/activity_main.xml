@@ -8,7 +8,7 @@
     android:background="@drawable/backgroundgradient"
     android:baselineAligned="false"
     android:orientation="horizontal"
-    android:paddingTop="20dp"
+    android:paddingTop="44dp"
     tools:context=".Views.Activity_Selection">
 
     <LinearLayout

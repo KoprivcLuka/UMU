@@ -49,12 +49,9 @@ public class Activity_Selection extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         //Nastavi status bar
-        Window window = this.getWindow();
-        Drawable background = this.getResources().getDrawable(R.drawable.backgroundgradient);
-        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-        window.setStatusBarColor(this.getResources().getColor(android.R.color.transparent));
-        window.setNavigationBarColor(this.getResources().getColor(android.R.color.transparent));
-        window.setBackgroundDrawable(background);
+        Window window = getWindow();
+        window.addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+        window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
 
         AllFaculties = findViewById(R.id.spinner3);
         tiny = new TinyDB(this);
@@ -89,8 +86,8 @@ public class Activity_Selection extends AppCompatActivity {
 
                 ((TextView) adapterView.getChildAt(0)).setTextColor(getResources().getColor(R.color.textcolorprimary));
                 tiny.putString("faks", AllFaculties.getSelectedItem().toString());
-                tiny.putString("faksshort", res.get(AllFaculties.getSelectedItemPosition()).ShortName);
-                RequestPathsList(getResources().getString(R.string.ServURL) + "/api/v2/groups/" + res.get(AllFaculties.getSelectedItemPosition()).ShortName + "/years" + "?client=umu-mobile-prod");
+                tiny.putString("faksshort", res.get(AllFaculties.getSelectedItemPosition()).getShortName());
+                RequestPathsList(getResources().getString(R.string.ServURL) + "/api/v2/groups/" + res.get(AllFaculties.getSelectedItemPosition()).getShortName() + "/years" + "?client=umu-mobile-prod");
 
             }
 
@@ -171,7 +168,7 @@ public class Activity_Selection extends AppCompatActivity {
                                 tiny.putString("groupswyears", json);
                                 ArrayList<String> allpaths = new ArrayList<>();
                                 for (GroupWYears s : res) {
-                                    allpaths.add(s.Name);
+                                    allpaths.add(s.getName());
                                 }
 
                                 tiny.putListString("allpaths", allpaths);
@@ -246,7 +243,7 @@ public class Activity_Selection extends AppCompatActivity {
                                 java.util.Collections.sort(res, new SortByNameFac());
                                 ArrayList<String> zadapter = new ArrayList<>();
                                 for (Faculty f : res) {
-                                    zadapter.add(f.LongName);
+                                    zadapter.add(f.getLongName());
                                 }
                                 ArrayAdapter<String> adapter2 = new ArrayAdapter<>(getApplicationContext(),
                                         R.layout.spinner_item, zadapter);
@@ -267,13 +264,13 @@ public class Activity_Selection extends AppCompatActivity {
 
     class SortByName implements Comparator<GroupWYears> {
         public int compare(GroupWYears a, GroupWYears b) {
-            return a.Name.toLowerCase().compareTo(b.Name.toLowerCase());
+            return a.getName().toLowerCase().compareTo(b.getName().toLowerCase());
         }
     }
 
     class SortByNameFac implements Comparator<Faculty> {
         public int compare(Faculty a, Faculty b) {
-            return a.LongName.toLowerCase().compareTo(b.LongName.toLowerCase());
+            return a.getLongName().toLowerCase().compareTo(b.getLongName().toLowerCase());
         }
     }
 

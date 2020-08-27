@@ -9,5 +9,4 @@
     <color name="textcolorprimary">#FAFAFA</color>
     <color name="textcolordarker">#8898A5</color>
     <color name="statbar">@color/background</color>
-    <color name="InProgress">#29333c</color>
 </resources>

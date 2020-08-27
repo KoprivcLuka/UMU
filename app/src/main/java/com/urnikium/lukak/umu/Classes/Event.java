@@ -2,38 +2,43 @@ package com.urnikium.lukak.umu.Classes;
 
 import com.google.gson.annotations.SerializedName;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 public class Event {
     @SerializedName("DayOfWeek")
-    public int dayOfWeek;
+    private int dayOfWeek;
 
     @SerializedName("BeginWeek")
-    public int beginWeek;
+    private int beginWeek;
 
     @SerializedName("EndWeek")
-    public int endWeek;
+    private int endWeek;
 
     @SerializedName("StartTime")
-    public String startTime;
+    private String startTime;
 
-    public String endTime;
+    private String endTime;
 
     @SerializedName("Duration")
-    public int duration;
+    private int duration;
 
     @SerializedName("Type")
-    public String type;
+    private String type;
 
     @SerializedName("Course")
-    public String course;
+    private String course;
 
     @SerializedName("Room")
-    public String room;
+    private String room;
 
     @SerializedName("Professor")
-    public String professor;
+    private String professor;
 
     @SerializedName("Group")
-    public Group group;
+    private Group group;
 
 }
 

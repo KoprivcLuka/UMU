@@ -2,10 +2,12 @@ package com.urnikium.lukak.umu.Adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.provider.CalendarContract;
 import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -87,7 +89,6 @@ public class Adapter_DayContent extends RecyclerView.Adapter<Adapter_DayContent.
         for (int j = 0; j < unignored.size(); j++) {
             final View EventBox = inflater.inflate(R.layout.singlepredmet, null);
             TextView StartText = EventBox.findViewById(R.id.Start);
-            RelativeLayout HeighSetter = EventBox.findViewById(R.id.heigtsetter);
             TextView EndText = EventBox.findViewById(R.id.End);
             View Endline = EventBox.findViewById(R.id.EndLine);
             TextView CourseText = EventBox.findViewById(R.id.Course);
@@ -96,20 +97,22 @@ public class Adapter_DayContent extends RecyclerView.Adapter<Adapter_DayContent.
             LinearLayout root = EventBox.findViewById(R.id.root);
             TextView GroupText = EventBox.findViewById(R.id.Grp);
             TextView PathAndTypeText = EventBox.findViewById(R.id.pth);
+            View ColorIndicator = EventBox.findViewById(R.id.colorIndicator);
             EventBox.setTag(unignored.get(j));
-            String StartTime = unignored.get(j).startTime.split(":")[0];
+            String StartTime = unignored.get(j).getStartTime().split(":")[0];
             if (StartTime.length() == 1) {
-                StartText.setText("0" + unignored.get(j).startTime);
+                StartText.setText("0" + unignored.get(j).getStartTime());
             } else {
-                StartText.setText(unignored.get(j).startTime);
+                StartText.setText(unignored.get(j).getStartTime());
             }
             SimpleDateFormat parser = new SimpleDateFormat("HH:mm");
             Date d1 = new Date();
             try {
-                d1 = parser.parse(unignored.get(j).startTime);
+                d1 = parser.parse(unignored.get(j).getEndTime());
             } catch (ParseException e) {
                 e.printStackTrace();
             }
+
 
             int orientation = myViewHolder.ureplac.getContext().getResources().getConfiguration().orientation;
             if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
@@ -137,26 +140,25 @@ public class Adapter_DayContent extends RecyclerView.Adapter<Adapter_DayContent.
 
 
             Calendar cal = Calendar.getInstance();
-            long NewTime = d1.getTime() + (long) (unignored.get(j).duration * 60 * 1000);
-            cal.setTimeInMillis(NewTime);
+            cal.setTimeInMillis(d1.getTime());
             boolean found = false;
             if (i < TodaysEvents.size() - 1) {
                 for (int h = i + 1; h < TodaysEvents.size(); h++) {
                     //Začnem šteti na nasljednjem elementu
                     for (int k = 0; k < TodaysEvents.get(h).size(); k++) {
                         //Naslednji element lahko ima več otrok, minimalno 1
-                        if (!IgnoredGroups.contains(TodaysEvents.get(h).get(k).group.subGroup)) {
+                        if (!IgnoredGroups.contains(TodaysEvents.get(h).get(k).getGroup().getSubGroup())) {
                             //Če element ni v kategoriji, ki jo ignoriramo smo našli naslednika
                             Date d2 = new Date();
                             try {
-                                d2 = parser.parse(TodaysEvents.get(h).get(k).startTime);
+                                d2 = parser.parse(TodaysEvents.get(h).get(k).getStartTime());
                             } catch (ParseException e) {
                                 e.printStackTrace();
                             }
                             //D2 = next startTime, Cal = EndTime
                             //Če ima naslednik isti začetni čas kot prejšni končni čas
                             if (!(cal.getTimeInMillis() == d2.getTime())) {
-                                EndText.setText(unignored.get(j).endTime);
+                                EndText.setText(unignored.get(j).getEndTime());
                                 Endline.setVisibility(View.VISIBLE);
                             }
                             //V kateremkoli primeru smo našli naslednika - konec
@@ -169,56 +171,78 @@ public class Adapter_DayContent extends RecyclerView.Adapter<Adapter_DayContent.
                         break;
                     }
                     if (h == TodaysEvents.size() - 1) {
-
-                        EndText.setText(unignored.get(j).endTime);
+                        EndText.setText(unignored.get(j).getEndTime());
 
                     }
                 }
             }
             //Ni naslednjega elementa, torej smo na zadnji uri
             else {
-                EndText.setText(unignored.get(j).endTime);
+                EndText.setText(unignored.get(j).getEndTime());
             }
 
-            int EventType = EventTypes.indexOf(unignored.get(j).type) % 5;
+            if (i != 0 && TodaysEvents.get(i - 1).get(0).getEndTime().equals(TodaysEvents.get(i).get(0).getStartTime())) {
+                if (Endline.getVisibility() == View.VISIBLE) {
+                    ColorIndicator.setBackground(root.getContext().getDrawable(R.drawable.tableft_rounded_bottom));
+                } else {
+                    if (i == TodaysEvents.size() - 1) {
+                        ColorIndicator.setBackground(root.getContext().getDrawable(R.drawable.tableft_rounded_bottom));
+                    } else {
+                        ColorIndicator.setBackground(root.getContext().getDrawable(R.drawable.tableft_straight));
+                    }
+                }
+            } else {
+                if (Endline.getVisibility() == View.VISIBLE) {
+                    ColorIndicator.setBackground(root.getContext().getDrawable(R.drawable.tableft_rounded_single));
+                } else {
+                    if (i == TodaysEvents.size() - 1) {
+                        ColorIndicator.setBackground(root.getContext().getDrawable(R.drawable.tableft_rounded_single));
+                    } else {
+                        ColorIndicator.setBackground(root.getContext().getDrawable(R.drawable.tableft_rounded_top));
+                    }
+                }
+            }
+
+
+            int EventType = EventTypes.indexOf(unignored.get(j).getType()) % 5;
 
             switch (EventType) {
                 case 0:
-                    root.setBackgroundColor(Color.parseColor("#90C147"));
+                    ColorIndicator.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#90C147")));
                     break;
 
                 case 1:
-                    root.setBackgroundColor(Color.parseColor("#21a179"));
+                    ColorIndicator.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#21a179")));
                     break;
 
                 case 2:
-                    root.setBackgroundColor(Color.parseColor("#E17756"));
+                    ColorIndicator.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#E17756")));
                     break;
 
                 case 3:
-                    root.setBackgroundColor(Color.parseColor("#744fc6"));
+                    ColorIndicator.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#744fc6")));
                     break;
 
                 case 4:
-                    root.setBackgroundColor(Color.parseColor("#f3a712"));
+                    ColorIndicator.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#f3a712")));
                     break;
 
                 case 5:
-                    root.setBackgroundColor(Color.parseColor("#6320ee"));
+                    ColorIndicator.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#6320ee")));
                     break;
 
                 default:
-                    root.setBackgroundColor(Color.parseColor("#45E49E"));
+                    ColorIndicator.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#45E49E")));
                     break;
 
             }
 
-            CourseText.setText(unignored.get(j).course);
-            GroupText.setText(unignored.get(j).group.field + " " +
-                    unignored.get(j).group.year + ". letnik");
-            PathAndTypeText.setText("(" + unignored.get(j).type + ") " + unignored.get(j).group.subGroup);
-            ProfText.setText(unignored.get(j).professor);
-            LocationText.setText(unignored.get(j).room);
+            CourseText.setText(unignored.get(j).getCourse());
+            GroupText.setText(unignored.get(j).getGroup().getField() + " " +
+                    unignored.get(j).getGroup().getYear() + ". letnik");
+            PathAndTypeText.setText("(" + unignored.get(j).getType() + ") " + unignored.get(j).getGroup().getSubGroup());
+            ProfText.setText(unignored.get(j).getProfessor());
+            LocationText.setText(unignored.get(j).getRoom());
 
             EventBox.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -237,14 +261,14 @@ public class Adapter_DayContent extends RecyclerView.Adapter<Adapter_DayContent.
                     TextView Start = v.findViewById(R.id.textView11);
                     TextView End = v.findViewById(R.id.textView12);
 
-                    naziv.setText(saved.course);
-                    tip.append(": " + saved.type);
-                    Program.append(": " + saved.group.field);
-                    Skupina.append(": " + saved.group.subGroup);
-                    Profesor.append(": " + saved.professor);
-                    Location.append(": " + saved.room);
-                    Start.append(": " + saved.startTime);
-                    End.append(": " + saved.endTime);
+                    naziv.setText(saved.getCourse());
+                    tip.append(": " + saved.getType());
+                    Program.append(": " + saved.getGroup().getField());
+                    Skupina.append(": " + saved.getGroup().getSubGroup());
+                    Profesor.append(": " + saved.getProfessor());
+                    Location.append(": " + saved.getRoom());
+                    Start.append(": " + saved.getStartTime());
+                    End.append(": " + saved.getEndTime());
 
                     Button Export = v.findViewById(R.id.exportButton);
                     Export.setOnClickListener(new View.OnClickListener() {
@@ -257,12 +281,12 @@ public class Adapter_DayContent extends RecyclerView.Adapter<Adapter_DayContent.
                                 Calendar cal = Calendar.getInstance();
                                 cal.setTimeInMillis(Date.getTime());
 
-                                cal.set(Calendar.HOUR_OF_DAY, format1.parse(saved.startTime).getHours());
-                                cal.set(Calendar.MINUTE, format1.parse(saved.startTime).getMinutes());
+                                cal.set(Calendar.HOUR_OF_DAY, format1.parse(saved.getStartTime()).getHours());
+                                cal.set(Calendar.MINUTE, format1.parse(saved.getStartTime()).getMinutes());
                                 intent.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, cal.getTimeInMillis());
 
-                                cal.set(Calendar.HOUR_OF_DAY, format1.parse(saved.endTime).getHours());
-                                cal.set(Calendar.MINUTE, format1.parse(saved.endTime).getMinutes());
+                                cal.set(Calendar.HOUR_OF_DAY, format1.parse(saved.getEndTime()).getHours());
+                                cal.set(Calendar.MINUTE, format1.parse(saved.getEndTime()).getMinutes());
                                 intent.putExtra(CalendarContract.EXTRA_EVENT_END_TIME, cal.getTimeInMillis());
 
                             } catch (ParseException e) {
@@ -270,9 +294,9 @@ public class Adapter_DayContent extends RecyclerView.Adapter<Adapter_DayContent.
                             }
 
                             intent.putExtra(CalendarContract.EXTRA_EVENT_ALL_DAY, false);
-                            intent.putExtra(CalendarContract.Events.TITLE, saved.course);
-                            intent.putExtra(CalendarContract.Events.DESCRIPTION, saved.group.subGroup + "\n" + saved.professor);
-                            intent.putExtra(CalendarContract.Events.EVENT_LOCATION, saved.room);
+                            intent.putExtra(CalendarContract.Events.TITLE, saved.getCourse());
+                            intent.putExtra(CalendarContract.Events.DESCRIPTION, saved.getGroup().getSubGroup() + "\n" + saved.getProfessor());
+                            intent.putExtra(CalendarContract.Events.EVENT_LOCATION, saved.getRoom());
                             v.getContext().startActivity(intent);
                         }
                     });
@@ -289,10 +313,10 @@ public class Adapter_DayContent extends RecyclerView.Adapter<Adapter_DayContent.
                 try {
                     Calendar now = Calendar.getInstance();
                     Calendar start = Calendar.getInstance();
-                    start.setTime((parser.parse(unignored.get(j).startTime)));
+                    start.setTime((parser.parse(unignored.get(j).getStartTime())));
                     start.set(now.get(Calendar.YEAR), now.get(Calendar.MONTH), now.get(Calendar.DATE));
                     Calendar end = Calendar.getInstance();
-                    end.setTime((parser.parse(unignored.get(j).endTime)));
+                    end.setTime((parser.parse(unignored.get(j).getEndTime())));
                     end.set(now.get(Calendar.YEAR), now.get(Calendar.MONTH), now.get(Calendar.DATE));
                     if (end.before(now)) {
                         EventBox.setAlpha(.3f);

@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     android:layout_marginStart="10dp"
     android:layout_marginEnd="10dp"
-    android:layout_marginBottom="10dp"
+    android:layout_marginBottom="-20dp"
     android:orientation="vertical"
     android:background="@drawable/background_rounded_nopadding"
     android:backgroundTint="#00000000">
@@ -14,9 +14,9 @@
         style="@style/Base.TextAppearance.Widget.AppCompat.Toolbar.Title"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginTop="30dp"
         android:layout_marginBottom="10dp"
         android:background="@drawable/background_rounded"
-        android:elevation="5dp"
         android:foregroundGravity="center_vertical"
         android:textAlignment="center"
         android:textColor="@color/colorPrimary"
@@ -26,13 +26,14 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/vsakdan"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/background_rounded"
-        android:elevation="5dp"
-        android:isScrollContainer="true"
-        android:nestedScrollingEnabled="true"
+        android:layout_height="match_parent"
+        android:paddingTop="5dp"
         android:paddingStart="5dp"
-        android:paddingEnd="5dp" />
+        android:paddingEnd="5dp"
+        android:paddingBottom="5dp"
+        android:background="@drawable/background_rounded_nopadding"
+        android:isScrollContainer="true"
+        android:nestedScrollingEnabled="true" />
 
 </LinearLayout>
 

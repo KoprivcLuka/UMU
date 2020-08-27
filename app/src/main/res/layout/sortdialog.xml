@@ -18,6 +18,7 @@
         android:gravity="start|center"
         android:text="@string/Choose"
         android:textAllCaps="true"
+        android:textStyle="bold"
         android:textColor="@color/colorPrimary"
         android:textSize="24sp" />
 

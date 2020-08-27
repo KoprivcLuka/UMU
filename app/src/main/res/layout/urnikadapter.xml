@@ -5,7 +5,6 @@
     android:fillViewport="true"
     android:focusableInTouchMode="true"
     android:isScrollContainer="true"
-    android:minHeight="0dp"
     android:nestedScrollingEnabled="true"
     android:scrollbars="none">
 
@@ -13,8 +12,7 @@
     <LinearLayout
         android:id="@+id/UrePlac"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:descendantFocusability="blocksDescendants"
+        android:layout_height="match_parent"
         android:nestedScrollingEnabled="true"
         android:orientation="horizontal">
 

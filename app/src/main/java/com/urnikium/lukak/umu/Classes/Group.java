@@ -2,14 +2,19 @@ package com.urnikium.lukak.umu.Classes;
 
 import com.google.gson.annotations.SerializedName;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 public class Group {
     @SerializedName("Field")
-    public String field;
+    private String field;
     @SerializedName("Year")
-    public long year;
+    private long year;
     @SerializedName("Type")
-    public String type;
+    private String type;
     @SerializedName("SubGroup")
-    public String subGroup;
+    private String subGroup;
 
 }

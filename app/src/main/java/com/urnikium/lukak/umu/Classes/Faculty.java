@@ -1,6 +1,11 @@
 package com.urnikium.lukak.umu.Classes;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 public class Faculty {
-    public String ShortName;
-    public String LongName;
+    private String ShortName;
+    private String LongName;
 }

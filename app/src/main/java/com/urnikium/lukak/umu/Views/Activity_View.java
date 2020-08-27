@@ -13,6 +13,7 @@ import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.TypedValue;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -83,12 +84,9 @@ public class Activity_View extends AppCompatActivity {
         setContentView(R.layout.activity_week_view);
 
         //Nastavi status bar
-        Window window = this.getWindow();
-        Drawable background = this.getResources().getDrawable(R.drawable.backgroundgradient);
-        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-        window.setStatusBarColor(this.getResources().getColor(android.R.color.transparent));
-        window.setNavigationBarColor(this.getResources().getColor(android.R.color.transparent));
-        window.setBackgroundDrawable(background);
+        Window window = getWindow();
+        window.addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+        window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -200,22 +198,22 @@ public class Activity_View extends AppCompatActivity {
         int zadntedn = 0; //to niso barilla špageti, to so dizajnerski špageti © Luka 2019
 
         for (int i = 0; i < res.size(); i++) {
-            res.get(i).startTime = res.get(i).startTime.replace('.', ':');
+            res.get(i).setStartTime(res.get(i).getStartTime().replace('.', ':'));
 
-            if (res.get(i).endWeek >= zadntedn) {
-                zadntedn = res.get(i).endWeek;
+            if (res.get(i).getEndWeek() >= zadntedn) {
+                zadntedn = res.get(i).getEndWeek();
             }
 
-            if (!types.contains(res.get(i).type) && !res.get(i).type.equals("")) {
-                types.add(res.get(i).type);
+            if (!types.contains(res.get(i).getType()) && !res.get(i).getType().equals("")) {
+                types.add(res.get(i).getType());
             }
 
-            if (!predms.contains(res.get(i).course) && !res.get(i).course.equals("")) {
-                predms.add(res.get(i).course);
+            if (!predms.contains(res.get(i).getCourse()) && !res.get(i).getCourse().equals("")) {
+                predms.add(res.get(i).getCourse());
             }
 
-            if (!cats.contains(res.get(i).group.subGroup) && !res.get(i).group.subGroup.equals("")) {
-                cats.add(res.get(i).group.subGroup);
+            if (!cats.contains(res.get(i).getGroup().getSubGroup()) && !res.get(i).getGroup().getSubGroup().equals("")) {
+                cats.add(res.get(i).getGroup().getSubGroup());
             }
 
             PreracunajEndTime(res.get(i));
@@ -269,7 +267,7 @@ public class Activity_View extends AppCompatActivity {
             for (int i = 0; i < unigonored.size(); i++) {
                 Event ev = unigonored.get(i);
 
-                if (ev.endWeek >= weeks && ev.beginWeek <= weeks && (ev.dayOfWeek == (td.get(Calendar.DAY_OF_WEEK)) - 2)) {
+                if (ev.getEndWeek() >= weeks && ev.getBeginWeek() <= weeks && (ev.getDayOfWeek() == (td.get(Calendar.DAY_OF_WEEK)) - 2)) {
                     today.add(ev);
                 }
             }
@@ -395,7 +393,7 @@ public class Activity_View extends AppCompatActivity {
                         final TinyDB tiny = new TinyDB(getApplicationContext());
                         final ArrayList<String> toignore = tiny.getListString(tiny.getString("currpath") + tiny.getString("letnik"));
 
-                        AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(con,R.style.AlertDialogCustom));
+                        AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(con, R.style.AlertDialogCustom));
                         builder.setTitle(R.string.FilterGroups);
 
                         int cntr = 0;
@@ -453,7 +451,7 @@ public class Activity_View extends AppCompatActivity {
                             checkboxes[cntr++] = !toignore.contains(s);
                         }
 
-                        AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(con,R.style.AlertDialogCustom));
+                        AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(con, R.style.AlertDialogCustom));
                         builder.setTitle(R.string.FilterCourses);
 
                         builder.setMultiChoiceItems(predms.toArray(new String[]{}), checkboxes,
@@ -504,7 +502,7 @@ public class Activity_View extends AppCompatActivity {
                             checkboxes[cntr++] = !toignore.contains(s);
                         }
 
-                        AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(con,R.style.AlertDialogCustom));
+                        AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(con, R.style.AlertDialogCustom));
                         builder.setTitle(R.string.FilterTypes);
 
                         builder.setMultiChoiceItems(types.toArray(new String[]{}), checkboxes,
@@ -561,8 +559,8 @@ public class Activity_View extends AppCompatActivity {
             SimpleDateFormat parser = new SimpleDateFormat("HH:mm");
 
             try {
-                d1 = parser.parse(a.startTime);
-                d2 = parser.parse(b.startTime);
+                d1 = parser.parse(a.getStartTime());
+                d2 = parser.parse(b.getStartTime());
             } catch (ParseException e) {
                 return 0;
             }
@@ -582,12 +580,12 @@ public class Activity_View extends AppCompatActivity {
         Date d1 = new Date();
 
         try {
-            d1 = parser.parse(ev.startTime);
+            d1 = parser.parse(ev.getStartTime());
         } catch (ParseException e) {
             e.printStackTrace();
         }
 
-        long NewTime = d1.getTime() + (long) (ev.duration * 60 * 1000);
+        long NewTime = d1.getTime() + (long) (ev.getDuration() * 60 * 1000);
 
         Calendar cal = Calendar.getInstance();
         cal.setTimeInMillis(NewTime);
@@ -602,9 +600,9 @@ public class Activity_View extends AppCompatActivity {
         }
 
         if (cal.get(Calendar.MINUTE) < 10) {
-            ev.endTime = HourOutput + ":0" + cal.get(Calendar.MINUTE);
+            ev.setEndTime(HourOutput + ":0" + cal.get(Calendar.MINUTE));
         } else {
-            ev.endTime = HourOutput + ":" + cal.get(Calendar.MINUTE);
+            ev.setEndTime(HourOutput + ":" + cal.get(Calendar.MINUTE));
         }
     }
 
@@ -617,6 +615,12 @@ public class Activity_View extends AppCompatActivity {
         Calendar cal2 = Calendar.getInstance();
         cal2.setTimeInMillis(new GregorianCalendar(y, m, dom).getTimeInMillis());
 
+        int offSet = ((int) TypedValue.applyDimension(
+                TypedValue.COMPLEX_UNIT_DIP,
+                56,
+                getResources().getDisplayMetrics()
+        ));
+
         for (int i = 0; i < validDates.size(); i++) {
             Calendar cal3 = Calendar.getInstance();
             cal3.setTimeInMillis(validDates.get(i).getTime());
@@ -627,6 +631,7 @@ public class Activity_View extends AppCompatActivity {
                 break;
             }
         }
+
 
         if (index != -1) {
             if (smooth) {
@@ -647,14 +652,18 @@ public class Activity_View extends AppCompatActivity {
             if (nearest == -1) {
                 if (smooth) {
                     rec.smoothScrollToPosition(validDates.size() - 1);
+                    rec.smoothScrollBy(0, offSet);
                 } else {
                     rec.scrollToPosition(validDates.size() - 1);
+                    rec.smoothScrollBy(0, offSet);
                 }
             } else {
-                if (smooth) {
+                if (smooth && nearest != 0) {
                     rec.smoothScrollToPosition(nearest);
-                } else {
+                    rec.smoothScrollBy(0, offSet);
+                } else if (nearest != 0) {
                     rec.scrollToPosition(nearest);
+                    rec.smoothScrollBy(0, offSet);
                 }
             }
         }
@@ -702,7 +711,7 @@ public class Activity_View extends AppCompatActivity {
         ArrayList<Event> result = new ArrayList<>();
 
         for (Event ev : evs) {
-            if (!ignoredGroups.contains(ev.group.subGroup) && (!ignoredCourses.contains(ev.course) && (!ignoredTypes.contains(ev.type)))) {
+            if (!ignoredGroups.contains(ev.getGroup().getSubGroup()) && (!ignoredCourses.contains(ev.getCourse()) && (!ignoredTypes.contains(ev.getType())))) {
                 result.add(ev);
             }
         }

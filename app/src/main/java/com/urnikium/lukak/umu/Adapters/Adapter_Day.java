@@ -51,7 +51,7 @@ public class Adapter_Day extends RecyclerView.Adapter<Adapter_Day.MyViewHolder> 
             if (j == 0) {
                 enaUra.add(list.get(i).get(j));
             } else {
-                if (!list.get(i).get(j - 1).startTime.equals(list.get(i).get(j).startTime)) {
+                if (!list.get(i).get(j - 1).getStartTime().equals(list.get(i).get(j).getStartTime())) {
                     listPoUrah.add(enaUra);
                     enaUra = new ArrayList<>();
                     enaUra.add(list.get(i).get(j));
@@ -90,7 +90,7 @@ public class Adapter_Day extends RecyclerView.Adapter<Adapter_Day.MyViewHolder> 
     class SortByDuration implements Comparator<Event> {
         public int compare(Event a, Event b) {
             //Returns reverse sorted
-            return Integer.compare(a.duration, b.duration) * -1;
+            return Integer.compare(a.getDuration(), b.getDuration()) * -1;
 
         }
     }

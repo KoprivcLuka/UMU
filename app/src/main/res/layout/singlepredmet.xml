@@ -4,15 +4,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/root"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:layout_marginEnd="10dp"
-    android:background="@color/colorPrimaryDark"
     android:orientation="vertical">
 
     <LinearLayout
+        android:id="@+id/colorIndicator"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
+        android:background="@drawable/tableft_rounded_single"
+        android:backgroundTint="@color/colorPrimary"
         android:paddingStart="10dp">
 
 
@@ -56,6 +58,8 @@
                     android:paddingStart="5dp"
                     android:paddingEnd="5dp"
                     android:text="PredmetPaTip"
+                    android:maxLines="2"
+                    android:ellipsize="end"
                     android:textAlignment="center"
                     android:textColor="@color/textcolorprimary"
                     android:textSize="16sp" />
@@ -69,7 +73,8 @@
                         android:layout_width="14sp"
                         android:layout_height="14sp"
                         android:layout_gravity="center"
-                        android:layout_margin="2dp"
+                        android:tint="@color/colorPrimary"
+                        android:layout_marginRight="6dp"
                         android:src="@drawable/ic_school" />
 
                     <TextView
@@ -95,7 +100,8 @@
                         android:layout_width="14sp"
                         android:layout_height="14sp"
                         android:layout_gravity="center"
-                        android:layout_margin="2dp"
+                        android:tint="@color/colorPrimary"
+                        android:layout_marginRight="6dp"
                         android:src="@drawable/ic_group" />
 
                     <TextView
@@ -123,7 +129,8 @@
                         android:layout_width="14sp"
                         android:layout_height="14sp"
                         android:layout_gravity="center"
-                        android:layout_margin="2dp"
+                        android:layout_marginRight="6dp"
+                        android:tint="@color/colorPrimary"
                         android:src="@drawable/ic_person" />
 
                     <TextView
@@ -150,7 +157,8 @@
                         android:layout_width="14sp"
                         android:layout_height="14sp"
                         android:layout_gravity="center"
-                        android:layout_margin="2dp"
+                        android:tint="@color/colorPrimary"
+                        android:layout_marginRight="6dp"
                         android:src="@drawable/ic_location" />
 
                     <TextView

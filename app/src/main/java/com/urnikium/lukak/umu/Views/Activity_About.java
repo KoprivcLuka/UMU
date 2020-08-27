@@ -32,12 +32,9 @@ public class Activity_About extends AppCompatActivity {
         setContentView(R.layout.activity_about);
 
         //Nastavi status bar
-        Window window = this.getWindow();
-        Drawable background = this.getResources().getDrawable(R.drawable.backgroundgradient);
-        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-        window.setStatusBarColor(this.getResources().getColor(android.R.color.transparent));
-        window.setNavigationBarColor(this.getResources().getColor(android.R.color.transparent));
-        window.setBackgroundDrawable(background);
+        Window window = getWindow();
+        window.addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+        window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
 
         Spinner spin = findViewById(R.id.spinner6);
 

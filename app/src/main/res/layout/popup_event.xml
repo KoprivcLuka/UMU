@@ -15,200 +15,90 @@
         android:id="@+id/textView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textStyle="bold"
         android:textAlignment="center"
         android:textColor="@color/colorPrimary"
         android:textSize="24sp" />
 
-
-    <LinearLayout
-        android:layout_width="wrap_content"
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:orientation="horizontal">
+        android:drawableLeft="@drawable/ic_turned_in"
+        android:drawablePadding="12dp"
+        android:drawableTint="@color/colorPrimary"
+        android:gravity="center_vertical"
+        android:text="@string/Type"
+        android:textColor="@color/textcolorprimary" />
 
-        <android.support.v7.widget.AppCompatImageView
-            android:layout_width="18sp"
-            android:layout_height="18sp"
-            android:layout_gravity="center|center_vertical"
-            android:foregroundGravity="center"
-            android:paddingEnd="1dp"
-            android:scaleType="fitCenter"
-            android:tint="@color/colorPrimary"
-            app:srcCompat="@drawable/ic_turned_in" />
-
-        <TextView
-            android:id="@+id/textView4"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/Type"
-            android:textAlignment="viewStart"
-            android:textColor="@color/textcolorprimary" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="wrap_content"
+    <TextView
+        android:id="@+id/textView6"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:orientation="horizontal">
+        android:drawableLeft="@drawable/ic_school"
+        android:drawablePadding="12dp"
+        android:drawableTint="@color/colorPrimary"
+        android:gravity="center_vertical"
+        android:text="@string/Programme"
+        android:textColor="@color/textcolorprimary" />
 
-        <android.support.v7.widget.AppCompatImageView
-            android:layout_width="18sp"
-            android:layout_height="18sp"
-            android:layout_gravity="center|center_vertical"
-            android:foregroundGravity="center"
-            android:maxHeight="16dp"
-            android:paddingEnd="1dp"
-            android:scaleType="fitCenter"
-            android:tint="@color/colorPrimary"
-            app:srcCompat="@drawable/ic_school" />
-
-
-        <TextView
-            android:id="@+id/textView6"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/Programme"
-            android:textAlignment="textStart"
-            android:textColor="@color/textcolorprimary" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="wrap_content"
+    <TextView
+        android:id="@+id/textView7"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:orientation="horizontal">
-
-        <android.support.v7.widget.AppCompatImageView
-            android:layout_width="18sp"
-            android:layout_height="18sp"
-            android:layout_gravity="center|center_vertical"
-            android:foregroundGravity="center"
-            android:maxHeight="16dp"
-            android:paddingEnd="1dp"
-            android:scaleType="fitCenter"
-            android:tint="@color/colorPrimary"
-            app:srcCompat="@drawable/ic_group" />
+        android:drawableLeft="@drawable/ic_group"
+        android:drawablePadding="12dp"
+        android:drawableTint="@color/colorPrimary"
+        android:gravity="center_vertical"
+        android:text="@string/Group"
+        android:textColor="@color/textcolorprimary" />
 
 
-        <TextView
-            android:id="@+id/textView7"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/Group"
-            android:textAlignment="viewStart"
-            android:textColor="@color/textcolorprimary" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:orientation="horizontal">
-
-        <android.support.v7.widget.AppCompatImageView
-            android:layout_width="18sp"
-            android:layout_height="18sp"
-            android:layout_gravity="center|center_vertical"
-            android:foregroundGravity="center"
-            android:maxHeight="16dp"
-            android:paddingEnd="1dp"
-            android:scaleType="fitCenter"
-            android:tint="@color/colorPrimary"
-            app:srcCompat="@drawable/ic_person" />
 
 
         <TextView
             android:id="@+id/textView9"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/ic_person"
+            android:drawablePadding="12dp"
+            android:drawableTint="@color/colorPrimary"
+            android:gravity="center_vertical"
             android:text="@string/Handler"
-            android:textAlignment="viewStart"
             android:textColor="@color/textcolorprimary" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:orientation="horizontal">
-
-        <android.support.v7.widget.AppCompatImageView
-            android:layout_width="18sp"
-            android:layout_height="18sp"
-            android:layout_gravity="center|center_vertical"
-            android:foregroundGravity="center"
-            android:maxHeight="16dp"
-            android:paddingEnd="1dp"
-            android:scaleType="fitCenter"
-            android:tint="@color/colorPrimary"
-            app:srcCompat="@drawable/ic_location" />
-
 
         <TextView
             android:id="@+id/textView10"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/ic_location"
+            android:drawablePadding="12dp"
+            android:drawableTint="@color/colorPrimary"
+            android:gravity="center_vertical"
             android:text="@string/Location"
-            android:textAlignment="viewStart"
             android:textColor="@color/textcolorprimary" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:orientation="horizontal">
-
-        <android.support.v7.widget.AppCompatImageView
-            android:layout_width="18sp"
-            android:layout_height="18sp"
-            android:layout_gravity="center|center_vertical"
-            android:foregroundGravity="center"
-            android:maxHeight="16dp"
-            android:paddingEnd="1dp"
-            android:scaleType="fitCenter"
-            android:tint="@color/colorPrimary"
-            app:srcCompat="@drawable/ic_hourglass" />
-
 
         <TextView
             android:id="@+id/textView11"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/ic_hourglass"
+            android:drawablePadding="12dp"
+            android:drawableTint="@color/colorPrimary"
+            android:gravity="center_vertical"
             android:text="@string/StartTime"
             android:textColor="@color/textcolorprimary" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:orientation="horizontal">
-
-        <android.support.v7.widget.AppCompatImageView
-            android:layout_width="18sp"
-            android:layout_height="18sp"
-            android:layout_gravity="center|center_vertical"
-            android:foregroundGravity="center"
-            android:maxHeight="16dp"
-            android:paddingEnd="1dp"
-            android:scaleType="fitCenter"
-            android:tint="@color/colorPrimary"
-            app:srcCompat="@drawable/ic_hourglass_empty" />
-
 
         <TextView
             android:id="@+id/textView12"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/ic_hourglass_empty"
+            android:drawablePadding="12dp"
+            android:drawableTint="@color/colorPrimary"
+            android:gravity="center_vertical"
             android:text="@string/EndTime"
             android:textColor="@color/textcolorprimary" />
-
-    </LinearLayout>
 
     <Button
         android:id="@+id/exportButton"

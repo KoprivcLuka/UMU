@@ -43,7 +43,7 @@ public class Tab_SelectProgramme extends Fragment {
         final List<GroupWYears> groupWYears = Arrays.asList(gson.fromJson(tiny.getString("groupswyears"), GroupWYears[].class));
         Collections.sort(groupWYears, new SortByName());
         for (GroupWYears e : groupWYears) {
-            res.add(e.Name);
+            res.add(e.getName());
         }
         int index = res.indexOf(tiny.getString("currpath"));
         ArrayAdapter<String> adapter = new ArrayAdapter<>(view.getContext(), R.layout.spinner_item, res);
@@ -55,7 +55,7 @@ public class Tab_SelectProgramme extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 List<String> krsmlen = new ArrayList<>();
-                for (int s : groupWYears.get(i).Years) {
+                for (int s : groupWYears.get(i).getYears()) {
                     krsmlen.add(s + "");
                 }
                 Collections.sort(krsmlen);
@@ -92,7 +92,7 @@ public class Tab_SelectProgramme extends Fragment {
 
     class SortByName implements Comparator<GroupWYears> {
         public int compare(GroupWYears a, GroupWYears b) {
-            return a.Name.compareTo(b.Name);
+            return a.getName().compareTo(b.getName());
         }
     }
 }
