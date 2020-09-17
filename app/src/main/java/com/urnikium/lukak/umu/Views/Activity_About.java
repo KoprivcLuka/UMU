@@ -1,6 +1,5 @@
 package com.urnikium.lukak.umu.Views;
 
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDelegate;
@@ -109,11 +108,11 @@ public class Activity_About extends AppCompatActivity {
 
 
         TextView Spletna = findViewById(R.id.button);
-        Spletna.setText(Html.fromHtml("<a href=https://urnik-mb.cf/>" + getResources().getString(R.string.ContactMail) + " </a>"));
+        Spletna.setText(Html.fromHtml(String.format("<a href=%s>", getResources().getString(R.string.ContactMail))
+                + getResources().getString(R.string.ContactMail) + " </a>"));
         Spletna.setMovementMethod(LinkMovementMethod.getInstance());
 
     }
-
 
 
     @Override

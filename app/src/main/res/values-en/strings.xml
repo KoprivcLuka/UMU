@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name">UMU</string>
-    <string name="ServURL">https://api.urnik-mb.cf</string>
+    <string name="ServURL">https://api.urnik.td-fl.org</string>
 
-    <string name="ContactMail">https://urnik-mb.cf/</string>
+    <string name="ContactMail">https://urnik.td-fl.org/</string>
     <string name="AboutProject">UMU is an independent project, whose goal is offering a flexible solution for viewing timetables of Univerza v Mariboru. Authors of this application do not claim responsibility for incorrect or incomplete data. Use at your own risk!</string>
     <string name="Authors">Authors: \nDomen Jesenovec \nLuka Koprivc</string>
     <string name="NoData"> Data not found! Try again later!</string>

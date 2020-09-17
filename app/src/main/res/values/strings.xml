@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name">UMU</string>
-    <string name="ServURL">https://api.urnik-mb.cf</string>
+    <string name="ServURL">https://api.urnik.td-fl.org</string>
 
-    <string name="ContactMail">https://urnik-mb.cf/</string>
+    <string name="ContactMail">https://urnik.td-fl.org/</string>
     <string name="AboutProject"> UMU je samostojni projekt, ki ponuja rešitev fleksibilnega prikaza urnikov celotne Univerze v Mariboru. Za napačne ali nepopolne podatke urnika ne odgovarjamo.  </string>
     <string name="Authors">Avtorja: \nDomen Jesenovec \nLuka Koprivc</string>
     <string name="NoData"> Manjkajoči podatki! Poizkusite ponovno kasneje!</string>
